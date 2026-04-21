@@ -104,7 +104,12 @@ else {
       })
 
       for (const entry of entries) {
-        if ((await isUnderReparsePoint(entry.path)) || !entry.stats?.size)
+        if (
+          (await isUnderReparsePoint(entry.path)) ||
+          !entry.stats?.size ||
+          (entry.stats?.nlink ?? 1) > 1 ||
+          entry.stats?.isSymbolicLink()
+        )
           continue
 
         const meta: FileMeta = {
