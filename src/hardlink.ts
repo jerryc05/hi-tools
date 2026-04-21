@@ -72,7 +72,7 @@ else {
       currentPath = path.join(currentPath, part)
       try {
         const s = await lstat(currentPath)
-        if (s.isSymbolicLink()) return true
+        if (s.isDirectory() && s.isSymbolicLink()) return true
       } catch {
         return false
       }
