@@ -39,17 +39,13 @@ async function getUpstreamRemote() {
 /** TODO: 未来支持 master 和 main 自动判断 */
 async function mm(updMaster: boolean) {
   console.log('🚀 Syncing master...')
-
-  const cmd = `git fetch ${updMaster ? `${await getUpstreamRemote()} master:master` : ''}`
   await execa({
     stdio: 'inherit',
     env: { GIT_TRACE: '1' },
-  })`${cmd}`
-
+  })`git fetch ${updMaster ? [await getUpstreamRemote(), 'master:master'] : ''}`
   await execa({
     stdio: 'inherit',
   })`git merge ${await getUpstreamRemote()}/master --no-verify --no-edit`
-
   console.log('🎉 DONE!')
 }
 
