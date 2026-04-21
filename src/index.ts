@@ -275,10 +275,9 @@ cli
     '[B]ranch [M]erge: merge current HEAD into target branch without switching',
   )
   .action(async (target: string) => {
+    console.log(`🚀 Starting silent merge: HEAD -> ${target}`)
+    throw new Error('Not implemeted!')
     try {
-      console.log(`🚀 Starting silent merge: HEAD -> ${target}`)
-      throw new Error('Not implemeted!')
-
       /*
       // 1. Fetch the latest target branch
       console.log(`📡 Fetching origin ${targetBranch}...`)
