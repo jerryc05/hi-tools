@@ -330,18 +330,16 @@ cli
   .action(
     ({ onlyIpv4, onlyIpv6 }: { onlyIpv4: boolean; onlyIpv6: boolean }) => {
       const ifs = networkInterfaces()
-      const obj = Object.entries(ifs)
-        .map(([k, vs]) => ({
-          [k]: vs
-            ?.filter(it => {
-              if (onlyIpv4) return it.family === 'IPv4'
-              if (onlyIpv6) return it.family === 'IPv6'
-              return true
-            })
-            .map(v => v.address),
-        }))
-        .filter(it => Object.values(it).length > 0)
-      console.log(obj)
+      const result: Record<string, string[]> = {}
+      for (let [k, vs] of Object.entries(ifs)) {
+        vs = vs?.filter(it => {
+          if (onlyIpv4) return it.family === 'IPv4'
+          if (onlyIpv6) return it.family === 'IPv6'
+          return true
+        })
+        if (vs) result[k] = vs.map(v => v.address)
+      }
+      console.log(result)
     },
   )
 
