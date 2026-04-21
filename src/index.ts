@@ -192,6 +192,11 @@ cli
         process.exit(1)
       }
 
+      if (!target) {
+        console.log('❌ Missing target repo path')
+        process.exit(1)
+      }
+
       const version = PKG_JSON_OBJ.version
       const pkgName = `${PKG_JSON_OBJ.name}@${version}`
 
@@ -266,12 +271,14 @@ cli
 
 cli
   .command(
-    'bm <targetBranch>',
+    'bm <target>',
     '[B]ranch [M]erge: merge current HEAD into target branch without switching',
   )
-  .action(async (targetBranch: string) => {
+  .action(async (target: string) => {
     try {
-      console.log(`🚀 Starting silent merge: HEAD -> ${targetBranch}`)
+      console.log(`🚀 Starting silent merge: HEAD -> ${target}`)
+      throw new Error('Not implemeted!')
+
       /*
       // 1. Fetch the latest target branch
       console.log(`📡 Fetching origin ${targetBranch}...`)
