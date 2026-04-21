@@ -1,18 +1,20 @@
 {
-	"bin": {
+  "name": "hi-tools",
+  "version": "0.0.1-beta.1",
+  "bin": {
     "hi": "./index.ts"
   },
   "files": [
     "index.ts",
     "package.json"
   ],
-	"dependencies": {
-		"cac": "^7.0.0",
-		"execa": "^9.6.1"
-	},
-	"devDependencies": {
-		"@types/node": "^25.6.0",
-		"typescript": "^6.0.3"
-	},
-	"type": "module"
+  "dependencies": {
+    "cac": "^7.0.0",
+    "execa": "^9.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3"
+  },
+  "type": "module"
 }
