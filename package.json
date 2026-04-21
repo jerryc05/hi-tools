@@ -1,9 +1,9 @@
 {
   "name": "hi-tools",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-beta.3",
   "scripts": {
     "build": "node build.js",
-    "prepare": "husky"
+    "prepare": "node -e \"if (process.env.NODE_ENV !== 'production') { try { require('husky').install() } catch (e) {} }\""
   },
   "bin": {
     "hi": "dist/hi.js"
