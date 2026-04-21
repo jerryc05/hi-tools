@@ -185,9 +185,10 @@ else {
       assert(original)
 
       console.log(
-        `\n💎 保留: ${original.path} [${original.size} B]\n${duplicates
-          .map(it => it.path)
-          .join('\n>\t')}`,
+        `\n💎 保留: ${original.path} [${original.size} B]\n${[
+          '',
+          ...duplicates.map(it => it.path),
+        ].join('\n\t')}`,
       )
 
       for (const dup of duplicates) {
