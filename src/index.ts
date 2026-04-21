@@ -7,7 +7,7 @@ import { hostname, networkInterfaces, tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { cac } from 'cac'
 import { execa, execaNode } from 'execa'
-import pkgJson from '../package.json'
+import pkgJson from '../package.json' with { type: 'json' }
 
 const cli = cac('hi')
 
@@ -141,7 +141,7 @@ cli.command('tschk', 'My ts-check rules').action(async () => {
       if (line.includes('/node_modules/')) return false
 
       const matchInfo = line.match(/error TS(\d+):/)
-      if (!matchInfo) return false
+      if (!matchInfo?.[1]) return false
 
       if (ignoredCodes.includes(matchInfo[1])) return false
       return true
@@ -376,8 +376,9 @@ cli.command('mdns', 'Show mdns hostname').action(() => {
 //
 
 cli.version(pkgJson.version)
-cli.command('*', 'Display help').action(() => cli.showHelp())
 cli.help()
+
+cli.command('', 'Readme').action(cli.outputHelp)
 cli.parse()
 
 //
