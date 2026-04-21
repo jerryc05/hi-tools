@@ -104,12 +104,13 @@ else {
       })
 
       for (const entry of entries) {
-        if (await isUnderReparsePoint(entry.path)) continue
+        if ((await isUnderReparsePoint(entry.path)) || !entry.stats?.size)
+          continue
 
         const meta: FileMeta = {
           path: entry.path,
-          ctime: entry.stats?.birthtimeMs ?? 0,
-          size: entry.stats?.size ?? 0,
+          ctime: entry.stats.birthtimeMs ?? 0,
+          size: entry.stats.size,
         }
 
         const list = sizeMap.get(meta.size) || []
@@ -171,15 +172,17 @@ else {
       msg: '正在移动并创建硬链接',
     })
 
-    for (const files of duplicateGroups) {
+    duplicateGroups.forEach(files => {
       files.sort((a, b) => a.ctime - b.ctime)
+    })
+    for (const files of duplicateGroups) {
       const [original, ...duplicates] = files
       assert(original)
 
       console.log(
-        `\n💎 保留: ${original.path} [${((original.size ?? 0) / 1024 / 1024).toFixed(2)} MB]${duplicates
+        `\n💎 保留: ${original.path} [${original.size} B]\n${duplicates
           .map(it => it.path)
-          .join('\n\t')}`,
+          .join('\n  ')}`,
       )
 
       for (const dup of duplicates) {
