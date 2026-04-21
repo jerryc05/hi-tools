@@ -3,25 +3,33 @@
 import { cac } from 'cac'
 import { execa } from 'execa'
 import { readFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 const cli = cac('hi')
 
 const $ = (cmd: string, env = {}) =>
   execa(cmd, { shell: true, stdio: 'inherit', env: { ...process.env, ...env } })
 
+const PKG_JSON_OBJ = (() => {
+  try {
+    const pkgPath = join(process.cwd(), 'package.json')
+    return JSON.parse(readFileSync(pkgPath, 'utf-8')) as Record<string, any>
+  } catch {}
+})()
+
+//
+//
+//
+
 cli.command('ver', 'Print current npm pkg version').action(() => {
-  const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'))
-  console.log(pkg.version)
+  console.log(PKG_JSON_OBJ?.version ?? '')
 })
 
 //
 //
 //
-//
-//
-//
 
-async function getUpstreamRemote(): Promise<string> {
+async function getUpstreamRemote() {
   try {
     // 获取当前分支追踪的远程分支名，例如 "origin/master"
     const { stdout } = await execa('git', [
@@ -37,6 +45,7 @@ async function getUpstreamRemote(): Promise<string> {
   }
 }
 
+/** TODO: 未来支持 master 和 main 自动判断 */
 async function mm(updMaster: boolean) {
   console.log('🚀 Syncing master...')
   await $(
@@ -63,26 +72,38 @@ cli
 //
 //
 //
-//
-//
-//
 
+const hasPackage = (name: string) =>
+  !!(
+    PKG_JSON_OBJ?.dependencies?.[name] || PKG_JSON_OBJ?.devDependencies?.[name]
+  )
 cli.command('i18n', 'I18n scan and sort').action(async () => {
   await $(
-    'pnpm dlx @ies/starling-cli@latest scan -c ./starling.config.js --fallback --disable-browser',
+    `${
+      hasPackage('@ies/starling-cli') ? 'starling' : (
+        'pnpm dlx @ies/starling-cli'
+      )
+    } scan -c ./starling.config.js --fallback --disable-browser`,
   )
-  if (existsSync('./combine-lang.js')) await $('node ./combine-lang.js')
-  // 使用 catch 忽略排序错误 (模拟 || :)
-  await $('pnpm --package=json-sort-cli@latest dlx sortjson ./src/lang').catch(
-    () => {},
-  )
+  await $('node ./combine-lang.js')
+  await $('pnpm --package=json-sort-cli dlx sortjson ./src/lang').catch()
 })
 
-// hi bam
 cli
-  .command('bam', 'Update BAM code')
-  .action(() => $('pnpm dlx @byted-arch-fe/bam-code-generator update'))
+  .command('bam', 'Update BAM code-gen')
+  .action(() =>
+    $(
+      `${
+        hasPackage('@byted-arch-fe/bam-code-generator') ? 'bam' : (
+          'pnpm dlx @byted-arch-fe/bam-code-generator'
+        )
+      } update`,
+    ),
+  )
 
-// 错误处理与解析
+//
+//
+//
+
 cli.help()
 cli.parse()
