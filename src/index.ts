@@ -60,7 +60,7 @@ cli
 cli
   .command(
     'mmm',
-    "[M]erge [M]aster [M]odified: Merge remote's master into current branch, without updating local master branch",
+    "[M]erge [M]aster (don't [M]odify local master): Merge remote's master into current branch, without updating local master branch",
   )
   .action(() => mm(false))
 
