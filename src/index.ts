@@ -337,7 +337,7 @@ cli
           if (onlyIpv6) return it.family === 'IPv6'
           return true
         })
-        if (vs) result[k] = vs.map(v => v.address)
+        if (vs?.length) result[k] = vs.map(v => v.address)
       }
       console.log(result)
     },
