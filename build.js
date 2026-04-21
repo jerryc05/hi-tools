@@ -7,9 +7,6 @@ await esbuild.build({
   format: 'esm',
   minify: true,
   outfile: 'dist/hi.js',
-  banner: {
-    js: '#!/usr/bin/env node',
-  },
   inject: ['src/polyfill.js'],
 })
 
