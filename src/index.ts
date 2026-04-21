@@ -2,7 +2,7 @@
 
 import { spawn } from 'node:child_process'
 import { readFileSync } from 'node:fs'
-import { readFile, writeFile } from 'node:fs/promises'
+import { access, constants, readFile, writeFile } from 'node:fs/promises'
 import { hostname, networkInterfaces, tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { cac } from 'cac'
@@ -75,13 +75,29 @@ const hasPackage = (name: string) =>
   )
 
 cli.command('tt i18n', 'I18n scan and sort').action(async () => {
+  const fileStarlingCfg = 'starling.config.js'
+  const fileCombineLang = 'combine-lang.js'
+
+  for (const filename of [fileStarlingCfg, fileCombineLang]) {
+    try {
+      await access(filename, constants.R_OK)
+    } catch (e) {
+      console.error(`tt i18n: Failed to read ${filename}\n`, e)
+      process.exit(1)
+    }
+  }
+
   await execa({ stdio: 'inherit' })`${
-    hasPackage('@ies/starling-cli') ? 'starling' : 'pnpm dlx @ies/starling-cli'
-  } scan -c ./starling.config.js --fallback --disable-browser`
-  await execaNode({ stdio: 'inherit' })`./combine-lang.js`
+    hasPackage('@ies/starling-cli') ? 'starling' : (
+      ['pnpm', 'dlx', '@ies/starling-cli']
+    )
+  } scan -c ${fileStarlingCfg} --fallback --disable-browser`
+  await execaNode({ stdio: 'inherit' })`${fileStarlingCfg}`
   await execa({
     stdio: 'inherit',
-  })`pnpm --package=json-sort-cli dlx sortjson ./src/lang`.catch()
+  })`pnpm --package=json-sort-cli dlx sortjson ./src/lang`.catch(e =>
+    console.error('tt i18n sortjson error:', e),
+  )
 })
 
 cli
@@ -90,7 +106,7 @@ cli
     () =>
       execa({ stdio: 'inherit' })`${
         hasPackage('@byted-arch-fe/bam-code-generator') ? 'bam' : (
-          'pnpm dlx @byted-arch-fe/bam-code-generator'
+          ['pnpm', 'dlx', '@byted-arch-fe/bam-code-generator']
         )
       } update`,
   )
@@ -176,11 +192,11 @@ cli
       const pkgName = `${PKG_JSON_OBJ.name}@${version}`
 
       const SLEEP_INTERVAL = 10000 // 10s
-      const installCmd = `${cmdPrefix} "${pkgName}"`
+      const installCmdArr = [...cmdPrefix.split(' '), pkgName]
 
       console.log(`🚀 Monitoring ${pkgName}...`)
       console.log(`📂 Target: ${target}`)
-      console.log(`🛠  Install cmd: ${installCmd}`)
+      console.log(`🛠  Install cmd: ${installCmdArr.join(' ')}`)
 
       try {
         console.log('📥 Pulling latest changes in target repo...')
@@ -202,7 +218,7 @@ cli
 
             try {
               // Update
-              await execa({ cwd: target, stdio: 'inherit' })`${installCmd}`
+              await execa({ cwd: target, stdio: 'inherit' })`${installCmdArr}`
               console.log(`\n🎉 [SUCCESS] ${pkgName} installed!`)
               break
             } catch {
