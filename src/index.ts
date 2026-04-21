@@ -323,13 +323,27 @@ cli
 //
 //
 
-cli.command('ips', 'Show network interface IP addrs').action(() => {
-  const ifs = networkInterfaces()
-  const obj = Object.entries(ifs).map(([k, vs]) => ({
-    [k]: vs?.map(v => v.address),
-  }))
-  console.log(obj)
-})
+cli
+  .command('ips', 'Show network interface IP addrs')
+  .option('-4, --onlyIpv4', 'IPv4 only')
+  .option('-6, --onlyIpv6', 'IPv6 only')
+  .action(
+    ({ onlyIpv4, onlyIpv6 }: { onlyIpv4: boolean; onlyIpv6: boolean }) => {
+      const ifs = networkInterfaces()
+      const obj = Object.entries(ifs)
+        .map(([k, vs]) => ({
+          [k]: vs
+            ?.filter(it => {
+              if (onlyIpv4) return it.family === 'IPv4'
+              if (onlyIpv6) return it.family === 'IPv6'
+              return true
+            })
+            .map(v => v.address),
+        }))
+        .filter(it => Object.values(it).length > 0)
+      console.log(obj)
+    },
+  )
 
 cli.command('mdns', 'Show mdns hostname').action(() => {
   const n = hostname()
