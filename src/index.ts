@@ -1,12 +1,12 @@
 #!/usr/bin/env -S node --experimental-strip-types --no-warnings
 
-import { cac } from 'cac'
-import { execa, execaNode } from 'execa'
 import { spawn } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { hostname, networkInterfaces, tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { cac } from 'cac'
+import { execa, execaNode } from 'execa'
 
 const cli = cac('hi')
 
@@ -354,11 +354,11 @@ async function backgroundUpgrade() {
   const CACHE_FILE = join(tmpdir(), '.hi-tools', 'last-upd-check.txt')
   const CHECK_INTERVAL = 24 * 60 * 60 * 1000 // 24 小时
 
-  const promises: Promise<any>[] = []
+  const promises: Promise<unknown>[] = []
 
   const now = Date.now()
   try {
-    const lastCheck = parseInt((await readFile(CACHE_FILE, 'utf-8')) || '0')
+    const lastCheck = parseInt((await readFile(CACHE_FILE, 'utf-8')) || '0', 10)
     if (now - lastCheck < CHECK_INTERVAL) return
   } catch (err) {}
 
