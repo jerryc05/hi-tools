@@ -389,7 +389,7 @@ async function backgroundUpgrade() {
   if (process.env.NO_UPDATE === '1') return
 
   const CACHE_FILE = join(tmpdir(), '.hi-tools', 'last-upd-check.txt')
-  const CHECK_INTERVAL = 24 * 60 * 60 * 1000 // 24 小时
+  const CHECK_INTERVAL = 1 * 60 * 60 * 1000 // 1 小时
 
   const promises: Promise<unknown>[] = []
 
