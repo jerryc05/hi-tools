@@ -9,8 +9,7 @@
     "hi": "dist/hi.js"
   },
   "files": [
-    "index.ts",
-    "package.json"
+    "dist"
   ],
   "dependencies": {
     "cac": "^7.0.0",

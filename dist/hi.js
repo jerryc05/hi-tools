@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { CustomEvent as NodeCustomEvent } from "node:util";
+if (typeof globalThis.CustomEvent === "undefined") {
+  globalThis.CustomEvent = NodeCustomEvent;
+}
 import { spawn } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
