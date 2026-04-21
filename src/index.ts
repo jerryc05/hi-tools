@@ -7,6 +7,7 @@ import { hostname, networkInterfaces, tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { cac } from 'cac'
 import { execa, execaNode } from 'execa'
+import pkgJson from '../package.json'
 
 const cli = cac('hi')
 
@@ -374,6 +375,8 @@ cli.command('mdns', 'Show mdns hostname').action(() => {
 //
 //
 
+cli.version(pkgJson.version)
+cli.command('*', 'Display help').action(() => cli.showHelp())
 cli.help()
 cli.parse()
 
