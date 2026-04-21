@@ -86,7 +86,7 @@ else {
         clearOnComplete: false,
         hideCursor: true,
         format:
-          ' {bar} | {percentage}% | ETA: {eta_formatted} | {value}/{total} | {msg}',
+          ' {bar} | {percentage}% {value}/{total} | ETA: {eta_formatted} | {msg}',
       },
       cliProgress.Presets.shades_classic,
     )
@@ -107,8 +107,8 @@ else {
         if (
           (await isUnderReparsePoint(entry.path)) ||
           !entry.stats?.size ||
-          (entry.stats?.nlink ?? 1) > 1 ||
-          entry.stats?.isSymbolicLink()
+          (entry.stats.isFile() && entry.stats.nlink > 1) ||
+          entry.stats.isSymbolicLink()
         )
           continue
 
