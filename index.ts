@@ -2,7 +2,8 @@
 
 import { cac } from 'cac'
 import { execa } from 'execa'
-import { readFileSync, existsSync } from 'node:fs'
+import { spawn } from 'node:child_process'
+import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const cli = cac('hi')
@@ -19,12 +20,6 @@ const PKG_JSON_OBJ = (() => {
 
 //
 //
-//
-
-cli.command('ver', 'Print current npm pkg version').action(() => {
-  console.log(PKG_JSON_OBJ?.version ?? '')
-})
-
 //
 //
 //
@@ -72,6 +67,8 @@ cli
 //
 //
 //
+//
+//
 
 const hasPackage = (name: string) =>
   !!(
@@ -104,6 +101,29 @@ cli
 //
 //
 //
+//
+//
 
 cli.help()
 cli.parse()
+
+//
+//
+//
+//
+//
+
+function backgroundUpgrade() {
+  const child = spawn(
+    'pnpm',
+    ['add', '-g', 'https://github.com/jerryc05/hi-tools.git'],
+    {
+      detached: true,
+      stdio: 'ignore',
+      windowsHide: true, // 在 Windows 上隐藏控制台窗口
+    },
+  )
+  child.unref() // 让主进程不需要等待子进程结束
+}
+
+backgroundUpgrade()
