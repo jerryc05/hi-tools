@@ -138,7 +138,7 @@ cli.command('tschk', 'My ts-check rules').action(async () => {
 
     const filteredLines = stdout.split('\n').filter(line => {
       if (!/error TS\d+?/.test(line)) return false
-      // if (line.includes('node_modules')) return false
+      if (line.includes('node_modules')) return false
       if (ignoredCodes.some(code => line.includes(`TS${code}`))) return false
       return true
     })
