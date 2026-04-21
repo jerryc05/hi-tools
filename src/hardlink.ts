@@ -185,7 +185,7 @@ else {
       assert(original)
 
       console.log(
-        `\n💎 保留: ${original.path} [${original.size} B]\n${[
+        `\n⭐ 保留: ${original.path} [${original.size} B]\n${[
           '',
           ...duplicates.map(it => it.path),
         ].join('\n\t')}`,
