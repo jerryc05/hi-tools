@@ -1,4 +1,11 @@
 {
+	"bin": {
+    "hi": "./index.ts"
+  },
+  "files": [
+    "index.ts",
+    "package.json"
+  ],
 	"dependencies": {
 		"cac": "^7.0.0",
 		"execa": "^9.6.1"
