@@ -139,10 +139,10 @@ cli.command('tschk', 'My ts-check rules').action(async () => {
     const lines = stdout.split('\n').filter(line => {
       if (line.includes('/node_modules/')) return false
 
-      const matchInfo = lines.match(/error TS(\d+):/)
+      const matchInfo = line.match(/error TS(\d+):/)
       if (!matchInfo) return false
 
-      if (ignoredCodes.include(matchInfo[1])) return false
+      if (ignoredCodes.includes(matchInfo[1])) return false
       return true
     })
 
