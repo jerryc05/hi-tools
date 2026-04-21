@@ -5,14 +5,14 @@ pnpm add -g https://github.com/jerryc05/hi-tools.git
 
 # Help
 ```
-hi/0.0.1-beta.18
+hi/0.0.1-beta.20
 
 Usage:
-  $ hi 
+  $ hi
 
 Commands:
   mm                 [M]erge [M]aster: Update master branch to remote's, then merge into current branch
-  mmm                [M]erge [M]aster [M]odified: Merge remote's master into current branch, without updating local master branch
+  mmm                [M]erge [M]aster (don't [M]odify local master): Merge remote's master into current branch, without updating local master branch
   tt i18n            I18n scan and sort
   tt bam             Update BAM code-gen
   tschk              My ts-check rules
@@ -35,6 +35,6 @@ For more info, run any command with the `--help` flag:
   $ hi --help
 
 Options:
-  -v, --version  Display version number 
-  -h, --help     Display this message 
+  -v, --version  Display version number
+  -h, --help     Display this message
 ```
