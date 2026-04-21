@@ -1,5 +1,8 @@
-import { CustomEvent as NodeCustomEvent } from 'node:util'
-
 if (typeof globalThis.CustomEvent === 'undefined') {
-  globalThis.CustomEvent = NodeCustomEvent
+  globalThis.CustomEvent = class CustomEvent extends Event {
+    constructor(type, options = {}) {
+      super(type, options)
+      this.detail = options.detail
+    }
+  }
 }
