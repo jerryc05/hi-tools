@@ -5,8 +5,10 @@ pnpm add -g https://github.com/jerryc05/hi-tools.git
 
 # Help
 ```
+hi/0.0.1-beta.18
+
 Usage:
-  $ hi <command> [options]
+  $ hi 
 
 Commands:
   mm                 [M]erge [M]aster: Update master branch to remote's, then merge into current branch
@@ -18,6 +20,7 @@ Commands:
   bm <targetBranch>  [B]ranch [M]erge: merge current HEAD into target branch without switching
   ips                Show network interface IP addrs
   mdns               Show mdns hostname
+                     Readme
 
 For more info, run any command with the `--help` flag:
   $ hi mm --help
@@ -29,7 +32,9 @@ For more info, run any command with the `--help` flag:
   $ hi bm --help
   $ hi ips --help
   $ hi mdns --help
+  $ hi --help
 
 Options:
-  -h, --help  Display this message
+  -v, --version  Display version number 
+  -h, --help     Display this message 
 ```

@@ -375,9 +375,7 @@ cli.command('mdns', 'Show mdns hostname').action(() => {
 //
 //
 
-cli.version(pkgJson.version)
-cli.help()
-
+cli.version(pkgJson.version).help()
 cli.command('', 'Readme').action(cli.outputHelp)
 cli.parse()
 
