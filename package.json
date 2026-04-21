@@ -1,8 +1,12 @@
 {
   "name": "hi-tools",
   "version": "0.0.1-beta.2",
+  "scripts": {
+    "build": "node build.js",
+    "prepare": "husky"
+  },
   "bin": {
-    "hi": "src/index.ts"
+    "hi": "dist/hi.js"
   },
   "files": [
     "index.ts",
@@ -14,6 +18,8 @@
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
+    "esbuild": "^0.28.0",
+    "husky": "^9.1.7",
     "typescript": "^6.0.3"
   },
   "type": "module"

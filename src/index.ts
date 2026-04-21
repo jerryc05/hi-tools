@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-strip-types --no-warnings
+// #!/usr/bin/env -S node --experimental-strip-types --no-warnings
 
 import { spawn } from 'node:child_process'
 import { readFileSync } from 'node:fs'
@@ -13,6 +13,7 @@ const cli = cac('hi')
 const PKG_JSON_OBJ = (() => {
   try {
     const pkgPath = join(process.cwd(), 'package.json')
+    // biome-ignore lint/suspicious/noExplicitAny: ignore
     return JSON.parse(readFileSync(pkgPath, 'utf-8')) as Record<string, any>
   } catch {}
 })()
@@ -41,7 +42,7 @@ async function mm(updMaster: boolean) {
   await execa({
     stdio: 'inherit',
     env: { GIT_TRACE: '1' },
-  })`git fetch ${updMaster ? (await getUpstreamRemote()) + ' master:master' : ''}`
+  })`git fetch ${updMaster ? `${await getUpstreamRemote()} master:master` : ''}`
   await execa({
     stdio: 'inherit',
   })`git merge ${await getUpstreamRemote()}/master --no-verify --no-edit`
