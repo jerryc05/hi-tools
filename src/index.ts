@@ -136,15 +136,18 @@ cli.command('tschk', 'My ts-check rules').action(async () => {
       stderr: 'ignore',
     })`npx tsc --noEmit --emitDeclarationOnly false`
 
-    const filteredLines = stdout.split('\n').filter(line => {
-      if (!/error TS\d+?/.test(line)) return false
-      if (line.includes('node_modules')) return false
-      if (ignoredCodes.some(code => line.includes(`TS${code}`))) return false
+    const lines = stdout.split('\n').filter(line => {
+      if (line.includes('/node_modules/')) return false
+
+      const matchInfo = lines.match(/error TS(\d+):/)
+      if (!matchInfo) return false
+
+      if (ignoredCodes.include(matchInfo[1])) return false
       return true
     })
 
-    if (filteredLines.length > 0) {
-      filteredLines.map(console.log)
+    if (lines.length > 0) {
+      lines.map(console.log)
       console.log('\n❌ Type-check failed!')
       process.exit(1)
     } else {
