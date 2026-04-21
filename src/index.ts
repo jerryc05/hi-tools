@@ -250,9 +250,9 @@ cli
     '[B]ranch [M]erge: merge current HEAD into target branch without switching',
   )
   .action(async (targetBranch: string) => {
-    /* try {
+    try {
       console.log(`🚀 Starting silent merge: HEAD -> ${targetBranch}`)
-
+      /*
       // 1. Fetch the latest target branch
       console.log(`📡 Fetching origin ${targetBranch}...`)
       await execa('git', ['fetch', 'origin', targetBranch], {
@@ -311,10 +311,11 @@ cli
       await execa('git', ['push', 'origin', targetBranch], { stdio: 'inherit' })
 
       console.log(`🎉 Successfully updated and pushed ${targetBranch}!`)
+    */
     } catch (error) {
       console.error('\n❌ Silent merge failed:', error)
       process.exit(1)
-    } */
+    }
   })
 
 //
@@ -373,7 +374,7 @@ async function backgroundUpgrade() {
   try {
     const lastCheck = parseInt((await readFile(CACHE_FILE, 'utf-8')) || '0', 10)
     if (now - lastCheck < CHECK_INTERVAL) return
-  } catch (err) {}
+  } catch (_err) {}
 
   // 更新时间戳
   promises.push(writeFile(CACHE_FILE, now.toString()))
