@@ -100,6 +100,7 @@ else {
         absolute: true,
         onlyFiles: true,
         stats: true,
+        followSymbolicLinks: false,
       })
 
       for (const entry of entries) {
