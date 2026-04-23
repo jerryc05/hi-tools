@@ -75,7 +75,7 @@ const hasPackage = (name: string) =>
     PKG_JSON_OBJ?.dependencies?.[name] || PKG_JSON_OBJ?.devDependencies?.[name]
   )
 
-cli.command('tt i18n', 'I18n scan and sort').action(async () => {
+cli.command('tt-i18n', 'I18n scan and sort').action(async () => {
   const fileStarlingCfg = 'starling.config.js'
   const fileCombineLang = 'combine-lang.js'
 
@@ -102,7 +102,7 @@ cli.command('tt i18n', 'I18n scan and sort').action(async () => {
 })
 
 cli
-  .command('tt bam', 'Update BAM code-gen')
+  .command('tt-bam', 'Update BAM code-gen')
   .action(
     () =>
       execa({ stdio: 'inherit' })`${
