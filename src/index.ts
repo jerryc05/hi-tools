@@ -8,10 +8,11 @@ import { join } from 'node:path'
 import { cac } from 'cac'
 import { execa, execaNode } from 'execa'
 import pkgJson from '../package.json' with { type: 'json' }
+import luban from './commands/luban.ts'
 
 const cli = cac('hi')
 
-const PKG_JSON_OBJ = (() => {
+export const PKG_JSON_OBJ = (() => {
   try {
     const pkgPath = join(process.cwd(), 'package.json')
     // biome-ignore lint/suspicious/noExplicitAny: ignore
@@ -374,6 +375,8 @@ cli.command('mdns', 'Show mdns hostname').action(() => {
   const n = hostname()
   console.log(n.toLowerCase().endsWith('.local') ? n : `${n}.local`)
 })
+
+cli.command(luban.cmd.name, luban.cmd.desc).action(luban.action)
 
 //
 //
