@@ -1,6 +1,6 @@
 import { execa } from 'execa'
-import signale from 'signale'
 import type { HiCommand } from '../types.ts'
+import { begin, done } from '../utils.ts'
 
 async function getUpstreamRemote() {
   try {
@@ -15,18 +15,19 @@ async function getUpstreamRemote() {
 
 /** TODO: 未来支持 master 和 main 自动判断 */
 async function mm(updBranch: boolean) {
-  signale.start(`${updBranch ? 'Updating' : 'Fetching'} master...`)
+  begin(`${updBranch ? 'Updating' : 'Fetching'} master...`)
   await execa({
     stdio: 'inherit',
     env: { GIT_TRACE: '1' },
   })`git fetch ${await getUpstreamRemote()} master${updBranch ? ':master' : ''}`
 
-  signale.start('Merging ...')
+  begin('Merging ...')
   await execa({
     stdio: 'inherit',
+    env: { GIT_TRACE: '1' },
   })`git merge ${await getUpstreamRemote()}/master --no-verify --no-edit`
 
-  signale.success('🎉 DONE!')
+  done()
 }
 
 export default [

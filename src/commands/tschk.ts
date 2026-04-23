@@ -1,11 +1,12 @@
 import { execa } from 'execa'
 import type { HiCommand } from '../types.ts'
+import { begin, fail, success } from '../utils.ts'
 
 export default [
   {
     cmd: { name: 'tschk', desc: 'My ts-check rules' },
     action: async () => {
-      console.log('🔍 Running custom tsc type-check...')
+      begin('Running custom tsc type-check...')
 
       // 需要忽略的错误码列表
       const ignoredCodes = [
@@ -35,13 +36,14 @@ export default [
 
         if (lines.length > 0) {
           lines.map(console.log)
-          console.log('\n❌ Type-check failed!')
+          fail('Type-check failed!')
           process.exit(1)
         } else {
-          console.log('✅ Type-check passed!')
+          success('Type-check passed!')
         }
       } catch (err) {
-        console.error('\n❌ Unexpected err when type-checking:', err)
+        fail('Type-check: Unexpected err:')
+        console.error(err)
         process.exit(1)
       }
     },
