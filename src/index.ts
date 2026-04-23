@@ -3,12 +3,15 @@
 import { spawn } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { access, constants, readFile, writeFile } from 'node:fs/promises'
-import { hostname, networkInterfaces, tmpdir } from 'node:os'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { cac } from 'cac'
 import { execa, execaNode } from 'execa'
 import pkgJson from '../package.json' with { type: 'json' }
+import ips from './commands/ips.ts'
 import luban from './commands/luban.ts'
+import mdns from './commands/mdns.ts'
+import mm from './commands/mm.ts'
 
 const cli = cac('hi')
 
@@ -19,51 +22,6 @@ export const PKG_JSON_OBJ = (() => {
     return JSON.parse(readFileSync(pkgPath, 'utf-8')) as Record<string, any>
   } catch {}
 })()
-
-//
-//
-//
-//
-//
-
-async function getUpstreamRemote() {
-  try {
-    // 获取当前分支追踪的远程分支名，例如 "origin/master"
-    const { stdout } =
-      await execa`git rev-parse --abbrev-ref --symbolic-full-name @{u}`
-
-    return stdout.split('/')[0] || 'origin'
-  } catch {
-    return 'origin'
-  }
-}
-
-/** TODO: 未来支持 master 和 main 自动判断 */
-async function mm(updMaster: boolean) {
-  console.log('🚀 Syncing master...')
-  await execa({
-    stdio: 'inherit',
-    env: { GIT_TRACE: '1' },
-  })`git fetch ${updMaster ? [await getUpstreamRemote(), 'master:master'] : ''}`
-  await execa({
-    stdio: 'inherit',
-  })`git merge ${await getUpstreamRemote()}/master --no-verify --no-edit`
-  console.log('🎉 DONE!')
-}
-
-cli
-  .command(
-    'mm',
-    "[M]erge [M]aster: Update master branch to remote's, then merge into current branch",
-  )
-  .action(() => mm(true))
-
-cli
-  .command(
-    'mmm',
-    "[M]erge [M]aster (don't [M]odify local master): Merge remote's master into current branch, without updating local master branch",
-  )
-  .action(() => mm(false))
 
 //
 //
@@ -351,39 +309,8 @@ cli
 //
 //
 
-cli
-  .command('ips', 'Show network interface IP addrs')
-  .option('-4, --onlyIpv4', 'IPv4 only')
-  .option('-6, --onlyIpv6', 'IPv6 only')
-  .action(
-    ({ onlyIpv4, onlyIpv6 }: { onlyIpv4: boolean; onlyIpv6: boolean }) => {
-      const ifs = networkInterfaces()
-      const result: Record<string, string[]> = {}
-      for (let [k, vs] of Object.entries(ifs)) {
-        vs = vs?.filter(it => {
-          if (onlyIpv4) return it.family === 'IPv4'
-          if (onlyIpv6) return it.family === 'IPv6'
-          return true
-        })
-        if (vs?.length) result[k] = vs.map(v => v.address)
-      }
-      console.log(result)
-    },
-  )
-
-cli.command('mdns', 'Show mdns hostname').action(() => {
-  const n = hostname()
-  console.log(n.toLowerCase().endsWith('.local') ? n : `${n}.local`)
-})
-
-if (luban[0])
-  cli.command(luban[0].cmd.name, luban[0].cmd.desc).action(luban[0].action)
-
-//
-//
-//
-//
-//
+for (const { cmd, action } of [...mm, ...ips, ...mdns, ...luban])
+  cli.command(cmd.name, cmd.desc).action(action)
 
 cli.version(pkgJson.version).help()
 cli.command('', 'Readme').action(cli.outputHelp)
