@@ -2,7 +2,8 @@ import * as esbuild from 'esbuild'
 
 await esbuild.build({
   entryPoints: ['src/index.ts'],
-  // bundle: true,
+  bundle: true,
+  packages: 'external',
   platform: 'node',
   format: 'esm',
   minify: true,
