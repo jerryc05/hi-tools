@@ -1,12 +1,12 @@
 import { access, constants } from 'node:fs/promises'
 import { execa, execaNode } from 'execa'
-import { PKG_JSON_OBJ } from '../index'
+// import { PKG_JSON_OBJ } from '../index'
 import type { HiCommand } from '../types'
 
-const hasPackage = (name: string) =>
-  !!(
-    PKG_JSON_OBJ?.dependencies?.[name] || PKG_JSON_OBJ?.devDependencies?.[name]
-  )
+// const hasPackage = (name: string) =>
+//   !!(
+//     PKG_JSON_OBJ?.dependencies?.[name] || PKG_JSON_OBJ?.devDependencies?.[name]
+//   )
 
 export default [
   {
@@ -24,11 +24,16 @@ export default [
         }
       }
 
-      await execa({ stdio: 'inherit' })`${
-        hasPackage('@ies/starling-cli') ? 'starling' : (
-          ['pnpm', 'dlx', '@ies/starling-cli']
-        )
-      } scan -c ${fileStarlingCfg} --fallback --disable-browser`
+      // await execa({ stdio: 'inherit' })`${
+      //   hasPackage('@ies/starling-cli') ? 'starling' :
+      //    (
+      //     ['pnpm', 'dlx', '@ies/starling-cli']
+      //   )
+      // } scan -c ${fileStarlingCfg} --fallback --disable-browser`
+
+      await execa({
+        stdio: 'inherit',
+      })`pnpm dlx @ies/starling-cli scan -c ${fileStarlingCfg} --fallback --disable-browser`
       await execaNode({ stdio: 'inherit' })`${fileStarlingCfg}`
       await execa({
         stdio: 'inherit',
@@ -40,10 +45,13 @@ export default [
   {
     cmd: { name: 'tt-bam', desc: 'Update BAM code-gen' },
     action: () =>
-      execa({ stdio: 'inherit' })`${
-        hasPackage('@byted-arch-fe/bam-code-generator') ? 'bam' : (
-          ['pnpm', 'dlx', '@byted-arch-fe/bam-code-generator']
-        )
-      } update`,
+      // execa({ stdio: 'inherit' })`${
+      //   hasPackage('@byted-arch-fe/bam-code-generator') ? 'bam' : (
+      //     ['pnpm', 'dlx', '@byted-arch-fe/bam-code-generator']
+      //   )
+      // } update`,
+      execa({
+        stdio: 'inherit',
+      })`pnpm dlx @byted-arch-fe/bam-code-generator update`,
   },
 ] satisfies HiCommand[]
