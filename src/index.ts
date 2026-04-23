@@ -64,7 +64,7 @@ cli.parse()
 async function backgroundUpgrade() {
   if (process.env.NO_UPDATE === '1') return
 
-  const CACHE_FILE = join(tmpdir(), '.hi-tools', 'last-upd-check.txt')
+  const CACHE_FILE = join(tmpdir(), '.hi-tools___last-upd-check.txt')
   const CHECK_INTERVAL = 1 * 60 * 60 * 1000 // 1 小时
 
   const promises: Promise<unknown>[] = []
@@ -82,14 +82,13 @@ async function backgroundUpgrade() {
     'pnpm',
     ['add', '-g', 'https://github.com/jerryc05/hi-tools.git'],
     {
-      detached: true,
       stdio: 'ignore',
       windowsHide: true, // 在 Windows 上隐藏控制台窗口
     },
   )
   child.unref() // 让主进程不需要等待子进程结束
 
-  await Promise.allSettled(promises)
+  await Promise.all(promises)
 }
 
 await backgroundUpgrade()
