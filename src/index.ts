@@ -376,7 +376,8 @@ cli.command('mdns', 'Show mdns hostname').action(() => {
   console.log(n.toLowerCase().endsWith('.local') ? n : `${n}.local`)
 })
 
-cli.command(luban.cmd.name, luban.cmd.desc).action(luban.action)
+if (luban[0])
+  cli.command(luban[0].cmd.name, luban[0].cmd.desc).action(luban[0].action)
 
 //
 //

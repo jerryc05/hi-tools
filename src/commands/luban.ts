@@ -12,7 +12,15 @@ type NpmVersionPayload = {
   | { pub_base: 'branch_base'; branch_name: string }
 )
 
-async function publish(repoID: number) {
+async function publish({
+  repoID,
+  hash,
+  branch,
+}: {
+  repoID: number
+  hash?: string | true
+  branch?: string | true
+}) {
   const usernameKey = 'SCM_USERNAME'
   const passwordKey = 'SCM_PASSWORD'
   const username = process.env[usernameKey]
@@ -26,23 +34,32 @@ async function publish(repoID: number) {
   }
 
   try {
-    const [{ stdout: commitHash }, { stdout: commitMsg }] = await Promise.all([
-      execa`git rev-parse HEAD`,
-      execa`git log -1 --pretty=%s`,
-    ])
+    const commitMsgP = execa`git log -1 --pretty=%s`
+
+    let commitHash: string | undefined, commitBranch: string | undefined
+    if (branch) {
+      if (branch === true)
+        commitBranch = (await execa`git branch --show-current`).stdout.trim()
+      else commitBranch = branch
+    } else if (hash) {
+      if (hash === true)
+        commitHash = (await execa`git rev-parse HEAD`).stdout.trim()
+      else commitHash = hash
+    }
 
     const payload: NpmVersionPayload = {
       repos: repoID,
       create_user: username,
-      pub_base: 'commit_base',
-      base_commit_hash: commitHash.trim(),
-      desc: `[${PKG_JSON_OBJ?.version}] ${commitMsg.trim()}`,
+      pub_base: commitHash ? 'commit_base' : 'branch_base',
+      base_commit_hash: commitHash ?? '',
+      branch_name: commitBranch ?? '',
+      desc: `[${PKG_JSON_OBJ?.version}] ${(await commitMsgP).stdout.trim()}`,
       has_version_stage: false,
     }
 
     console.log(
       `ℹ️ ${payload.create_user} is publishing ${PKG_JSON_OBJ?.name}@${PKG_JSON_OBJ?.version} to repoID=${payload.repos}\n` +
-        `\t hash=${payload.base_commit_hash}\n` +
+        `\t ${commitHash ? `hash=${commitHash}` : `brch=${commitBranch}`}\n` +
         `\t desc=${payload.desc}`,
     )
 
@@ -58,26 +75,34 @@ async function publish(repoID: number) {
 
     if (!response.ok) {
       const errorText = await response.text()
-      console.log(`HTTP ${response.status} Error: ${errorText}`)
+      console.log(`❌ HTTP ${response.status} Error: ${errorText}`)
       process.exit(1)
     }
 
     const data = await response.json()
     console.log('🎉 Successfully published:', data)
   } catch (error) {
-    console.error('Execution Failed:', error)
+    console.error('❌ Execution Failed:', error)
     process.exit(1)
   }
 }
 
-export default {
-  cmd: {
-    name: 'tt-npm-pub <repoID>',
-    desc: '[PUB]lish current hash of current repo to Luban',
+export default [
+  {
+    cmd: {
+      name: 'tt-npm-pub <repoID>',
+      desc: '[PUB]lish current hash of current repo to Luban',
+    },
+    options: [
+      { name: '--hash [hash]', desc: 'Publish pkg by hash (default)' },
+      {
+        name: '-b, --branch [branch]',
+        desc: 'Publish pkg by branch',
+      },
+    ],
+    action: publish,
   },
-  // options: [{name: '', desc: ''}],
-  action: publish,
-} satisfies HiCommand
+] satisfies HiCommand[]
 
 /*
 COMMIT_HASH=$(git rev-parse HEAD)
