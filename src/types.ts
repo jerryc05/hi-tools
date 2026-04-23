@@ -10,5 +10,6 @@ export type HiCommand = {
     desc: string
     config?: Parameters<Command['option']>[2]
   }[]
+  examples?: string[]
   action: Parameters<Command['action']>[0]
 }
