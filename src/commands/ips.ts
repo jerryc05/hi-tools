@@ -1,5 +1,5 @@
 import { networkInterfaces } from 'node:os'
-import type { HiCommand } from '../types.ts'
+import type { HiCommand } from '../types'
 
 export default [
   {

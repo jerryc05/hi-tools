@@ -1,6 +1,6 @@
 import { execa } from 'execa'
-import type { HiCommand } from '../types.ts'
-import { begin, done } from '../utils.ts'
+import type { HiCommand } from '../types'
+import { begin, done } from '../utils'
 
 async function getUpstreamRemote() {
   try {

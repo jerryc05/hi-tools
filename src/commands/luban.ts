@@ -1,6 +1,6 @@
 import { execa } from 'execa'
-import { PKG_JSON_OBJ } from '../index.ts'
-import type { HiCommand } from '../types.ts'
+import { PKG_JSON_OBJ } from '../index'
+import type { HiCommand } from '../types'
 
 type NpmVersionPayload = {
   repos: number

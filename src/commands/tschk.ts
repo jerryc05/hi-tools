@@ -1,6 +1,6 @@
 import { execa } from 'execa'
-import type { HiCommand } from '../types.ts'
-import { begin, fail, success } from '../utils.ts'
+import type { HiCommand } from '../types'
+import { begin, fail, success } from '../utils'
 
 export default [
   {
@@ -35,7 +35,7 @@ export default [
         })
 
         if (lines.length > 0) {
-          lines.map(console.log)
+          lines.map(l => console.log(l))
           fail('Type-check failed!')
           process.exit(1)
         } else {
