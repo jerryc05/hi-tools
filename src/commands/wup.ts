@@ -25,7 +25,7 @@ export default [
     ],
     examples: [
       `hi wup -t "/tmp/otherRepoPath" -c "emo add"`,
-      `hi wup -t "/tmp/otherRepoPath" -c "rush add -p"`,
+      `hi wup -t "/tmp/otherRepoPath" -c "rush add --make-consistent -p"`,
     ],
     action: async ({
       target,
