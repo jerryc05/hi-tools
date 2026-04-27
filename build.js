@@ -7,7 +7,7 @@ await esbuild.build({
   platform: 'node',
   format: 'esm',
   minify: true,
-  outfile: 'dist/hi.js',
+  outfile: 'dist/index.js',
   inject: ['src/polyfill.js'],
 })
 
