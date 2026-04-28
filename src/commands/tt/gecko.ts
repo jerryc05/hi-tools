@@ -94,7 +94,7 @@ async function main({
   url: string
   region: string
 }) {
-  const { jwtStr, getJwtObj } = await getJwt()
+  const { jwtStr, jwtObj } = await getJwt()
 
   let pplID = pipelineId
   if (!pplID) {
@@ -103,9 +103,9 @@ async function main({
     pplID = urlPplID
   }
 
-  const items = (
-    await getGeckoInfo(pplID, jwtStr, getJwtObj().username)
-  ).filter(x => x?.region.includes(region))
+  const items = (await getGeckoInfo(pplID, jwtStr, jwtObj.username)).filter(x =>
+    x?.region.includes(region),
+  )
   for (let i = 0; i < items.length; i++) {
     const x = items[i]
     try {

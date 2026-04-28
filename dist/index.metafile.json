@@ -1,7 +1,7 @@
 {
   "inputs": {
     "package.json": {
-      "bytes": 780,
+      "bytes": 804,
       "imports": [],
       "format": "esm",
       "with": {
@@ -179,15 +179,10 @@
       "format": "esm"
     },
     "src/utils/jwt.ts": {
-      "bytes": 1043,
+      "bytes": 919,
       "imports": [
         {
           "path": "@byted/aipaas-auth",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "jwt-decode",
           "kind": "import-statement",
           "external": true
         },
@@ -210,7 +205,7 @@
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 3782,
+      "bytes": 3774,
       "imports": [
         {
           "path": "qrcode",
@@ -287,6 +282,22 @@
       ],
       "format": "esm"
     },
+    "src/commands/upgrade.ts": {
+      "bytes": 624,
+      "imports": [
+        {
+          "path": "execa",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "src/commands/wup.ts": {
       "bytes": 3295,
       "imports": [
@@ -314,7 +325,7 @@
       "format": "esm"
     },
     "src/index.ts": {
-      "bytes": 2395,
+      "bytes": 2625,
       "imports": [
         {
           "path": "node:child_process",
@@ -383,6 +394,11 @@
           "path": "src/commands/tt/index.tsx",
           "kind": "import-statement",
           "original": "./commands/tt"
+        },
+        {
+          "path": "src/commands/upgrade.ts",
+          "kind": "import-statement",
+          "original": "./commands/upgrade"
         },
         {
           "path": "src/commands/wup.ts",
@@ -487,12 +503,12 @@
           "external": true
         },
         {
-          "path": "jwt-decode",
+          "path": "node:fs/promises",
           "kind": "import-statement",
           "external": true
         },
         {
-          "path": "node:fs/promises",
+          "path": "execa",
           "kind": "import-statement",
           "external": true
         },
@@ -516,19 +532,19 @@
           "bytesInOutput": 134
         },
         "src/index.ts": {
-          "bytesInOutput": 1056
+          "bytesInOutput": 1177
         },
         "package.json": {
-          "bytesInOutput": 572
+          "bytesInOutput": 606
         },
         "src/commands/bm.ts": {
           "bytesInOutput": 230
         },
         "src/commands/ips.ts": {
-          "bytesInOutput": 398
+          "bytesInOutput": 400
         },
         "src/commands/luban.ts": {
-          "bytesInOutput": 1533
+          "bytesInOutput": 1535
         },
         "src/commands/mdns.ts": {
           "bytesInOutput": 183
@@ -546,7 +562,7 @@
           "bytesInOutput": 172
         },
         "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2021
+          "bytesInOutput": 2016
         },
         "src/utils/cli.ts": {
           "bytesInOutput": 42
@@ -555,7 +571,7 @@
           "bytesInOutput": 181
         },
         "src/utils/jwt.ts": {
-          "bytesInOutput": 345
+          "bytesInOutput": 290
         },
         "src/commands/tt/i18n.ts": {
           "bytesInOutput": 608
@@ -563,11 +579,14 @@
         "src/commands/tt/index.tsx": {
           "bytesInOutput": 23
         },
+        "src/commands/upgrade.ts": {
+          "bytesInOutput": 378
+        },
         "src/commands/wup.ts": {
           "bytesInOutput": 1847
         }
       },
-      "bytes": 11159
+      "bytes": 11636
     }
   }
 }

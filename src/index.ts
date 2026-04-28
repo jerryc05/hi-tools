@@ -13,10 +13,13 @@ import mdns from './commands/mdns'
 import mm from './commands/mm'
 import tschk from './commands/tschk'
 import tt from './commands/tt'
+import upgrade from './commands/upgrade'
 import wup from './commands/wup'
 import type { HiCommand } from './types'
 import { info } from './utils'
 import { cli } from './utils/cli'
+
+if (process.argv.includes('--quiet')) process.exit(0)
 
 export const PKG_JSON_OBJ = (() => {
   try {
@@ -46,6 +49,7 @@ const allCommands: HiCommand[] = [
   ...tschk,
   ...wup,
   ...bm,
+  ...upgrade,
 ]
 
 for (const { cmd, options, examples, action } of allCommands) {
@@ -56,7 +60,13 @@ for (const { cmd, options, examples, action } of allCommands) {
 }
 
 cli.version(pkgJson.version).help()
-cli.command('', 'Readme').action(cli.outputHelp)
+cli
+  .command('', 'Print help message')
+  .option('--quiet', 'Silently quit')
+  .action(({ quiet }: { quiet: boolean }) => {
+    if (quiet) return
+    cli.outputHelp()
+  })
 cli.parse()
 
 //
@@ -66,10 +76,10 @@ cli.parse()
 //
 
 async function backgroundUpgrade() {
-  if (process.env.NO_UPDATE === '1') return
+  if (process.env.DISABLE_AUTO_UPDATE === '1') return
 
   const CACHE_FILE = join(tmpdir(), '.hi-tools___last-upd-check.txt')
-  const CHECK_INTERVAL = 1 * 60 * 60 * 1000 // 1 小时
+  const CHECK_INTERVAL = 30 * 60 * 1000 // 30min
 
   const promises: Promise<unknown>[] = []
 
@@ -84,8 +94,8 @@ async function backgroundUpgrade() {
 
   try {
     const child = spawn(
-      'pnpm',
-      ['add', '-g', 'https://github.com/jerryc05/hi-tools.git'],
+      process.argv0,
+      [process.argv[1] ?? '-v', '-g', 'upgrade'],
       {
         stdio: 'ignore',
         windowsHide: true, // 在 Windows 上隐藏控制台窗口

@@ -1,9 +1,8 @@
 import { AIPaaSAuth } from '@byted/aipaas-auth'
-import { jwtDecode } from 'jwt-decode'
 import { begin, hello, info } from '../utils'
 import { formatDate } from './format-date'
 
-export interface Jwt {
+export interface JwtUserInfo {
   iss: string
   exp: number
   iat: number
@@ -25,22 +24,16 @@ export interface Jwt {
   new_employee_id: number
 }
 
+const auth = new AIPaaSAuth('cn')
+
 export async function getJwt() {
   begin('Logging in...')
 
-  const jwtStr = await new AIPaaSAuth('cn').login()
-  let jwtObj: Jwt | undefined
-  function getJwtObj() {
-    if (!jwtObj) {
-      jwtObj = jwtDecode<Jwt>(jwtStr)
-    }
-    return jwtObj
-  }
+  const jwtStr = await auth.getJwt()
+  const jwtObj = (await auth.getUserInfo()) as JwtUserInfo
 
-  hello(
-    `Hi ${getJwtObj().username} from ${getJwtObj().scope} ${getJwtObj().work_country}`,
-  )
-  info(`  Login will expire on ${formatDate(new Date(getJwtObj().exp * 1000))}`)
+  hello(`Hi ${jwtObj.username} from ${jwtObj.scope} ${jwtObj.work_country}`)
+  info(`  Login will expire on ${formatDate(new Date(jwtObj.exp * 1000))}`)
 
-  return { jwtStr, getJwtObj }
+  return { jwtStr, jwtObj }
 }
