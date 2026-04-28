@@ -1,6 +1,6 @@
 {
   "name": "hi-tools",
-  "version": "0.0.2-beta.3",
+  "version": "0.0.2-beta.4",
   "scripts": {
     "build": "node build.js",
     "_prepare": "husky"
@@ -17,10 +17,10 @@
     "execa": "^9.6.1",
     "jwt-decode": "^4.0.0",
     "picocolors": "^1.1.1",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "@byted/aipaas-auth": "^0.1.0"
   },
   "devDependencies": {
-    "@byted/aipaas-auth": "^0.1.0",
     "@types/cli-progress": "^3.11.6",
     "@types/node": "^25.6.0",
     "@types/qrcode": "^1.5.6",
