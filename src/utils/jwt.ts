@@ -38,7 +38,7 @@ export async function getJwt() {
   }
 
   hello(
-    `Hi, ${getJwtObj().username} from ${getJwtObj().scope} ${getJwtObj().work_country}`,
+    `Hi ${getJwtObj().username} from ${getJwtObj().scope} ${getJwtObj().work_country}`,
   )
   info(`  Login will expire on ${formatDate(new Date(getJwtObj().exp * 1000))}`)
 

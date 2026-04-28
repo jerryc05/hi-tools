@@ -179,7 +179,7 @@
       "format": "esm"
     },
     "src/utils/jwt.ts": {
-      "bytes": 1044,
+      "bytes": 1043,
       "imports": [
         {
           "path": "@byted/aipaas-auth",
@@ -555,7 +555,7 @@
           "bytesInOutput": 181
         },
         "src/utils/jwt.ts": {
-          "bytesInOutput": 346
+          "bytesInOutput": 345
         },
         "src/commands/tt/i18n.ts": {
           "bytesInOutput": 608
@@ -567,7 +567,7 @@
           "bytesInOutput": 1847
         }
       },
-      "bytes": 11160
+      "bytes": 11159
     }
   }
 }
