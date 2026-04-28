@@ -41,15 +41,15 @@ if (PKG_JSON_OBJ) {
 //
 
 const allCommands: HiCommand[] = [
+  ...upgrade,
   ...mm,
-  ...ips,
-  ...mdns,
-  ...luban,
-  ...tt,
   ...tschk,
   ...wup,
+  ...ips,
+  ...mdns,
   ...bm,
-  ...upgrade,
+  ...luban,
+  ...tt,
 ]
 
 for (const { cmd, options, examples, action } of allCommands) {
