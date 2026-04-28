@@ -1,7 +1,6 @@
 import QRCode from 'qrcode'
 import type { HiCommand } from '../../types'
 import type { Data, GeckoPackageInfo } from '../../types/gecko'
-import { begin, hello, info } from '../../utils'
 import { cli } from '../../utils/cli'
 import { formatDate } from '../../utils/format-date'
 import { getJwt } from '../../utils/jwt'
@@ -95,13 +94,7 @@ async function main({
   url: string
   region: string
 }) {
-  begin('Logging in...')
-
   const { jwtStr, getJwtObj } = await getJwt()
-  hello(
-    `Hi, ${getJwtObj().username} from ${getJwtObj().scope} ${getJwtObj().work_country}`,
-  )
-  info(`  Login will expire on ${formatDate(new Date(getJwtObj().exp * 1000))}`)
 
   let pplID = pipelineId
   if (!pplID) {
@@ -119,6 +112,7 @@ async function main({
       const code = await QRCode.toString(x?.qrCodeScheme ?? '', {
         type: 'terminal',
         small: true,
+        errorCorrectionLevel: 'L',
       })
 
       console.log(`\n\n${code}`)

@@ -179,7 +179,7 @@
       "format": "esm"
     },
     "src/utils/jwt.ts": {
-      "bytes": 744,
+      "bytes": 1044,
       "imports": [
         {
           "path": "@byted/aipaas-auth",
@@ -192,6 +192,16 @@
           "external": true
         },
         {
+          "path": "src/utils.ts",
+          "kind": "import-statement",
+          "original": "../utils"
+        },
+        {
+          "path": "src/utils/format-date.ts",
+          "kind": "import-statement",
+          "original": "./format-date"
+        },
+        {
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
@@ -200,17 +210,12 @@
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 4005,
+      "bytes": 3782,
       "imports": [
         {
           "path": "qrcode",
           "kind": "import-statement",
           "external": true
-        },
-        {
-          "path": "src/utils.ts",
-          "kind": "import-statement",
-          "original": "../../utils"
         },
         {
           "path": "src/utils/cli.ts",
@@ -541,7 +546,7 @@
           "bytesInOutput": 172
         },
         "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2138
+          "bytesInOutput": 2021
         },
         "src/utils/cli.ts": {
           "bytesInOutput": 42
@@ -550,7 +555,7 @@
           "bytesInOutput": 181
         },
         "src/utils/jwt.ts": {
-          "bytesInOutput": 207
+          "bytesInOutput": 346
         },
         "src/commands/tt/i18n.ts": {
           "bytesInOutput": 608
@@ -562,7 +567,7 @@
           "bytesInOutput": 1847
         }
       },
-      "bytes": 11138
+      "bytes": 11160
     }
   }
 }
