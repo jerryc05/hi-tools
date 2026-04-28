@@ -1,7 +1,7 @@
 import { access, constants } from 'node:fs/promises'
 import { execa, execaNode } from 'execa'
 // import { PKG_JSON_OBJ } from '../index'
-import type { HiCommand } from '../types'
+import type { HiCommand } from '../../types'
 
 // const hasPackage = (name: string) =>
 //   !!(
@@ -41,17 +41,5 @@ export default [
         console.error('tt i18n sortjson error:', e),
       )
     },
-  },
-  {
-    cmd: { name: 'tt-bam', desc: 'Update BAM code-gen' },
-    action: () =>
-      // execa({ stdio: 'inherit' })`${
-      //   hasPackage('@byted-arch-fe/bam-code-generator') ? 'bam' : (
-      //     ['pnpm', 'dlx', '@byted-arch-fe/bam-code-generator']
-      //   )
-      // } update`,
-      execa({
-        stdio: 'inherit',
-      })`pnpm dlx @byted-arch-fe/bam-code-generator update`,
   },
 ] satisfies HiCommand[]

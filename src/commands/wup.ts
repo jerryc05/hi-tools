@@ -1,6 +1,7 @@
 import { execa } from 'execa'
 import { PKG_JSON_OBJ } from '../index'
 import type { HiCommand } from '../types'
+import { cli } from '../utils/cli'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -24,8 +25,8 @@ export default [
       },
     ],
     examples: [
-      `hi wup -t "/tmp/otherRepoPath" -c "emo add"`,
-      `hi wup -t "/tmp/otherRepoPath" -c "rush add --make-consistent -p"`,
+      `${cli.name} wup -t "/tmp/otherRepoPath" -c "emo add"`,
+      `${cli.name} wup -t "/tmp/otherRepoPath" -c "rush add --make-consistent -p"`,
     ],
     action: async ({
       target,

@@ -5,7 +5,6 @@ import { readFileSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { cac } from 'cac'
 import pkgJson from '../package.json' with { type: 'json' }
 import bm from './commands/bm'
 import ips from './commands/ips'
@@ -16,8 +15,7 @@ import tschk from './commands/tschk'
 import tt from './commands/tt'
 import wup from './commands/wup'
 import type { HiCommand } from './types'
-
-const cli = cac('hi')
+import { cli } from './utils/cli'
 
 export const PKG_JSON_OBJ = (() => {
   try {
