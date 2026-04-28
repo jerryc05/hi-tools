@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-import { spawn } from 'node:child_process'
-import { readFileSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import pkgJson from '../package.json' with { type: 'json' }
+import PKG_JSON_OBJ from '../package.json' with { type: 'json' }
 import bm from './commands/bm'
 import ips from './commands/ips'
 import luban from './commands/luban'
@@ -16,18 +14,12 @@ import tt from './commands/tt'
 import upgrade from './commands/upgrade'
 import wup from './commands/wup'
 import type { HiCommand } from './types'
-import { info } from './utils'
 import { cli } from './utils/cli'
+import { info } from './utils/logger'
+
+export { PKG_JSON_OBJ }
 
 if (process.argv.includes('--quiet')) process.exit(0)
-
-export const PKG_JSON_OBJ = (() => {
-  try {
-    const pkgPath = join(process.cwd(), 'package.json')
-    // biome-ignore lint/suspicious/noExplicitAny: ignore
-    return JSON.parse(readFileSync(pkgPath, 'utf-8')) as Record<string, any>
-  } catch {}
-})()
 
 if (PKG_JSON_OBJ) {
   console.log()
@@ -59,7 +51,7 @@ for (const { cmd, options, examples, action } of allCommands) {
   c.action(action)
 }
 
-cli.version(pkgJson.version).help()
+cli.version(PKG_JSON_OBJ.version).help()
 cli
   .command('', 'Print help message')
   .option('--quiet', 'Silently quit')
@@ -94,6 +86,7 @@ async function backgroundUpgrade() {
 
   try {
     if (process.argv[1]) {
+      const { spawn } = require('node:child_process')
       const child = spawn(process.argv0, [process.argv[1], '-g', 'upgrade'], {
         stdio: 'ignore',
         windowsHide: true, // 在 Windows 上隐藏控制台窗口

@@ -1,7 +1,7 @@
 {
   "inputs": {
     "package.json": {
-      "bytes": 699,
+      "bytes": 698,
       "imports": [],
       "format": "esm",
       "with": {
@@ -41,13 +41,8 @@
       "format": "esm"
     },
     "src/commands/luban.ts": {
-      "bytes": 3603,
+      "bytes": 3616,
       "imports": [
-        {
-          "path": "execa",
-          "kind": "import-statement",
-          "external": true
-        },
         {
           "path": "src/index.ts",
           "kind": "import-statement",
@@ -56,6 +51,11 @@
         {
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         }
       ],
@@ -77,7 +77,7 @@
       ],
       "format": "esm"
     },
-    "src/utils.ts": {
+    "src/utils/logger.ts": {
       "bytes": 584,
       "imports": [
         {
@@ -94,58 +94,63 @@
       "format": "esm"
     },
     "src/commands/mm.ts": {
-      "bytes": 1313,
+      "bytes": 1374,
       "imports": [
         {
-          "path": "execa",
+          "path": "src/utils/logger.ts",
           "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "src/utils.ts",
-          "kind": "import-statement",
-          "original": "../utils"
+          "original": "../utils/logger"
         },
         {
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "execa",
+          "kind": "dynamic-import",
+          "external": true
+        },
+        {
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         }
       ],
       "format": "esm"
     },
     "src/commands/tschk.ts": {
-      "bytes": 1609,
+      "bytes": 1633,
       "imports": [
         {
-          "path": "execa",
+          "path": "src/utils/logger.ts",
           "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "src/utils.ts",
-          "kind": "import-statement",
-          "original": "../utils"
+          "original": "../utils/logger"
         },
         {
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         }
       ],
       "format": "esm"
     },
     "src/commands/tt/bam.ts": {
-      "bytes": 696,
+      "bytes": 339,
       "imports": [
         {
-          "path": "execa",
+          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
-          "kind": "import-statement",
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         }
       ],
@@ -179,17 +184,12 @@
       "format": "esm"
     },
     "src/utils/jwt.ts": {
-      "bytes": 919,
+      "bytes": 1044,
       "imports": [
         {
-          "path": "@byted/aipaas-auth",
+          "path": "src/utils/logger.ts",
           "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "src/utils.ts",
-          "kind": "import-statement",
-          "original": "../utils"
+          "original": "../utils/logger"
         },
         {
           "path": "src/utils/format-date.ts",
@@ -200,18 +200,18 @@
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
+        },
+        {
+          "path": "@byted/aipaas-auth",
+          "kind": "dynamic-import",
+          "external": true
         }
       ],
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 3774,
+      "bytes": 3800,
       "imports": [
-        {
-          "path": "qrcode",
-          "kind": "import-statement",
-          "external": true
-        },
         {
           "path": "src/utils/cli.ts",
           "kind": "import-statement",
@@ -231,12 +231,17 @@
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
+        },
+        {
+          "path": "qrcode",
+          "kind": "dynamic-import",
+          "external": true
         }
       ],
       "format": "esm"
     },
     "src/commands/tt/i18n.ts": {
-      "bytes": 1463,
+      "bytes": 1047,
       "imports": [
         {
           "path": "node:fs/promises",
@@ -244,13 +249,13 @@
           "external": true
         },
         {
-          "path": "execa",
+          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
-          "kind": "import-statement",
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         }
       ],
@@ -283,29 +288,24 @@
       "format": "esm"
     },
     "src/commands/upgrade.ts": {
-      "bytes": 624,
+      "bytes": 637,
       "imports": [
         {
-          "path": "execa",
+          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
-          "kind": "import-statement",
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         }
       ],
       "format": "esm"
     },
     "src/commands/wup.ts": {
-      "bytes": 3295,
+      "bytes": 3312,
       "imports": [
-        {
-          "path": "execa",
-          "kind": "import-statement",
-          "external": true
-        },
         {
           "path": "src/index.ts",
           "kind": "import-statement",
@@ -320,23 +320,18 @@
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
+        },
+        {
+          "path": "execa",
+          "kind": "dynamic-import",
+          "external": true
         }
       ],
       "format": "esm"
     },
     "src/index.ts": {
-      "bytes": 2643,
+      "bytes": 2402,
       "imports": [
-        {
-          "path": "node:child_process",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "node:fs",
-          "kind": "import-statement",
-          "external": true
-        },
         {
           "path": "node:fs/promises",
           "kind": "import-statement",
@@ -406,18 +401,23 @@
           "original": "./commands/wup"
         },
         {
-          "path": "src/utils.ts",
-          "kind": "import-statement",
-          "original": "./utils"
-        },
-        {
           "path": "src/utils/cli.ts",
           "kind": "import-statement",
           "original": "./utils/cli"
         },
         {
+          "path": "src/utils/logger.ts",
+          "kind": "import-statement",
+          "original": "./utils/logger"
+        },
+        {
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node:child_process",
+          "kind": "require-call",
           "external": true
         }
       ],
@@ -427,16 +427,6 @@
   "outputs": {
     "dist/index.js": {
       "imports": [
-        {
-          "path": "node:child_process",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "node:fs",
-          "kind": "import-statement",
-          "external": true
-        },
         {
           "path": "node:fs/promises",
           "kind": "import-statement",
@@ -459,16 +449,11 @@
         },
         {
           "path": "execa",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
           "external": true
         },
         {
           "path": "node:os",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "execa",
           "kind": "import-statement",
           "external": true
         },
@@ -479,17 +464,22 @@
         },
         {
           "path": "execa",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
           "external": true
         },
         {
           "path": "execa",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
           "external": true
         },
         {
-          "path": "qrcode",
-          "kind": "import-statement",
+          "path": "execa",
+          "kind": "dynamic-import",
+          "external": true
+        },
+        {
+          "path": "execa",
+          "kind": "dynamic-import",
           "external": true
         },
         {
@@ -499,7 +489,12 @@
         },
         {
           "path": "@byted/aipaas-auth",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
+          "external": true
+        },
+        {
+          "path": "qrcode",
+          "kind": "dynamic-import",
           "external": true
         },
         {
@@ -509,17 +504,22 @@
         },
         {
           "path": "execa",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
           "external": true
         },
         {
           "path": "execa",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
           "external": true
         },
         {
           "path": "execa",
-          "kind": "import-statement",
+          "kind": "dynamic-import",
+          "external": true
+        },
+        {
+          "path": "node:child_process",
+          "kind": "require-call",
           "external": true
         }
       ],
@@ -532,46 +532,46 @@
           "bytesInOutput": 134
         },
         "src/index.ts": {
-          "bytesInOutput": 1182
+          "bytesInOutput": 1041
         },
         "package.json": {
-          "bytesInOutput": 503
+          "bytesInOutput": 502
         },
         "src/commands/bm.ts": {
           "bytesInOutput": 230
         },
         "src/commands/ips.ts": {
-          "bytesInOutput": 400
+          "bytesInOutput": 398
         },
         "src/commands/luban.ts": {
-          "bytesInOutput": 1535
+          "bytesInOutput": 1538
         },
         "src/commands/mdns.ts": {
-          "bytesInOutput": 183
+          "bytesInOutput": 181
+        },
+        "src/utils/logger.ts": {
+          "bytesInOutput": 401
         },
         "src/commands/mm.ts": {
-          "bytesInOutput": 758
-        },
-        "src/utils.ts": {
-          "bytesInOutput": 401
+          "bytesInOutput": 798
         },
         "src/commands/tschk.ts": {
           "bytesInOutput": 608
         },
         "src/commands/tt/bam.ts": {
-          "bytesInOutput": 172
-        },
-        "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2016
+          "bytesInOutput": 188
         },
         "src/utils/cli.ts": {
-          "bytesInOutput": 42
+          "bytesInOutput": 40
         },
         "src/utils/format-date.ts": {
           "bytesInOutput": 181
         },
         "src/utils/jwt.ts": {
-          "bytesInOutput": 290
+          "bytesInOutput": 302
+        },
+        "src/commands/tt/gecko.ts": {
+          "bytesInOutput": 2025
         },
         "src/commands/tt/i18n.ts": {
           "bytesInOutput": 608
@@ -580,13 +580,13 @@
           "bytesInOutput": 23
         },
         "src/commands/upgrade.ts": {
-          "bytesInOutput": 378
+          "bytesInOutput": 381
         },
         "src/commands/wup.ts": {
-          "bytesInOutput": 1847
+          "bytesInOutput": 1852
         }
       },
-      "bytes": 11538
+      "bytes": 11727
     }
   }
 }

@@ -1,6 +1,5 @@
-import { execa } from 'execa'
 import type { HiCommand } from '../types'
-import { begin, fail, success } from '../utils'
+import { begin, fail, success } from '../utils/logger'
 
 export default [
   {
@@ -17,6 +16,8 @@ export default [
         '6192', // All imports in 'X' are unused
         '18048', // 'X' is possibly 'null' or 'undefined'
       ]
+
+      const { execa } = await import('execa')
 
       try {
         const { stdout } = await execa({

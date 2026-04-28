@@ -1,12 +1,5 @@
 import { access, constants } from 'node:fs/promises'
-import { execa, execaNode } from 'execa'
-// import { PKG_JSON_OBJ } from '../index'
 import type { HiCommand } from '../../types'
-
-// const hasPackage = (name: string) =>
-//   !!(
-//     PKG_JSON_OBJ?.dependencies?.[name] || PKG_JSON_OBJ?.devDependencies?.[name]
-//   )
 
 export default [
   {
@@ -24,12 +17,7 @@ export default [
         }
       }
 
-      // await execa({ stdio: 'inherit' })`${
-      //   hasPackage('@ies/starling-cli') ? 'starling' :
-      //    (
-      //     ['pnpm', 'dlx', '@ies/starling-cli']
-      //   )
-      // } scan -c ${fileStarlingCfg} --fallback --disable-browser`
+      const { execa, execaNode } = await import('execa')
 
       await execa({
         stdio: 'inherit',

@@ -1,4 +1,3 @@
-import { execa } from 'execa'
 import type { HiCommand } from '../types'
 
 export async function upgrade({
@@ -8,6 +7,8 @@ export async function upgrade({
   npm: boolean
   global: boolean
 }) {
+  const { execa } = await import('execa')
+
   await execa({
     stdio: 'inherit',
   })`${npm ? 'npm' : 'pnpm'} add ${global ? '-g' : ''} https://github.com/jerryc05/hi-tools.git`

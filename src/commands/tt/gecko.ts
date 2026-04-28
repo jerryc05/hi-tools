@@ -1,4 +1,3 @@
-import QRCode from 'qrcode'
 import type { HiCommand } from '../../types'
 import type { Data, GeckoPackageInfo } from '../../types/gecko'
 import { cli } from '../../utils/cli'
@@ -106,6 +105,8 @@ async function main({
   const items = (await getGeckoInfo(pplID, jwtStr, jwtObj.username)).filter(x =>
     x?.region.includes(region),
   )
+
+  const { default: QRCode } = await import('qrcode')
   for (let i = 0; i < items.length; i++) {
     const x = items[i]
     try {

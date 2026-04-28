@@ -1,5 +1,5 @@
-import { AIPaaSAuth } from '@byted/aipaas-auth'
-import { begin, hello, info } from '../utils'
+import type { AIPaaSAuth } from '@byted/aipaas-auth'
+import { begin, hello, info } from '../utils/logger'
 import { formatDate } from './format-date'
 
 export interface JwtUserInfo {
@@ -24,10 +24,15 @@ export interface JwtUserInfo {
   new_employee_id: number
 }
 
-const auth = new AIPaaSAuth('cn')
+let auth: AIPaaSAuth | undefined
 
 export async function getJwt() {
   begin('Logging in...')
+
+  if (!auth) {
+    const { AIPaaSAuth } = await import('@byted/aipaas-auth')
+    auth = new AIPaaSAuth('cn')
+  }
 
   const jwtStr = await auth.getJwt()
   const jwtObj = (await auth.getUserInfo()) as JwtUserInfo

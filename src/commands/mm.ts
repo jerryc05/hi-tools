@@ -1,8 +1,8 @@
-import { execa } from 'execa'
 import type { HiCommand } from '../types'
-import { begin, done } from '../utils'
+import { begin, done } from '../utils/logger'
 
 async function getUpstreamRemote() {
+  const { execa } = await import('execa')
   try {
     // 获取当前分支追踪的远程分支名，例如 "origin/master"
     const { stdout } =
@@ -16,6 +16,7 @@ async function getUpstreamRemote() {
 /** TODO: 未来支持 master 和 main 自动判断 */
 async function mm(updBranch: boolean) {
   begin(`${updBranch ? 'Updating' : 'Fetching'} master...`)
+  const { execa } = await import('execa')
   await execa({
     stdio: 'inherit',
     env: { GIT_TRACE: '1' },

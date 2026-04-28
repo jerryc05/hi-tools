@@ -1,6 +1,6 @@
 {
   "name": "hi-tools",
-  "version": "0.0.2-beta.13",
+  "version": "0.0.3-beta.1",
   "scripts": {
     "build": "node build.js",
     "_prepare": "husky"

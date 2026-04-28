@@ -1,4 +1,3 @@
-import { execa } from 'execa'
 import { PKG_JSON_OBJ } from '../index'
 import type { HiCommand } from '../types'
 import { cli } from '../utils/cli'
@@ -56,6 +55,8 @@ export default [
       console.log(`🚀 Monitoring ${pkgName}...`)
       console.log(`📂 Target: ${target}`)
       console.log(`🛠  Install cmd: ${installCmdArr.join(' ')}`)
+
+      const { execa } = await import('execa')
 
       try {
         console.log('📥 Pulling latest changes in target repo...')

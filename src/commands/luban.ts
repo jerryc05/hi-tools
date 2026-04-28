@@ -1,4 +1,3 @@
-import { execa } from 'execa'
 import { PKG_JSON_OBJ } from '../index'
 import type { HiCommand } from '../types'
 
@@ -32,6 +31,8 @@ async function publish({
     )
     process.exit(1)
   }
+
+  const { execa } = await import('execa')
 
   try {
     const commitMsgP = execa`git log -1 --pretty=%s`
