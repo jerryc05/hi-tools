@@ -105,4 +105,5 @@ async function backgroundUpgrade() {
   await Promise.all(promises)
 }
 
-await backgroundUpgrade()
+// No need to await
+backgroundUpgrade()
