@@ -309,7 +309,7 @@
       "format": "esm"
     },
     "src/index.ts": {
-      "bytes": 2369,
+      "bytes": 2395,
       "imports": [
         {
           "path": "node:child_process",
@@ -511,7 +511,7 @@
           "bytesInOutput": 134
         },
         "src/index.ts": {
-          "bytesInOutput": 1038
+          "bytesInOutput": 1056
         },
         "package.json": {
           "bytesInOutput": 572
@@ -562,7 +562,7 @@
           "bytesInOutput": 1847
         }
       },
-      "bytes": 11120
+      "bytes": 11138
     }
   }
 }

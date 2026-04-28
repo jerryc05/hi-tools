@@ -26,7 +26,10 @@ export const PKG_JSON_OBJ = (() => {
   } catch {}
 })()
 
-if (PKG_JSON_OBJ) info(`${PKG_JSON_OBJ.name} v${PKG_JSON_OBJ.version}`)
+if (PKG_JSON_OBJ) {
+  console.log()
+  info(`${PKG_JSON_OBJ.name} v${PKG_JSON_OBJ.version}\n\n`)
+}
 
 //
 //
