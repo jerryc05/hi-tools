@@ -113,16 +113,17 @@ async function main({
   const items = (
     await getGeckoInfo(pplID, jwtStr, getJwtObj().username)
   ).filter(x => x?.region.includes(region))
-  for (const x of items) {
+  for (let i = 0; i < items.length; i++) {
+    const x = items[i]
     try {
-      const code = await QRCode.toString(x?.qrCodeScheme, {
+      const code = await QRCode.toString(x?.qrCodeScheme ?? '', {
         type: 'terminal',
         small: true,
       })
 
       console.log(`\n\n${code}`)
       console.dir(x)
-      console.log('\n\n-----------------\n\n')
+      if (i < items.length - 1) console.log('\n\n-----------------\n\n')
     } catch (err) {
       console.error('Failed to generate QR:', err)
     }
