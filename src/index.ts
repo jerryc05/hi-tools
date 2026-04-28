@@ -93,15 +93,13 @@ async function backgroundUpgrade() {
   promises.push(writeFile(CACHE_FILE, now.toString()))
 
   try {
-    const child = spawn(
-      process.argv0,
-      [process.argv[1] ?? '-v', '-g', 'upgrade'],
-      {
+    if (process.argv[1]) {
+      const child = spawn(process.argv0, [process.argv[1], '-g', 'upgrade'], {
         stdio: 'ignore',
         windowsHide: true, // 在 Windows 上隐藏控制台窗口
-      },
-    )
-    child.unref() // 让主进程不需要等待子进程结束
+      })
+      child.unref() // 让主进程不需要等待子进程结束
+    }
   } catch (_) {}
 
   await Promise.all(promises)

@@ -1,7 +1,7 @@
 {
   "inputs": {
     "package.json": {
-      "bytes": 804,
+      "bytes": 699,
       "imports": [],
       "format": "esm",
       "with": {
@@ -325,7 +325,7 @@
       "format": "esm"
     },
     "src/index.ts": {
-      "bytes": 2625,
+      "bytes": 2629,
       "imports": [
         {
           "path": "node:child_process",
@@ -532,10 +532,10 @@
           "bytesInOutput": 134
         },
         "src/index.ts": {
-          "bytesInOutput": 1177
+          "bytesInOutput": 1188
         },
         "package.json": {
-          "bytesInOutput": 606
+          "bytesInOutput": 503
         },
         "src/commands/bm.ts": {
           "bytesInOutput": 230
@@ -586,7 +586,7 @@
           "bytesInOutput": 1847
         }
       },
-      "bytes": 11636
+      "bytes": 11544
     }
   }
 }

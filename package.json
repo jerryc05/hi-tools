@@ -1,8 +1,7 @@
 {
   "name": "hi-tools",
-  "version": "0.0.2-beta.11",
+  "version": "0.0.2-beta.12",
   "scripts": {
-    "postinstall": "echo '⏳ Precompiling module ...' && node bin/cli.mjs --quiet && echo '✅ DONE!'",
     "build": "node build.js",
     "_prepare": "husky"
   },
