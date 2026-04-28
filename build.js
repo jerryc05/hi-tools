@@ -1,6 +1,7 @@
+import { writeFile } from 'node:fs/promises'
 import * as esbuild from 'esbuild'
 
-await esbuild.build({
+const result = await esbuild.build({
   entryPoints: ['src/index.ts'],
   bundle: true,
   packages: 'external',
@@ -8,7 +9,13 @@ await esbuild.build({
   format: 'esm',
   minify: true,
   outfile: 'dist/index.js',
+  metafile: true,
   inject: ['src/polyfill.js'],
 })
+
+await writeFile(
+  'dist/index.metafile.json',
+  JSON.stringify(result.metafile, null, 2),
+)
 
 console.log('🎉 Build complete!')

@@ -15,6 +15,7 @@ import tschk from './commands/tschk'
 import tt from './commands/tt'
 import wup from './commands/wup'
 import type { HiCommand } from './types'
+import { info } from './utils'
 import { cli } from './utils/cli'
 
 export const PKG_JSON_OBJ = (() => {
@@ -24,6 +25,8 @@ export const PKG_JSON_OBJ = (() => {
     return JSON.parse(readFileSync(pkgPath, 'utf-8')) as Record<string, any>
   } catch {}
 })()
+
+if (PKG_JSON_OBJ) info(`${PKG_JSON_OBJ.name} v${PKG_JSON_OBJ.version}`)
 
 //
 //
@@ -76,15 +79,17 @@ async function backgroundUpgrade() {
   // 更新时间戳
   promises.push(writeFile(CACHE_FILE, now.toString()))
 
-  const child = spawn(
-    'pnpm',
-    ['add', '-g', 'https://github.com/jerryc05/hi-tools.git'],
-    {
-      stdio: 'ignore',
-      windowsHide: true, // 在 Windows 上隐藏控制台窗口
-    },
-  )
-  child.unref() // 让主进程不需要等待子进程结束
+  try {
+    const child = spawn(
+      'pnpm',
+      ['add', '-g', 'https://github.com/jerryc05/hi-tools.git'],
+      {
+        stdio: 'ignore',
+        windowsHide: true, // 在 Windows 上隐藏控制台窗口
+      },
+    )
+    child.unref() // 让主进程不需要等待子进程结束
+  } catch (_) {}
 
   await Promise.all(promises)
 }
