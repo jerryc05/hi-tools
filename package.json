@@ -1,6 +1,6 @@
 {
   "name": "@jerryc05/hi-tools",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "pub": "npm publish --access public --registry https://registry.npmjs.org",
     "build": "node build.js",

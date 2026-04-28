@@ -14,7 +14,7 @@ function getPipelineIDFromURL(url: string) {
 }
 
 async function getGeckoInfo(
-  pipelineId: string,
+  pipelineId: string | number,
   token: string,
   username: string,
 ) {
@@ -89,21 +89,24 @@ async function main({
   url,
   region,
 }: {
-  pipelineId: string
-  url: string
-  region: string
+  pipelineId: number | undefined
+  url: string | undefined
+  region: string | undefined
 }) {
   const { jwtStr, jwtObj } = await getJwt()
 
-  let pplID = pipelineId
-  if (!pplID) {
-    const urlPplID = getPipelineIDFromURL(url)
-    if (!urlPplID) throw new Error('Unable to extract [pipelineId] from URL')
-    pplID = urlPplID
-  }
+  const pplID = (() => {
+    if (pipelineId) return pipelineId
+    if (url) {
+      const urlPplID = getPipelineIDFromURL(url)
+      if (!urlPplID) throw new Error('Unable to extract [pipelineId] from URL')
+      return urlPplID
+    }
+    throw new Error('pipelineId or url is required')
+  })()
 
   const items = (await getGeckoInfo(pplID, jwtStr, jwtObj.username)).filter(x =>
-    x?.region.includes(region),
+    x?.region.includes(region ?? ''),
   )
 
   const { default: QRCode } = await import('qrcode')
