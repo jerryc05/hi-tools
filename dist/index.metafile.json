@@ -215,8 +215,13 @@
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 3955,
+      "bytes": 4242,
       "imports": [
+        {
+          "path": "picocolors",
+          "kind": "import-statement",
+          "external": true
+        },
         {
           "path": "src/utils/cli.ts",
           "kind": "import-statement",
@@ -488,6 +493,11 @@
           "external": true
         },
         {
+          "path": "picocolors",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
           "path": "cac",
           "kind": "import-statement",
           "external": true
@@ -571,17 +581,17 @@
         "src/commands/tt/bam.ts": {
           "bytesInOutput": 188
         },
+        "src/commands/tt/gecko.ts": {
+          "bytesInOutput": 2364
+        },
         "src/utils/cli.ts": {
-          "bytesInOutput": 40
+          "bytesInOutput": 42
         },
         "src/utils/format-date.ts": {
           "bytesInOutput": 181
         },
         "src/utils/jwt.ts": {
           "bytesInOutput": 352
-        },
-        "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2102
         },
         "src/commands/tt/i18n.ts": {
           "bytesInOutput": 608
@@ -596,7 +606,7 @@
           "bytesInOutput": 1852
         }
       },
-      "bytes": 12000
+      "bytes": 12264
     }
   }
 }

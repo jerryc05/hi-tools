@@ -1,3 +1,4 @@
+import pc from 'picocolors'
 import type { HiCommand } from '../../types'
 import type { Data, GeckoPackageInfo } from '../../types/gecko'
 import { cli } from '../../utils/cli'
@@ -10,7 +11,14 @@ function getPipelineIDFromURL(url: string) {
   const regex = /\bpipelineId=(\d+)\b/
   const match = url.match(regex)
   if (match?.[1]) return match[1]
-  return null
+  throw new Error(
+    `Invalid URL. Expecting a url containing ${pc.bold(pc.yellow('pipelineId'))} query param. E.g. ` +
+      pc.underline(
+        pc.gray(
+          `https://bits.bytedance.net/devops/201134696450/develop/detail/2276839/flow?devops_space_type=server_fe&${pc.bold(pc.magenta('pipelineId=1139212901634'))}&stage=dev_gatekeeper_stage`,
+        ),
+      ),
+  )
 }
 
 async function getGeckoInfo(
@@ -96,13 +104,9 @@ async function main({
   const { jwtStr, jwtObj } = await getJwt()
 
   const pplID = (() => {
+    if (!pipelineId && !url) throw new Error('pipelineId or url is required')
     if (pipelineId) return pipelineId
-    if (url) {
-      const urlPplID = getPipelineIDFromURL(url)
-      if (!urlPplID) throw new Error('Unable to extract [pipelineId] from URL')
-      return urlPplID
-    }
-    throw new Error('pipelineId or url is required')
+    return getPipelineIDFromURL(url ?? '')
   })()
 
   const items = (await getGeckoInfo(pplID, jwtStr, jwtObj.username)).filter(x =>
