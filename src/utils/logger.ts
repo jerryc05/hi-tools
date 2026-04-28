@@ -13,7 +13,7 @@ export const success = (s: string) =>
   console.log(pc.bold(pc.underline(pc.green(`✅ ${s}`))))
 
 export const info = (s: string) =>
-  console.log(pc.underline(pc.yellow(`ℹ️ ${s}`)))
+  console.log(pc.underline(pc.yellow(`💬 ${s}`)))
 
 export const hello = (s: string) =>
   console.log(pc.bold(pc.underline(pc.green(`👋 ${s}`))))

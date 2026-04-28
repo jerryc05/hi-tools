@@ -1,4 +1,5 @@
 import type { AIPaaSAuth } from '@byted/aipaas-auth'
+import pc from 'picocolors'
 import { begin, hello, info } from '../utils/logger'
 import { formatDate } from './format-date'
 
@@ -37,7 +38,9 @@ export async function getJwt() {
   const jwtStr = await auth.getJwt()
   const jwtObj = (await auth.getUserInfo()) as JwtUserInfo
 
-  hello(`Hi ${jwtObj.username} from ${jwtObj.scope} ${jwtObj.work_country}`)
+  hello(
+    `Hi ${pc.magenta(jwtObj.username)} from ${pc.blue(`${jwtObj.scope} ${jwtObj.work_country}`)}`,
+  )
   info(`  Login will expire on ${formatDate(new Date(jwtObj.exp * 1000))}`)
 
   return { jwtStr, jwtObj }
