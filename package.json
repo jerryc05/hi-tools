@@ -1,9 +1,16 @@
 {
-  "name": "hi-tools",
-  "version": "0.0.3-beta.1",
+  "name": "@jerryc05/hi-tools",
+  "version": "0.0.3-beta.2",
   "scripts": {
     "build": "node build.js",
-    "_prepare": "husky"
+    "prepare": "husky"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerryc05/hi-tools.git"
   },
   "bin": {
     "hi": "bin/cli.mjs"
