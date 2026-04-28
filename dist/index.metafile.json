@@ -1,7 +1,7 @@
 {
   "inputs": {
     "package.json": {
-      "bytes": 878,
+      "bytes": 871,
       "imports": [],
       "format": "esm",
       "with": {
@@ -535,7 +535,7 @@
           "bytesInOutput": 1041
         },
         "package.json": {
-          "bytesInOutput": 640
+          "bytesInOutput": 633
         },
         "src/commands/bm.ts": {
           "bytesInOutput": 230
@@ -586,7 +586,7 @@
           "bytesInOutput": 1852
         }
       },
-      "bytes": 11865
+      "bytes": 11858
     }
   }
 }
