@@ -225,8 +225,8 @@ async function selectRunIdFromRecentRuns(
     const by = run.triggerInfo?.triggeredBy || run.createdBy || '?'
     return {
       value: run.runId,
-      label: `#${run.runSeq} runId=${run.runId}`,
-      hint: `${status}  ${time} by ${by}`,
+      label: `#${run.runSeq} runId=${run.runId} ${status}`,
+      hint: `${time} by ${by}`,
     }
   })
 
@@ -267,9 +267,9 @@ async function getGeckoInfoByRunId(
 }
 
 function formatRunTime(run: PipelineRun<boolean>) {
-  if (run.completedAt) return `completedAt=${formatDate(run.completedAt)}`
-  if (run.startedAt) return `startedAt=${formatDate(run.startedAt)}`
-  if (run.createdAt) return `createdAt=${formatDate(run.createdAt)}`
+  if (run.completedAt) return `completed @ ${formatDate(run.completedAt)}`
+  if (run.startedAt) return `started @ ${formatDate(run.startedAt)}`
+  if (run.createdAt) return `created @ ${formatDate(run.createdAt)}`
   return 'time=?'
 }
 
