@@ -1,5 +1,5 @@
+import { spinner } from '@clack/prompts'
 import type { HiCommand } from '../types'
-import { begin, done } from '../utils/logger'
 
 async function getUpstreamRemote() {
   const { execa } = await import('execa')
@@ -15,20 +15,22 @@ async function getUpstreamRemote() {
 
 /** TODO: 未来支持 master 和 main 自动判断 */
 async function mm(updBranch: boolean) {
-  begin(`${updBranch ? 'Updating' : 'Fetching'} master...`)
+  const s = spinner()
+
+  s.start(`${updBranch ? 'Updating' : 'Fetching'} master...`)
   const { execa } = await import('execa')
   await execa({
     stdio: 'inherit',
     env: { GIT_TRACE: '1' },
   })`git fetch ${await getUpstreamRemote()} master${updBranch ? ':master' : ''}`
 
-  begin('Merging ...')
+  s.start('Merging ...')
   await execa({
     stdio: 'inherit',
     env: { GIT_TRACE: '1' },
   })`git merge ${await getUpstreamRemote()}/master --no-verify --no-edit`
 
-  done()
+  s.stop('Done')
 }
 
 export default [
