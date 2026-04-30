@@ -38,9 +38,7 @@ async function main({
     return getPipelineIDFromURL(url ?? '')
   })()
 
-  const items = (await getGeckoInfo(pplID, jwtStr, jwtObj)).filter(x =>
-    x.region?.includes(region ?? ''),
-  )
+  const items = await getGeckoInfo(pplID, jwtStr, jwtObj, region)
 
   if (items.length <= 0) {
     log.error(
@@ -72,6 +70,7 @@ async function getGeckoInfo(
   pipelineId: string | number,
   jwtToken: string,
   jwtObj: JwtUserInfo,
+  region: string | undefined,
 ): Promise<GeckoInfoItem[]> {
   const { response, getJson } = await getRunInfoByPipelineID(
     {
@@ -100,12 +99,14 @@ async function getGeckoInfo(
     )
   }
 
-  const items = extractGeckoInfoFromRuns(data.pipelineRuns)
+  const items = extractGeckoInfoFromRuns(data.pipelineRuns).filter(x =>
+    x.region?.includes(region ?? ''),
+  )
   if (items.length) return items
 
   const newPipelineID = await tryMaybeURLs(pipelineId, data.pipelineRuns)
   if (newPipelineID) {
-    return getGeckoInfo(newPipelineID, jwtToken, jwtObj)
+    return getGeckoInfo(newPipelineID, jwtToken, jwtObj, region)
   }
 
   const selectedRunId = await selectRunIdFromRecentRuns(
