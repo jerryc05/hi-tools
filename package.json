@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/jerryc05/hi-tools.git"
   },
+  "type": "module",
   "bin": {
     "hi": "bin/cli.mjs"
   },
@@ -39,5 +40,12 @@
     "trash": "^10.1.1",
     "xxhash-wasm": "^1.1.0"
   },
-  "type": "module"
+  "overrides": {
+    "jsonwebtoken": "^9"
+  },
+  "pnpm": {
+    "overrides": {
+      "jsonwebtoken": "^9"
+    }
+  }
 }
