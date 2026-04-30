@@ -156,6 +156,17 @@
       ],
       "format": "esm"
     },
+    "src/services/tt/bits.ts": {
+      "bytes": 1567,
+      "imports": [
+        {
+          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "src/utils/cli.ts": {
       "bytes": 56,
       "imports": [
@@ -215,12 +226,17 @@
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 4242,
+      "bytes": 4151,
       "imports": [
         {
           "path": "picocolors",
           "kind": "import-statement",
           "external": true
+        },
+        {
+          "path": "src/services/tt/bits.ts",
+          "kind": "import-statement",
+          "original": "@/services/tt/bits"
         },
         {
           "path": "src/utils/cli.ts",
@@ -567,7 +583,7 @@
           "bytesInOutput": 1538
         },
         "src/commands/mdns.ts": {
-          "bytesInOutput": 181
+          "bytesInOutput": 183
         },
         "src/utils/logger.ts": {
           "bytesInOutput": 398
@@ -582,7 +598,10 @@
           "bytesInOutput": 188
         },
         "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2364
+          "bytesInOutput": 2217
+        },
+        "src/services/tt/bits.ts": {
+          "bytesInOutput": 343
         },
         "src/utils/cli.ts": {
           "bytesInOutput": 42
@@ -606,7 +625,7 @@
           "bytesInOutput": 1852
         }
       },
-      "bytes": 12264
+      "bytes": 12462
     }
   }
 }

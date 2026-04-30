@@ -1,11 +1,10 @@
 import pc from 'picocolors'
+import { getRunInfoByPipelineID } from '@/services/tt/bits'
+import type { GeckoPackageInfo } from '@/types/tt/gecko-package'
 import type { HiCommand } from '../../types'
-import type { Data, GeckoPackageInfo } from '../../types/gecko'
 import { cli } from '../../utils/cli'
 import { formatDate } from '../../utils/format-date'
-import { getJwt } from '../../utils/jwt'
-
-const API_BASE_URL = 'https://bits.bytedance.net'
+import { getJwt, type JwtUserInfo } from '../../utils/jwt'
 
 function getPipelineIDFromURL(url: string) {
   const regex = /\bpipelineId=(\d+)\b/
@@ -23,19 +22,18 @@ function getPipelineIDFromURL(url: string) {
 
 async function getGeckoInfo(
   pipelineId: string | number,
-  token: string,
-  username: string,
+  jwtToken: string,
+  jwtObj: JwtUserInfo,
 ) {
-  const url = `${API_BASE_URL}/api/v1/pipelines/runs?pipelineId=${pipelineId}&pageSize=1&pageNum=1`
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-jwt-token': token,
-      username,
+  const { response, getJson } = await getRunInfoByPipelineID(
+    {
+      pipelineId,
+      pageSize: 1,
+      withoutJob: false,
     },
-  })
+    jwtToken,
+    jwtObj,
+  )
 
   if (!response.ok) {
     throw new Error(
@@ -43,7 +41,7 @@ async function getGeckoInfo(
     )
   }
 
-  const data: Data = await response.json()
+  const data = await getJson()
   if (data.count <= 0) {
     throw new Error(
       `接口返回异常: count <= 0\n${JSON.stringify(data, null, 1)}`,
@@ -109,7 +107,7 @@ async function main({
     return getPipelineIDFromURL(url ?? '')
   })()
 
-  const items = (await getGeckoInfo(pplID, jwtStr, jwtObj.username)).filter(x =>
+  const items = (await getGeckoInfo(pplID, jwtStr, jwtObj)).filter(x =>
     x?.region.includes(region ?? ''),
   )
 

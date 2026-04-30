@@ -41,6 +41,9 @@
     "skipLibCheck": true,
 
     "module": "preserve",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }
