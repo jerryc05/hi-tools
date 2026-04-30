@@ -1,6 +1,6 @@
 {
   "name": "@jerryc05/hi-tools",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A collection of my everyday SDE tools.",
   "scripts": {
     "pub": "npm run build && npm version patch && npm publish --access public && git push",
