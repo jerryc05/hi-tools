@@ -1,4 +1,4 @@
-import { cancel, isCancel, note, select } from '@clack/prompts'
+import { cancel, isCancel, log, note, select } from '@clack/prompts'
 import pc from 'picocolors'
 import { getRunDetailByRunID, getRunInfoByPipelineID } from '@/services/tt/bits'
 import type { HiCommand } from '@/types'
@@ -7,7 +7,6 @@ import { type PipelineRun, RunStatus } from '@/types/tt/pipelines-runs'
 import { cli } from '@/utils/cli'
 import { formatDate } from '@/utils/format-date'
 import { getJwt, type JwtUserInfo } from '@/utils/jwt'
-import { begin, fail } from '@/utils/logger'
 
 type GeckoInfoItem = {
   qrCodeScheme: string
@@ -19,7 +18,6 @@ type GeckoInfoItem = {
   envs: string[]
   runId: string
   runSeq: string
-  pipelineRunUrl: string
 }
 
 async function main({
@@ -45,9 +43,10 @@ async function main({
   )
 
   if (items.length <= 0) {
-    fail(
+    log.error(
       `No Gecko info found${region ? ` matching region [${region}]` : ''} in latest run`,
     )
+    return
   }
 
   const { default: QRCode } = await import('qrcode')
@@ -85,7 +84,7 @@ async function getGeckoInfo(
   )
 
   if (!response.ok) {
-    fail(
+    log.error(
       `[getRunInfoByPipelineID] failed: ${response.status} ${response.statusText}\n${await response.text()}`,
     )
     process.exit(1)
@@ -94,15 +93,20 @@ async function getGeckoInfo(
   const data = await getJson()
 
   if (data.pipelineRuns[0]?.runStatus !== RunStatus.SUCCESS) {
-    begin(
-      `Latest run (runId=${data.pipelineRuns[0]?.runId} ${formatStatusText(
+    log.warn(
+      `Latest run (runId=${data.pipelineRuns[0]?.runId}) status=${formatStatusText(
         data.pipelineRuns[0]?.runStatus,
-      )}) is still running or not successful. Gecko info may be unavailable.`,
+      )}. Gecko info may be unavailable.`,
     )
   }
 
   const items = extractGeckoInfoFromRuns(data.pipelineRuns)
   if (items.length) return items
+
+  const newPipelineID = await tryMaybeURLs(pipelineId, data.pipelineRuns)
+  if (newPipelineID) {
+    return getGeckoInfo(newPipelineID, jwtToken, jwtObj)
+  }
 
   const selectedRunId = await selectRunIdFromRecentRuns(
     pipelineId,
@@ -167,7 +171,6 @@ function extractGeckoInfoFromRuns(pipelineRuns: PipelineRun<false>[]) {
               envs,
               runId: run.runId,
               runSeq: run.runSeq,
-              pipelineRunUrl: run.pipelineRunUrl,
             }
             return geckoInfoItem
           } catch (err) {
@@ -178,6 +181,54 @@ function extractGeckoInfoFromRuns(pipelineRuns: PipelineRun<false>[]) {
         .filter(x => x != null),
     )
     .filter(x => !!x)
+}
+
+async function tryMaybeURLs(
+  currentPplID: string | number,
+  pipelineRuns: PipelineRun<boolean>[],
+) {
+  const maybeUrlInfoList = pipelineRuns.flatMap(run =>
+    run.jobs
+      .map(job => job.jobAtom.inputs?.trigger_params)
+      .filter(x => !!x)
+      .filter(x => x.detail_url.length),
+  )
+  if (!maybeUrlInfoList.length) {
+    return
+  }
+
+  note(
+    `Found ${maybeUrlInfoList.length} possible alternative pipeline you might want to use instead.`,
+    'Mistyped the URL?',
+  )
+
+  const options = [
+    {
+      value: '',
+      label: `(Keep current pipeline id=${currentPplID})`,
+      hint: 'Will not change pipeline',
+    },
+  ].concat(
+    maybeUrlInfoList.map(x => ({
+      value: getPipelineIDFromURL(x.detail_url),
+      label: `${pc.underline(x.development_task_name)} by ${x.developer.join(',')}`,
+      hint: x.detail_url,
+    })),
+  )
+
+  const selectedPipelineID = await select({
+    message:
+      'Select a pipeline to change, or cancel [ESC] to use the current pipeline.',
+    options,
+  })
+
+  if (isCancel(selectedPipelineID) || !selectedPipelineID) {
+    cancel('Keep using current pipeline')
+    return
+  }
+
+  log.success(`Using new pipeline id=${selectedPipelineID}`)
+  return selectedPipelineID
 }
 
 async function selectRunIdFromRecentRuns(
@@ -197,7 +248,7 @@ async function selectRunIdFromRecentRuns(
   )
 
   if (!response.ok) {
-    fail(
+    log.error(
       `[getRunInfoByPipelineID] failed: ${response.status} ${response.statusText}\n${await response.text()}`,
     )
     process.exit(1)
@@ -205,15 +256,15 @@ async function selectRunIdFromRecentRuns(
 
   const data = await getJson()
   if (data.pipelineRuns.length <= 0) {
-    fail(
+    log.error(
       `No pipeline runs found in the most recent ${N} runs\n${JSON.stringify(data, null, 1)}`,
     )
     process.exit(1)
   }
 
   note(
-    'The latest pipeline run may still be running/failed. Please select a historical run to inspect.',
-    'Historical run selection required',
+    'The latest pipeline run may be ongoing/failed. Try a previous run to inspect.',
+    'Select a previous run',
   )
 
   const options = data.pipelineRuns.map(run => {
@@ -252,7 +303,7 @@ async function getGeckoInfoByRunId(
   )
 
   if (!response.ok) {
-    fail(
+    log.error(
       `[getRunDetailByRunID] failed: ${response.status} ${response.statusText}\n${await response.text()}`,
     )
     process.exit(1)
@@ -271,6 +322,8 @@ function formatStatusText(status: number | undefined) {
       return pc.gray('CANCELLED')
     case RunStatus.SUCCESS:
       return pc.green('SUCCESS')
+    case RunStatus.FAILURE:
+      return pc.red('FAILURE')
   }
   return `status=${status}`
 }

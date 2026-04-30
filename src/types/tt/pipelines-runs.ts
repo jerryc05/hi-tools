@@ -22,7 +22,6 @@ export interface PipelineRun<WithoutJobDetail extends boolean> {
   jobs: (WithoutJobDetail extends true ? never : Job2)[]
   assignmentIds: string[]
   artifactCount: number
-  pipelineRunUrl: string
   createdAt: string
   createdBy: string
   startedAt: string
@@ -35,6 +34,7 @@ export const RunStatus = {
   RUNNING: 2,
   CANCELLED: 7,
   SUCCESS: 8,
+  FAILURE: 9,
 }
 export type RunStatus = (typeof RunStatus)[keyof typeof RunStatus]
 
@@ -61,8 +61,20 @@ interface Job2 {
 
 interface JobAtom {
   uniqueId: string
+  inputs?: Inputs
   output?: Output | null
 }
+
+interface Inputs {
+  trigger_params?: TriggerParams
+}
+
+interface TriggerParams {
+  detail_url: string
+  developer: string[]
+  development_task_name: string
+}
+
 interface Output {
   GECKO_packageInfo?: string
   GECKO_region?: string
