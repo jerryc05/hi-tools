@@ -53,6 +53,7 @@ interface Job2 {
 }
 
 interface JobAtom {
+  uniqueId: string
   output?: Output
 }
 interface Output {

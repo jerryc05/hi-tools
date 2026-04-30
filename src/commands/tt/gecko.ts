@@ -1,6 +1,7 @@
 import pc from 'picocolors'
 import { getRunInfoByPipelineID } from '@/services/tt/bits'
 import type { GeckoPackageInfo } from '@/types/tt/gecko-package'
+import { info } from '@/utils/logger'
 import type { HiCommand } from '../../types'
 import { cli } from '../../utils/cli'
 import { formatDate } from '../../utils/format-date'
@@ -42,6 +43,20 @@ async function getGeckoInfo(
   }
 
   const data = await getJson()
+  console.log()
+
+  {
+    const { count, blockingCount, runningCount } = data
+    if (blockingCount > 0)
+      info(
+        `Found ${blockingCount}/${count} blocking run(s)! Gecko build may have failed!`,
+      )
+    if (runningCount > 0)
+      info(
+        `Found ${runningCount}/${count} running run(s)! Gecko maybe still building!`,
+      )
+  }
+
   if (data.count <= 0) {
     throw new Error(
       `接口返回异常: count <= 0\n${JSON.stringify(data, null, 1)}`,
