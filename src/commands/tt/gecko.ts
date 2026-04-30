@@ -95,11 +95,9 @@ async function getGeckoInfo(
 
   if (data.pipelineRuns[0]?.runStatus !== RunStatus.SUCCESS) {
     begin(
-      `Latest run runId=${
-        data.pipelineRuns[0]?.runId
-      } is not completed or is not successful. Gecko info may be unavailable. (status=${formatStatusText(
+      `Latest run (runId=${data.pipelineRuns[0]?.runId} ${formatStatusText(
         data.pipelineRuns[0]?.runStatus,
-      )}`,
+      )}) is still running or not successful. Gecko info may be unavailable.`,
     )
   }
 
