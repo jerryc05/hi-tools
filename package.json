@@ -1,6 +1,6 @@
 {
   "name": "@jerryc05/hi-tools",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "scripts": {
     "pub": "npm run build && npm version patch && npm publish --access public && git push",
     "build": "node build.js",
