@@ -1,4 +1,4 @@
-export function formatDate(date: Date) {
+export function formatDate(date: ConstructorParameters<typeof Date>[0]) {
   return new Intl.DateTimeFormat('zh-CN', {
     year: 'numeric',
     month: '2-digit',
@@ -7,5 +7,5 @@ export function formatDate(date: Date) {
     minute: '2-digit',
     second: '2-digit',
     timeZoneName: 'short',
-  }).format(date)
+  }).format(new Date(date))
 }

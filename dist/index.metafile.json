@@ -1,7 +1,7 @@
 {
   "inputs": {
     "package.json": {
-      "bytes": 842,
+      "bytes": 907,
       "imports": [],
       "format": "esm",
       "with": {
@@ -17,7 +17,7 @@
       "bytes": 2715,
       "imports": [
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
@@ -33,7 +33,7 @@
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
@@ -49,7 +49,7 @@
           "original": "../index"
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
@@ -70,7 +70,7 @@
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
@@ -86,7 +86,7 @@
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
@@ -102,7 +102,7 @@
           "original": "../utils/logger"
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
@@ -128,7 +128,7 @@
           "original": "../utils/logger"
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
@@ -144,7 +144,7 @@
       "bytes": 339,
       "imports": [
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
@@ -156,117 +156,748 @@
       ],
       "format": "esm"
     },
-    "src/services/tt/bits.ts": {
-      "bytes": 1567,
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/can-promise.js": {
+      "bytes": 275,
       "imports": [
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
       ],
-      "format": "esm"
+      "format": "cjs"
     },
-    "src/utils/cli.ts": {
-      "bytes": 56,
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js": {
+      "bytes": 1621,
       "imports": [
         {
-          "path": "cac",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
       ],
-      "format": "esm"
+      "format": "cjs"
     },
-    "src/utils/format-date.ts": {
-      "bytes": 262,
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-level.js": {
+      "bytes": 893,
       "imports": [
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
       ],
-      "format": "esm"
+      "format": "cjs"
     },
-    "src/utils/jwt.ts": {
-      "bytes": 1107,
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/bit-buffer.js": {
+      "bytes": 719,
       "imports": [
         {
-          "path": "picocolors",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "src/utils/logger.ts",
-          "kind": "import-statement",
-          "original": "../utils/logger"
-        },
-        {
-          "path": "src/utils/format-date.ts",
-          "kind": "import-statement",
-          "original": "./format-date"
-        },
-        {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "@byted/aipaas-auth",
-          "kind": "dynamic-import",
           "external": true
         }
       ],
-      "format": "esm"
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/bit-matrix.js": {
+      "bytes": 1501,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/alignment-pattern.js": {
+      "bytes": 2996,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/finder-pattern.js": {
+      "bytes": 599,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mask-pattern.js": {
+      "bytes": 6101,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-code.js": {
+      "bytes": 3415,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-level.js",
+          "kind": "require-call",
+          "original": "./error-correction-level"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/galois-field.js": {
+      "bytes": 1899,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/polynomial.js": {
+      "bytes": 1589,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/galois-field.js",
+          "kind": "require-call",
+          "original": "./galois-field"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/reed-solomon-encoder.js": {
+      "bytes": 1625,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/polynomial.js",
+          "kind": "require-call",
+          "original": "./polynomial"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version-check.js": {
+      "bytes": 268,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/regex.js": {
+      "bytes": 1084,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js": {
+      "bytes": 3983,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version-check.js",
+          "kind": "require-call",
+          "original": "./version-check"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/regex.js",
+          "kind": "require-call",
+          "original": "./regex"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version.js": {
+      "bytes": 4928,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-code.js",
+          "kind": "require-call",
+          "original": "./error-correction-code"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-level.js",
+          "kind": "require-call",
+          "original": "./error-correction-level"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version-check.js",
+          "kind": "require-call",
+          "original": "./version-check"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/format-info.js": {
+      "bytes": 1126,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/numeric-data.js": {
+      "bytes": 1211,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/alphanumeric-data.js": {
+      "bytes": 1822,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/byte-data.js": {
+      "bytes": 675,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/kanji-data.js": {
+      "bytes": 1584,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/segments.js": {
+      "bytes": 9331,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/numeric-data.js",
+          "kind": "require-call",
+          "original": "./numeric-data"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/alphanumeric-data.js",
+          "kind": "require-call",
+          "original": "./alphanumeric-data"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/byte-data.js",
+          "kind": "require-call",
+          "original": "./byte-data"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/kanji-data.js",
+          "kind": "require-call",
+          "original": "./kanji-data"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/regex.js",
+          "kind": "require-call",
+          "original": "./regex"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        },
+        {
+          "path": "dijkstrajs",
+          "kind": "require-call",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/qrcode.js": {
+      "bytes": 15128,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-level.js",
+          "kind": "require-call",
+          "original": "./error-correction-level"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/bit-buffer.js",
+          "kind": "require-call",
+          "original": "./bit-buffer"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/bit-matrix.js",
+          "kind": "require-call",
+          "original": "./bit-matrix"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/alignment-pattern.js",
+          "kind": "require-call",
+          "original": "./alignment-pattern"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/finder-pattern.js",
+          "kind": "require-call",
+          "original": "./finder-pattern"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mask-pattern.js",
+          "kind": "require-call",
+          "original": "./mask-pattern"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-code.js",
+          "kind": "require-call",
+          "original": "./error-correction-code"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/reed-solomon-encoder.js",
+          "kind": "require-call",
+          "original": "./reed-solomon-encoder"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version.js",
+          "kind": "require-call",
+          "original": "./version"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/format-info.js",
+          "kind": "require-call",
+          "original": "./format-info"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js",
+          "kind": "require-call",
+          "original": "./mode"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/segments.js",
+          "kind": "require-call",
+          "original": "./segments"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utils.js": {
+      "bytes": 2894,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/png.js": {
+      "bytes": 1776,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "pngjs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utf8.js": {
+      "bytes": 1579,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        },
+        {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal/terminal.js": {
+      "bytes": 1220,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal/terminal-small.js": {
+      "bytes": 2398,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal.js": {
+      "bytes": 271,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal/terminal.js",
+          "kind": "require-call",
+          "original": "./terminal/terminal"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal/terminal-small.js",
+          "kind": "require-call",
+          "original": "./terminal/terminal-small"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg-tag.js": {
+      "bytes": 1971,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg.js": {
+      "bytes": 532,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg-tag.js",
+          "kind": "require-call",
+          "original": "./svg-tag"
+        },
+        {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/canvas.js": {
+      "bytes": 1501,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utils.js",
+          "kind": "require-call",
+          "original": "./utils"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/browser.js": {
+      "bytes": 1886,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/can-promise.js",
+          "kind": "require-call",
+          "original": "./can-promise"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/qrcode.js",
+          "kind": "require-call",
+          "original": "./core/qrcode"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/canvas.js",
+          "kind": "require-call",
+          "original": "./renderer/canvas"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg-tag.js",
+          "kind": "require-call",
+          "original": "./renderer/svg-tag.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/server.js": {
+      "bytes": 3571,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/can-promise.js",
+          "kind": "require-call",
+          "original": "./can-promise"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/qrcode.js",
+          "kind": "require-call",
+          "original": "./core/qrcode"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/png.js",
+          "kind": "require-call",
+          "original": "./renderer/png"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utf8.js",
+          "kind": "require-call",
+          "original": "./renderer/utf8"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal.js",
+          "kind": "require-call",
+          "original": "./renderer/terminal"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg.js",
+          "kind": "require-call",
+          "original": "./renderer/svg"
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/browser.js",
+          "kind": "require-call",
+          "original": "./browser"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/index.js": {
+      "bytes": 303,
+      "imports": [
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/server.js",
+          "kind": "require-call",
+          "original": "./server"
+        }
+      ],
+      "format": "cjs"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 4541,
+      "bytes": 7812,
       "imports": [
+        {
+          "path": "@clack/prompts",
+          "kind": "import-statement",
+          "external": true
+        },
         {
           "path": "picocolors",
           "kind": "import-statement",
           "external": true
         },
         {
-          "path": "src/services/tt/bits.ts",
-          "kind": "import-statement",
-          "original": "@/services/tt/bits"
-        },
-        {
-          "path": "src/utils/logger.ts",
-          "kind": "import-statement",
-          "original": "@/utils/logger"
-        },
-        {
-          "path": "src/utils/cli.ts",
-          "kind": "import-statement",
-          "original": "../../utils/cli"
-        },
-        {
-          "path": "src/utils/format-date.ts",
-          "kind": "import-statement",
-          "original": "../../utils/format-date"
-        },
-        {
-          "path": "src/utils/jwt.ts",
-          "kind": "import-statement",
-          "original": "../../utils/jwt"
-        },
-        {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "@/services/tt/bits",
           "kind": "import-statement",
           "external": true
         },
         {
-          "path": "qrcode",
+          "path": "@/utils/cli",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@/utils/format-date",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@/utils/jwt",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@/utils/logger",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/index.js",
           "kind": "dynamic-import",
-          "external": true
+          "original": "qrcode"
         }
       ],
       "format": "esm"
@@ -280,7 +911,7 @@
           "external": true
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
@@ -311,7 +942,7 @@
           "original": "./i18n"
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
@@ -322,13 +953,29 @@
       "bytes": 637,
       "imports": [
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
         {
           "path": "execa",
           "kind": "dynamic-import",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/utils/cli.ts": {
+      "bytes": 56,
+      "imports": [
+        {
+          "path": "cac",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
+          "kind": "import-statement",
           "external": true
         }
       ],
@@ -348,7 +995,7 @@
           "original": "../utils/cli"
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         },
@@ -442,7 +1089,7 @@
           "original": "./utils/logger"
         },
         {
-          "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
+          "path": "D:\\MyDocuments\\Coding\\hi-tool\\src\\polyfill.js",
           "kind": "import-statement",
           "external": true
         }
@@ -454,6 +1101,46 @@
     "dist/index.js": {
       "imports": [
         {
+          "path": "dijkstrajs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "pngjs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "fs",
+          "kind": "require-call",
+          "external": true
+        },
+        {
+          "path": "node:fs/promises",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node:os",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "node:path",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
           "path": "node:os",
           "kind": "import-statement",
           "external": true
@@ -494,12 +1181,7 @@
           "external": true
         },
         {
-          "path": "picocolors",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "cac",
+          "path": "@clack/prompts",
           "kind": "import-statement",
           "external": true
         },
@@ -509,13 +1191,28 @@
           "external": true
         },
         {
-          "path": "@byted/aipaas-auth",
-          "kind": "dynamic-import",
+          "path": "@/services/tt/bits",
+          "kind": "import-statement",
           "external": true
         },
         {
-          "path": "qrcode",
-          "kind": "dynamic-import",
+          "path": "@/utils/cli",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@/utils/format-date",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@/utils/jwt",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@/utils/logger",
+          "kind": "import-statement",
           "external": true
         },
         {
@@ -534,6 +1231,11 @@
           "external": true
         },
         {
+          "path": "cac",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
           "path": "execa",
           "kind": "dynamic-import",
           "external": true
@@ -545,67 +1247,163 @@
       "entryPoint": "src/index.ts",
       "inputs": {
         "src/polyfill.js": {
-          "bytesInOutput": 134
+          "bytesInOutput": 163
         },
-        "package.json": {
-          "bytesInOutput": 613
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/can-promise.js": {
+          "bytesInOutput": 125
         },
-        "src/commands/bm.ts": {
-          "bytesInOutput": 230
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/utils.js": {
+          "bytesInOutput": 717
         },
-        "src/commands/ips.ts": {
-          "bytesInOutput": 398
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-level.js": {
+          "bytesInOutput": 492
         },
-        "src/commands/luban.ts": {
-          "bytesInOutput": 1538
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/bit-buffer.js": {
+          "bytesInOutput": 440
         },
-        "src/commands/mdns.ts": {
-          "bytesInOutput": 181
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/bit-matrix.js": {
+          "bytesInOutput": 510
         },
-        "src/utils/logger.ts": {
-          "bytesInOutput": 398
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/alignment-pattern.js": {
+          "bytesInOutput": 429
         },
-        "src/commands/mm.ts": {
-          "bytesInOutput": 798
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/finder-pattern.js": {
+          "bytesInOutput": 123
         },
-        "src/commands/tschk.ts": {
-          "bytesInOutput": 608
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mask-pattern.js": {
+          "bytesInOutput": 1962
         },
-        "src/commands/tt/bam.ts": {
-          "bytesInOutput": 188
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/error-correction-code.js": {
+          "bytesInOutput": 1474
         },
-        "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2408
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/galois-field.js": {
+          "bytesInOutput": 351
         },
-        "src/services/tt/bits.ts": {
-          "bytesInOutput": 341
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/polynomial.js": {
+          "bytesInOutput": 508
         },
-        "src/utils/cli.ts": {
-          "bytesInOutput": 42
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/reed-solomon-encoder.js": {
+          "bytesInOutput": 511
         },
-        "src/utils/format-date.ts": {
-          "bytesInOutput": 181
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version-check.js": {
+          "bytesInOutput": 73
         },
-        "src/utils/jwt.ts": {
-          "bytesInOutput": 352
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/regex.js": {
+          "bytesInOutput": 751
         },
-        "src/commands/tt/i18n.ts": {
-          "bytesInOutput": 608
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/mode.js": {
+          "bytesInOutput": 1069
         },
-        "src/commands/tt/index.tsx": {
-          "bytesInOutput": 23
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/version.js": {
+          "bytesInOutput": 1252
         },
-        "src/commands/upgrade.ts": {
-          "bytesInOutput": 381
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/format-info.js": {
+          "bytesInOutput": 205
         },
-        "src/commands/wup.ts": {
-          "bytesInOutput": 1852
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/numeric-data.js": {
+          "bytesInOutput": 530
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/alphanumeric-data.js": {
+          "bytesInOutput": 689
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/byte-data.js": {
+          "bytesInOutput": 435
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/kanji-data.js": {
+          "bytesInOutput": 581
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/segments.js": {
+          "bytesInOutput": 2720
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/core/qrcode.js": {
+          "bytesInOutput": 3356
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utils.js": {
+          "bytesInOutput": 1408
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/png.js": {
+          "bytesInOutput": 871
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/utf8.js": {
+          "bytesInOutput": 740
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal/terminal.js": {
+          "bytesInOutput": 304
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal/terminal-small.js": {
+          "bytesInOutput": 732
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/terminal.js": {
+          "bytesInOutput": 119
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg-tag.js": {
+          "bytesInOutput": 924
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/svg.js": {
+          "bytesInOutput": 305
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/renderer/canvas.js": {
+          "bytesInOutput": 771
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/browser.js": {
+          "bytesInOutput": 811
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/server.js": {
+          "bytesInOutput": 1622
+        },
+        "node_modules/.pnpm/qrcode@1.5.4/node_modules/qrcode/lib/index.js": {
+          "bytesInOutput": 41
         },
         "src/index.ts": {
-          "bytesInOutput": 484
+          "bytesInOutput": 557
+        },
+        "package.json": {
+          "bytesInOutput": 663
+        },
+        "src/commands/bm.ts": {
+          "bytesInOutput": 235
+        },
+        "src/commands/ips.ts": {
+          "bytesInOutput": 405
+        },
+        "src/commands/luban.ts": {
+          "bytesInOutput": 1545
+        },
+        "src/commands/mdns.ts": {
+          "bytesInOutput": 188
+        },
+        "src/commands/mm.ts": {
+          "bytesInOutput": 810
+        },
+        "src/utils/logger.ts": {
+          "bytesInOutput": 341
+        },
+        "src/commands/tschk.ts": {
+          "bytesInOutput": 616
+        },
+        "src/commands/tt/index.tsx": {
+          "bytesInOutput": 31
+        },
+        "src/commands/tt/bam.ts": {
+          "bytesInOutput": 193
+        },
+        "src/commands/tt/gecko.ts": {
+          "bytesInOutput": 4328
+        },
+        "src/commands/tt/i18n.ts": {
+          "bytesInOutput": 613
+        },
+        "src/commands/upgrade.ts": {
+          "bytesInOutput": 386
+        },
+        "src/commands/wup.ts": {
+          "bytesInOutput": 1857
+        },
+        "src/utils/cli.ts": {
+          "bytesInOutput": 46
         }
       },
-      "bytes": 11805
+      "bytes": 41797
     }
   }
 }

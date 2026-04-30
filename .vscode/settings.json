@@ -3,8 +3,10 @@
     "byted",
     "luban",
     "mdns",
+    "qrcode",
     "signale",
     "sortjson",
-    "tschk"
+    "tschk",
+    "xxhash"
   ]
 }

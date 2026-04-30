@@ -41,7 +41,7 @@ export async function getJwt() {
   hello(
     `Hi ${pc.magenta(jwtObj.username)} from ${pc.blue(`${jwtObj.scope} ${jwtObj.work_country}`)}`,
   )
-  info(`  Login will expire on ${formatDate(new Date(jwtObj.exp * 1000))}`)
+  info(`  Login will expire on ${formatDate(jwtObj.exp * 1000)}`)
 
   return { jwtStr, jwtObj }
 }
