@@ -18,17 +18,9 @@ export const PKG_JSON_OBJ = JSON.parse(
   await readFile(join(import.meta.dirname, '../package.json'), 'utf8'),
 )
 
-if (process.argv.includes('--quiet')) process.exit(0)
-
 if (PKG_JSON_OBJ) {
   log.info(`${PKG_JSON_OBJ.name} v${PKG_JSON_OBJ.version}`)
 }
-
-//
-//
-//
-//
-//
 
 const allCommands: HiCommand[] = [
   ...upgrade,
@@ -50,11 +42,5 @@ for (const { cmd, options, examples, action } of allCommands) {
 }
 
 cli.version(PKG_JSON_OBJ.version).help()
-cli
-  .command('', 'Print help message')
-  .option('--quiet', 'Silently quit')
-  .action(({ quiet }: { quiet: boolean }) => {
-    if (quiet) return
-    cli.outputHelp()
-  })
+cli.command('', 'Print help message').action(cli.outputHelp)
 cli.parse()
