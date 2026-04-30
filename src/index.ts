@@ -1,9 +1,6 @@
 #!/usr/bin/env node
-
-import { readFile, writeFile } from 'node:fs/promises'
-import { tmpdir } from 'node:os'
+import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import PKG_JSON_OBJ from '../package.json' with { type: 'json' }
 import bm from './commands/bm'
 import ips from './commands/ips'
 import luban from './commands/luban'
@@ -17,7 +14,9 @@ import type { HiCommand } from './types'
 import { cli } from './utils/cli'
 import { info } from './utils/logger'
 
-export { PKG_JSON_OBJ }
+export const PKG_JSON_OBJ = JSON.parse(
+  await readFile(join(import.meta.dirname, '../package.json'), 'utf8'),
+)
 
 if (process.argv.includes('--quiet')) process.exit(0)
 
