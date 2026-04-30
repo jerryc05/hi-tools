@@ -37,18 +37,17 @@ export default [
         })
 
         if (lines.length > 0) {
+          s.stop('Type-check failed')
           lines.map(l => console.log(l))
-          s.stop('Type-check completed')
-          log.error('Type-check failed!')
+          log.error('Type-check failed')
           process.exit(1)
         } else {
-          s.stop('Type-check completed')
-          log.success('Type-check passed!')
+          s.stop('Type-check passed')
         }
       } catch (err) {
-        s.stop('Type-check completed')
-        log.error('Type-check failed!')
+        s.stop('Type-check failed')
         console.error(err)
+        log.error('Type-check failed')
         process.exit(1)
       }
     },
