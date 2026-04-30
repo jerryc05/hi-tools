@@ -99,9 +99,7 @@ async function getGeckoInfo(
     )
   }
 
-  const items = extractGeckoInfoFromRuns(data.pipelineRuns).filter(x =>
-    x.region?.includes(region ?? ''),
-  )
+  const items = extractGeckoInfoFromRuns(data.pipelineRuns, region)
   if (items.length) return items
 
   const newPipelineID = await tryMaybeURLs(pipelineId, data.pipelineRuns)
@@ -118,21 +116,10 @@ async function getGeckoInfo(
   return await getGeckoInfoByRunId(selectedRunId, jwtToken, jwtObj)
 }
 
-function getPipelineIDFromURL(url: string) {
-  const regex = /\bpipelineId=(\d+)\b/
-  const match = url.match(regex)
-  if (match?.[1]) return match[1]
-  throw new Error(
-    `Invalid URL. Expecting a url containing ${pc.bold(pc.yellow('pipelineId'))} query param. E.g. ` +
-      pc.underline(
-        pc.gray(
-          `https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&${pc.bold(pc.magenta('pipelineId=1139212901634'))}&stage=dev_gatekeeper_stage`,
-        ),
-      ),
-  )
-}
-
-function extractGeckoInfoFromRuns(pipelineRuns: PipelineRun<false>[]) {
+function extractGeckoInfoFromRuns(
+  pipelineRuns: PipelineRun<false>[],
+  regionFilter?: string,
+) {
   return pipelineRuns
     .flatMap(run =>
       run.jobs
@@ -142,6 +129,9 @@ function extractGeckoInfoFromRuns(pipelineRuns: PipelineRun<false>[]) {
             if (!output) return null
             const packageInfoStr = output.GECKO_packageInfo
             if (!packageInfoStr) return null
+
+            const region = output.GECKO_region
+            if (!regionFilter || !region?.includes(regionFilter)) return null
 
             const info: GeckoPackageInfo = JSON.parse(packageInfoStr)
 
@@ -153,18 +143,14 @@ function extractGeckoInfoFromRuns(pipelineRuns: PipelineRun<false>[]) {
               creator,
               distributeRule,
             } = info.package
-
             const { scmVersion } = candidatePackage
-
             const updatedDate = formatDate(
               Number.parseInt(updatedAt, 10) * 1000,
             )
-
             const envs = distributeRule.envLaneList.flatMap(l => l.values)
-
             const geckoInfoItem: GeckoInfoItem = {
               qrCodeScheme,
-              region: output.GECKO_region,
+              region,
               scmVersion,
               channel,
               updatedDate,
@@ -309,6 +295,20 @@ async function getGeckoInfoByRunId(
   const data = await getJson()
   const items = extractGeckoInfoFromRuns([data.pipelineRun])
   return items
+}
+
+function getPipelineIDFromURL(url: string) {
+  const regex = /\bpipelineId=(\d+)\b/
+  const match = url.match(regex)
+  if (match?.[1]) return match[1]
+  throw new Error(
+    `Invalid URL. Expecting a url containing ${pc.bold(pc.yellow('pipelineId'))} query param. E.g. ` +
+      pc.underline(
+        pc.gray(
+          `https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&${pc.bold(pc.magenta('pipelineId=1139212901634'))}&stage=dev_gatekeeper_stage`,
+        ),
+      ),
+  )
 }
 
 function formatStatusText(status: number | undefined) {
