@@ -3,7 +3,7 @@
   "version": "0.1.8",
   "description": "A collection of my everyday SDE tools.",
   "scripts": {
-    "pub": "npm run build && npm version patch && npm publish --access public && git push",
+    "pub": "npm run build && npm version patch && npm login --registry https://registry.npmjs.org && npm publish --access public && git push",
     "build": "node build.js",
     "prepare": "husky"
   },
