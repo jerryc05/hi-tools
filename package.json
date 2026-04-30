@@ -2,7 +2,7 @@
   "name": "@jerryc05/hi-tools",
   "version": "0.0.16",
   "scripts": {
-    "pub": "npm version patch --no-git-tag-version && npm publish --access public",
+    "pub": "npm version patch && npm publish --access public",
     "build": "node build.js",
     "prepare": "husky"
   },
