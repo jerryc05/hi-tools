@@ -10,7 +10,7 @@ import { getJwt, type JwtUserInfo } from '@/utils/jwt'
 import { begin, fail } from '@/utils/logger'
 
 type GeckoInfoItem = {
-  qrCodeScheme: string | undefined
+  qrCodeScheme: string
   region: string | undefined
   scmVersion: string
   channel: string
