@@ -220,7 +220,7 @@ async function selectRunIdFromRecentRuns(
   )
 
   const options = data.pipelineRuns.map(run => {
-    const status = `status=${run.runStatus}`
+    const status = formatStatusText(run.runStatus)
     const time = formatRunTime(run)
     const by = run.triggerInfo?.triggeredBy || run.createdBy || '?'
     return {
@@ -231,7 +231,7 @@ async function selectRunIdFromRecentRuns(
   })
 
   const selectedRunId = await select({
-    message: 'Select the pipeline run to inspect',
+    message: 'Select the run ID to inspect',
     options,
   })
 
@@ -264,6 +264,18 @@ async function getGeckoInfoByRunId(
   const data = await getJson()
   const items = extractGeckoInfoFromRuns([data.pipelineRun])
   return items
+}
+
+function formatStatusText(status: number) {
+  switch (status) {
+    case 2:
+      return pc.blue('RUNNING')
+    case 7:
+      return pc.gray('CANCELLED')
+    case 8:
+      return pc.green('SUCCESS')
+  }
+  return `status=${status}`
 }
 
 function formatRunTime(run: PipelineRun<boolean>) {
