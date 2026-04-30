@@ -124,7 +124,7 @@ function getPipelineIDFromURL(url: string) {
     `Invalid URL. Expecting a url containing ${pc.bold(pc.yellow('pipelineId'))} query param. E.g. ` +
       pc.underline(
         pc.gray(
-          `https://bits.bytedance.net/devops/201134696450/develop/detail/2276839/flow?devops_space_type=server_fe&${pc.bold(pc.magenta('pipelineId=1139212901634'))}&stage=dev_gatekeeper_stage`,
+          `https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&${pc.bold(pc.magenta('pipelineId=1139212901634'))}&stage=dev_gatekeeper_stage`,
         ),
       ),
   )
@@ -208,13 +208,15 @@ async function selectRunIdFromRecentRuns(
 
   const data = await getJson()
   if (data.pipelineRuns.length <= 0) {
-    fail(`最近 ${N} 次 run 查询为空\n${JSON.stringify(data, null, 1)}`)
+    fail(
+      `No pipeline runs found in the most recent ${N} runs\n${JSON.stringify(data, null, 1)}`,
+    )
     process.exit(1)
   }
 
   note(
-    '最新一次 pipeline run 可能未结束、失败，或没有找到 Gecko 信息。请选择一个历史 run 查看。',
-    '需要选择历史 run',
+    'The latest pipeline run may still be running/failed. Please select a historical run to inspect.',
+    'Historical run selection required',
   )
 
   const options = data.pipelineRuns.map(run => {
@@ -223,18 +225,18 @@ async function selectRunIdFromRecentRuns(
     const by = run.triggerInfo?.triggeredBy || run.createdBy || '?'
     return {
       value: run.runId,
-      label: `#${run.runSeq}  runId=${run.runId}`,
-      hint: `${status}  ${time}  by=${by}`,
+      label: `#${run.runSeq} runId=${run.runId}`,
+      hint: `${status}  ${time} by ${by}`,
     }
   })
 
   const selectedRunId = await select({
-    message: '请选择要查看的 pipeline run',
+    message: 'Please select the pipeline run to inspect',
     options,
   })
 
   if (isCancel(selectedRunId)) {
-    cancel('已取消选择 run')
+    cancel('Run selection cancelled')
     process.exit(0)
   }
 
@@ -286,7 +288,7 @@ export default [
       { name: '-r,--region <region>', desc: 'Region kw filter' },
     ],
     examples: [
-      `${cli.name} tt-gecko -r us -u 'https://bits.bytedance.net/devops/201134696450/develop/detail/2276839/flow?devops_space_type=server_fe&pipelineId=1139212901634&stage=dev_gatekeeper_stage'`,
+      `${cli.name} tt-gecko -r us -u 'https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&pipelineId=1139212901634&stage=dev_gatekeeper_stage'`,
     ],
     action: main,
   },

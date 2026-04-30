@@ -54,7 +54,7 @@ interface Job2 {
 
 interface JobAtom {
   uniqueId: string
-  output?: Output
+  output?: Output | null
 }
 interface Output {
   GECKO_packageInfo?: string
