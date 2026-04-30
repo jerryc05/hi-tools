@@ -326,7 +326,7 @@ function formatStatusText(status: number | undefined) {
 }
 
 function formatRunTime(run: PipelineRun<boolean>) {
-  if (run.completedAt) return `completed @ ${formatDate(run.completedAt)}`
+  // if (run.completedAt) return `completed @ ${formatDate(run.completedAt)}`
   if (run.startedAt) return `started @ ${formatDate(run.startedAt)}`
   if (run.createdAt) return `created @ ${formatDate(run.createdAt)}`
   return 'time=?'
