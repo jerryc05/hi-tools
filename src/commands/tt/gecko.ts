@@ -58,7 +58,6 @@ async function getGeckoInfo(
             )
             const {
               qrCodeScheme,
-              region,
               candidatePackage,
               channel,
               updatedAt,
@@ -72,7 +71,7 @@ async function getGeckoInfo(
             const envs = distributeRule.envLaneList.flatMap(l => l.values)
             return {
               qrCodeScheme,
-              region,
+              region: j.jobAtom.output?.GECKO_region,
               scmVersion,
               channel,
               updatedDate,
@@ -108,7 +107,7 @@ async function main({
   })()
 
   const items = (await getGeckoInfo(pplID, jwtStr, jwtObj)).filter(x =>
-    x?.region.includes(region ?? ''),
+    x?.region?.includes(region ?? ''),
   )
 
   const { default: QRCode } = await import('qrcode')

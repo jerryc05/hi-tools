@@ -226,7 +226,7 @@
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 4151,
+      "bytes": 4162,
       "imports": [
         {
           "path": "picocolors",
@@ -583,7 +583,7 @@
           "bytesInOutput": 1538
         },
         "src/commands/mdns.ts": {
-          "bytesInOutput": 183
+          "bytesInOutput": 181
         },
         "src/utils/logger.ts": {
           "bytesInOutput": 398
@@ -598,7 +598,7 @@
           "bytesInOutput": 188
         },
         "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2217
+          "bytesInOutput": 2238
         },
         "src/services/tt/bits.ts": {
           "bytesInOutput": 343
@@ -625,7 +625,7 @@
           "bytesInOutput": 1852
         }
       },
-      "bytes": 12462
+      "bytes": 12481
     }
   }
 }
