@@ -344,7 +344,7 @@ export default [
         desc: 'Pipeline ID (Overrides URL)',
       },
       { name: '-u,--url <url>', desc: 'Bits URL' },
-      { name: '-r,--region <region>', desc: 'Region kw filter' },
+      { name: '-r,--region <region>', desc: 'Region filter (match-based)' },
     ],
     examples: [
       `${cli.name} tt-gecko -r us -u 'https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&pipelineId=1139212901634&stage=dev_gatekeeper_stage'`,

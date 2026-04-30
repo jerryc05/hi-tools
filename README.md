@@ -5,10 +5,10 @@ pnpm add -g @jerryc05/hi-tools
 
 # Help
 ```
-hi/0.0.2-beta.13
+hi/0.1.10
 
 Usage:
-  $ hi
+  $ hi 
 
 Commands:
   upgrade              Upgrade to latest version (default using pnpm)
@@ -41,7 +41,6 @@ For more info, run any command with the `--help` flag:
   $ hi --help
 
 Options:
-  --quiet        Silently quit
-  -v, --version  Display version number
-  -h, --help     Display this message
+  -v, --version  Display version number 
+  -h, --help     Display this message 
 ```
