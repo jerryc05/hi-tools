@@ -1,6 +1,6 @@
 import type { AIPaaSAuth } from '@byted/aipaas-auth'
+import { log, spinner } from '@clack/prompts'
 import pc from 'picocolors'
-import { begin, hello, info } from '../utils/logger'
 import { formatDate } from './format-date'
 
 export interface JwtUserInfo {
@@ -28,7 +28,8 @@ export interface JwtUserInfo {
 let auth: AIPaaSAuth | undefined
 
 export async function getJwt() {
-  begin('Logging in...')
+  const s = spinner()
+  s.start('Logging in...')
 
   if (!auth) {
     const { AIPaaSAuth } = await import('@byted/aipaas-auth')
@@ -38,10 +39,10 @@ export async function getJwt() {
   const jwtStr = await auth.getJwt()
   const jwtObj = (await auth.getUserInfo()) as JwtUserInfo
 
-  hello(
+  s.stop(
     `Hi ${pc.magenta(jwtObj.username)} from ${pc.blue(`${jwtObj.scope} ${jwtObj.work_country}`)}`,
   )
-  info(`  Login will expire on ${formatDate(jwtObj.exp * 1000)}`)
+  log.info(`Login will expire on ${formatDate(jwtObj.exp * 1000)}`)
 
   return { jwtStr, jwtObj }
 }

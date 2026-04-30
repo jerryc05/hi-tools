@@ -1,11 +1,12 @@
+import { log, spinner } from '@clack/prompts'
 import type { HiCommand } from '../types'
-import { begin, fail, success } from '../utils/logger'
 
 export default [
   {
     cmd: { name: 'tschk', desc: 'My ts-check rules' },
     action: async () => {
-      begin('Running custom tsc type-check...')
+      const s = spinner()
+      s.start('Running custom tsc type-check...')
 
       // 需要忽略的错误码列表
       const ignoredCodes = [
@@ -37,13 +38,16 @@ export default [
 
         if (lines.length > 0) {
           lines.map(l => console.log(l))
-          fail('Type-check failed!')
+          s.stop('Type-check completed')
+          log.error('Type-check failed!')
           process.exit(1)
         } else {
-          success('Type-check passed!')
+          s.stop('Type-check completed')
+          log.success('Type-check passed!')
         }
       } catch (err) {
-        fail('Type-check: Unexpected err:')
+        s.stop('Type-check completed')
+        log.error('Type-check failed!')
         console.error(err)
         process.exit(1)
       }

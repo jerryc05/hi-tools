@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { log } from '@clack/prompts'
 import bm from './commands/bm'
 import ips from './commands/ips'
 import luban from './commands/luban'
@@ -12,7 +13,6 @@ import upgrade from './commands/upgrade'
 import wup from './commands/wup'
 import type { HiCommand } from './types'
 import { cli } from './utils/cli'
-import { info } from './utils/logger'
 
 export const PKG_JSON_OBJ = JSON.parse(
   await readFile(join(import.meta.dirname, '../package.json'), 'utf8'),
@@ -21,8 +21,7 @@ export const PKG_JSON_OBJ = JSON.parse(
 if (process.argv.includes('--quiet')) process.exit(0)
 
 if (PKG_JSON_OBJ) {
-  console.log()
-  info(`${PKG_JSON_OBJ.name} v${PKG_JSON_OBJ.version}\n\n`)
+  log.info(`${PKG_JSON_OBJ.name} v${PKG_JSON_OBJ.version}`)
 }
 
 //
