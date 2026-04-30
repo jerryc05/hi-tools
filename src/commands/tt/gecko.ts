@@ -231,7 +231,7 @@ async function selectRunIdFromRecentRuns(
   })
 
   const selectedRunId = await select({
-    message: 'Please select the pipeline run to inspect',
+    message: 'Select the pipeline run to inspect',
     options,
   })
 
