@@ -22,6 +22,100 @@ type GeckoInfoItem = {
   pipelineRunUrl: string
 }
 
+async function main({
+  pipelineId,
+  url,
+  region,
+}: {
+  pipelineId: number | undefined
+  url: string | undefined
+  region: string | undefined
+}) {
+  const { jwtStr, jwtObj } = await getJwt()
+
+  const pplID = (() => {
+    if (pipelineId == null && !url)
+      throw new Error('pipelineId or url is required')
+    if (pipelineId != null) return pipelineId
+    return getPipelineIDFromURL(url ?? '')
+  })()
+
+  const items = (await getGeckoInfo(pplID, jwtStr, jwtObj)).filter(x =>
+    x.region?.includes(region ?? ''),
+  )
+
+  if (items.length <= 0) {
+    fail(
+      `No Gecko info found${region ? ` matching region [${region}]` : ''} in latest run`,
+    )
+  }
+
+  const { default: QRCode } = await import('qrcode')
+  for (let i = 0; i < items.length; i++) {
+    const x = items[i]
+    try {
+      const code = await QRCode.toString(x?.qrCodeScheme ?? '', {
+        type: 'terminal',
+        small: true,
+        errorCorrectionLevel: 'L',
+      })
+
+      console.log(`\n\n${code}`)
+      console.dir(x)
+      if (i < items.length - 1) console.log('\n\n-----------------\n\n')
+    } catch (err) {
+      console.error('Failed to generate QR:', err)
+    }
+  }
+}
+
+async function getGeckoInfo(
+  pipelineId: string | number,
+  jwtToken: string,
+  jwtObj: JwtUserInfo,
+): Promise<GeckoInfoItem[]> {
+  const { response, getJson } = await getRunInfoByPipelineID(
+    {
+      pipelineId,
+      pageSize: 1,
+      withoutJob: false,
+    },
+    jwtToken,
+    jwtObj,
+  )
+
+  if (!response.ok) {
+    fail(
+      `[getRunInfoByPipelineID] failed: ${response.status} ${response.statusText}\n${await response.text()}`,
+    )
+    process.exit(1)
+  }
+
+  const data = await getJson()
+
+  {
+    const { count, blockingCount, runningCount } = data
+    if (blockingCount > 0)
+      info(
+        `Found ${blockingCount}/${count} blocking task(s)! Build may have failed?`,
+      )
+
+    if (runningCount > 0)
+      info(`Found ${runningCount}/${count} running task(s)! Still building?`)
+  }
+
+  const items = extractGeckoInfoFromRuns(data.pipelineRuns)
+  if (items.length) return items
+
+  const selectedRunId = await selectRunIdFromRecentRuns(
+    pipelineId,
+    jwtToken,
+    jwtObj,
+  )
+
+  return await getGeckoInfoByRunId(selectedRunId, jwtToken, jwtObj)
+}
+
 function getPipelineIDFromURL(url: string) {
   const regex = /\bpipelineId=(\d+)\b/
   const match = url.match(regex)
@@ -87,53 +181,6 @@ function extractGeckoInfoFromRuns(pipelineRuns: PipelineRun<false>[]) {
         .filter(x => x != null),
     )
     .filter(x => !!x)
-}
-
-async function getGeckoInfo(
-  pipelineId: string | number,
-  jwtToken: string,
-  jwtObj: JwtUserInfo,
-): Promise<GeckoInfoItem[]> {
-  const { response, getJson } = await getRunInfoByPipelineID(
-    {
-      pipelineId,
-      pageSize: 1,
-      withoutJob: false,
-    },
-    jwtToken,
-    jwtObj,
-  )
-
-  if (!response.ok) {
-    fail(
-      `[getRunInfoByPipelineID] failed: ${response.status} ${response.statusText}\n${await response.text()}`,
-    )
-    process.exit(1)
-  }
-
-  const data = await getJson()
-
-  {
-    const { count, blockingCount, runningCount } = data
-    if (blockingCount > 0)
-      info(
-        `Found ${blockingCount}/${count} blocking task(s)! Build may have failed?`,
-      )
-
-    if (runningCount > 0)
-      info(`Found ${runningCount}/${count} running task(s)! Still building?`)
-  }
-
-  const items = extractGeckoInfoFromRuns(data.pipelineRuns)
-  if (items.length) return items
-
-  const selectedRunId = await selectRunIdFromRecentRuns(
-    pipelineId,
-    jwtToken,
-    jwtObj,
-  )
-
-  return await getGeckoInfoByRunId(selectedRunId, jwtToken, jwtObj)
 }
 
 async function selectRunIdFromRecentRuns(
@@ -222,53 +269,6 @@ function formatRunTime(run: PipelineRun<boolean>) {
   if (run.startedAt) return `startedAt=${formatDate(run.startedAt)}`
   if (run.createdAt) return `createdAt=${formatDate(run.createdAt)}`
   return 'time=?'
-}
-
-async function main({
-  pipelineId,
-  url,
-  region,
-}: {
-  pipelineId: number | undefined
-  url: string | undefined
-  region: string | undefined
-}) {
-  const { jwtStr, jwtObj } = await getJwt()
-
-  const pplID = (() => {
-    if (pipelineId == null && !url)
-      throw new Error('pipelineId or url is required')
-    if (pipelineId != null) return pipelineId
-    return getPipelineIDFromURL(url ?? '')
-  })()
-
-  const items = (await getGeckoInfo(pplID, jwtStr, jwtObj)).filter(x =>
-    x.region?.includes(region ?? ''),
-  )
-
-  if (items.length <= 0) {
-    fail(
-      `No Gecko info found${region ? ` matching region [${region}]` : ''} in latest run`,
-    )
-  }
-
-  const { default: QRCode } = await import('qrcode')
-  for (let i = 0; i < items.length; i++) {
-    const x = items[i]
-    try {
-      const code = await QRCode.toString(x?.qrCodeScheme ?? '', {
-        type: 'terminal',
-        small: true,
-        errorCorrectionLevel: 'L',
-      })
-
-      console.log(`\n\n${code}`)
-      console.dir(x)
-      if (i < items.length - 1) console.log('\n\n-----------------\n\n')
-    } catch (err) {
-      console.error('Failed to generate QR:', err)
-    }
-  }
 }
 
 export default [
