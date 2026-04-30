@@ -2,7 +2,7 @@
   "name": "@jerryc05/hi-tools",
   "version": "0.0.8",
   "scripts": {
-    "pub": "npm publish --access public --registry https://registry.npmjs.org",
+    "pub": "npm publish --access public",
     "build": "node build.js",
     "prepare": "husky"
   },
