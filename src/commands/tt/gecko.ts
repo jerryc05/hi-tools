@@ -3,11 +3,11 @@ import pc from 'picocolors'
 import { getRunDetailByRunID, getRunInfoByPipelineID } from '@/services/tt/bits'
 import type { HiCommand } from '@/types'
 import type { GeckoPackageInfo } from '@/types/tt/gecko-package'
-import type { PipelineRun } from '@/types/tt/pipelines-runs'
+import { type PipelineRun, RunStatus } from '@/types/tt/pipelines-runs'
 import { cli } from '@/utils/cli'
 import { formatDate } from '@/utils/format-date'
 import { getJwt, type JwtUserInfo } from '@/utils/jwt'
-import { fail, info } from '@/utils/logger'
+import { begin, fail } from '@/utils/logger'
 
 type GeckoInfoItem = {
   qrCodeScheme: string | undefined
@@ -93,15 +93,14 @@ async function getGeckoInfo(
 
   const data = await getJson()
 
-  {
-    const { count, blockingCount, runningCount } = data
-    if (blockingCount > 0)
-      info(
-        `Found ${blockingCount}/${count} blocking task(s)! Build may have failed?`,
-      )
-
-    if (runningCount > 0)
-      info(`Found ${runningCount}/${count} running task(s)! Still building?`)
+  if (data.pipelineRuns[0]?.runStatus !== RunStatus.SUCCESS) {
+    begin(
+      `Latest run runId=${
+        data.pipelineRuns[0]?.runId
+      } is not completed or is not successful. Gecko info may be unavailable. (status=${formatStatusText(
+        data.pipelineRuns[0]?.runStatus,
+      )}`,
+    )
   }
 
   const items = extractGeckoInfoFromRuns(data.pipelineRuns)
@@ -266,13 +265,13 @@ async function getGeckoInfoByRunId(
   return items
 }
 
-function formatStatusText(status: number) {
+function formatStatusText(status: number | undefined) {
   switch (status) {
-    case 2:
+    case RunStatus.RUNNING:
       return pc.blue('RUNNING')
-    case 7:
+    case RunStatus.CANCELLED:
       return pc.gray('CANCELLED')
-    case 8:
+    case RunStatus.SUCCESS:
       return pc.green('SUCCESS')
   }
   return `status=${status}`

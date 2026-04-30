@@ -13,7 +13,7 @@ export interface PipelineRun<WithoutJobDetail extends boolean> {
   runId: string
   // runName: string
   runSeq: string
-  runStatus: number
+  runStatus: RunStatus
   triggerInfo: TriggerInfo
   failType: number
   failReason: any
@@ -30,6 +30,13 @@ export interface PipelineRun<WithoutJobDetail extends boolean> {
   completedAt: string
   timeCostSec: string
 }
+
+export const RunStatus = {
+  RUNNING: 2,
+  CANCELLED: 7,
+  SUCCESS: 8,
+}
+export type RunStatus = (typeof RunStatus)[keyof typeof RunStatus]
 
 interface TriggerInfo {
   triggeredBy: string

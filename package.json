@@ -1,6 +1,6 @@
 {
   "name": "@jerryc05/hi-tools",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "scripts": {
     "pub": "npm publish --access public",
     "build": "node build.js",
