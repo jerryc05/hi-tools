@@ -1,6 +1,6 @@
 {
   "name": "@jerryc05/hi-tools",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A collection of my everyday SDE tools.",
   "scripts": {
     "pub": "npm run build && npm version patch && npm login --registry https://registry.npmjs.org && npm publish --access public && git push",
