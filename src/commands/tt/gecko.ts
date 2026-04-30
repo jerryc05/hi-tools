@@ -131,10 +131,9 @@ function extractGeckoInfoFromRuns(
             if (!packageInfoStr) return null
 
             const region = output.GECKO_region
-            if (!regionFilter || !region?.includes(regionFilter)) return null
+            if (regionFilter && !region?.includes(regionFilter)) return null
 
             const info: GeckoPackageInfo = JSON.parse(packageInfoStr)
-
             const {
               qrCodeScheme,
               candidatePackage,
@@ -148,6 +147,7 @@ function extractGeckoInfoFromRuns(
               Number.parseInt(updatedAt, 10) * 1000,
             )
             const envs = distributeRule.envLaneList.flatMap(l => l.values)
+
             const geckoInfoItem: GeckoInfoItem = {
               qrCodeScheme,
               region,
