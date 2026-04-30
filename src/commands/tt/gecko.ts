@@ -198,16 +198,12 @@ async function tryMaybeURLs(
   }
 
   note(
-    `Found ${maybeUrlInfoList.length} possible alternative pipeline you might want to use instead.`,
-    'Mistyped the URL?',
+    `Found ${maybeUrlInfoList.length} possible alternative pipeline(s) you may want to try instead.`,
+    'Mistyped the pipeline ID?',
   )
 
-  const options = [
-    {
-      value: '',
-      label: `(Keep current pipeline id=${currentPplID})`,
-      hint: 'Will not change pipeline',
-    },
+  const options: { value: string; label?: string; hint?: string }[] = [
+    { value: '', label: `(Keep current pipeline id=${currentPplID})` },
   ].concat(
     maybeUrlInfoList.map(x => ({
       value: getPipelineIDFromURL(x.detail_url),
