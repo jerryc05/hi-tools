@@ -38,7 +38,7 @@ async function getGeckoInfo(
 
   if (!response.ok) {
     throw new Error(
-      `获取运行列表失败: ${response.status} ${response.statusText}\n${await response.text()}`,
+      `API call failed: ${response.status} ${response.statusText}\n${await response.text()}`,
     )
   }
 

@@ -226,7 +226,7 @@
       "format": "esm"
     },
     "src/commands/tt/gecko.ts": {
-      "bytes": 4550,
+      "bytes": 4541,
       "imports": [
         {
           "path": "picocolors",
@@ -361,7 +361,7 @@
       "format": "esm"
     },
     "src/index.ts": {
-      "bytes": 2402,
+      "bytes": 1437,
       "imports": [
         {
           "path": "node:fs/promises",
@@ -445,11 +445,6 @@
           "path": "/Users/bytedance/MyCoding/hi-tools/src/polyfill.js",
           "kind": "import-statement",
           "external": true
-        },
-        {
-          "path": "node:child_process",
-          "kind": "require-call",
-          "external": true
         }
       ],
       "format": "esm"
@@ -458,21 +453,6 @@
   "outputs": {
     "dist/index.js": {
       "imports": [
-        {
-          "path": "node:fs/promises",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "node:os",
-          "kind": "import-statement",
-          "external": true
-        },
-        {
-          "path": "node:path",
-          "kind": "import-statement",
-          "external": true
-        },
         {
           "path": "node:os",
           "kind": "import-statement",
@@ -557,11 +537,6 @@
           "path": "execa",
           "kind": "dynamic-import",
           "external": true
-        },
-        {
-          "path": "node:child_process",
-          "kind": "require-call",
-          "external": true
         }
       ],
       "exports": [
@@ -571,9 +546,6 @@
       "inputs": {
         "src/polyfill.js": {
           "bytesInOutput": 134
-        },
-        "src/index.ts": {
-          "bytesInOutput": 1041
         },
         "package.json": {
           "bytesInOutput": 613
@@ -603,10 +575,10 @@
           "bytesInOutput": 188
         },
         "src/commands/tt/gecko.ts": {
-          "bytesInOutput": 2441
+          "bytesInOutput": 2408
         },
         "src/services/tt/bits.ts": {
-          "bytesInOutput": 343
+          "bytesInOutput": 341
         },
         "src/utils/cli.ts": {
           "bytesInOutput": 42
@@ -628,9 +600,12 @@
         },
         "src/commands/wup.ts": {
           "bytesInOutput": 1852
+        },
+        "src/index.ts": {
+          "bytesInOutput": 484
         }
       },
-      "bytes": 12646
+      "bytes": 11805
     }
   }
 }
