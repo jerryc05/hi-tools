@@ -34,7 +34,7 @@ export const RunStatus = {
   RUNNING: 2,
   CANCELLED: 7,
   SUCCESS: 8,
-  FAILURE: 9,
+  FAIL: 9,
 }
 export type RunStatus = (typeof RunStatus)[keyof typeof RunStatus]
 

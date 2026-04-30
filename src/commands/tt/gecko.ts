@@ -319,8 +319,8 @@ function formatStatusText(status: number | undefined) {
       return pc.gray('CANCELLED')
     case RunStatus.SUCCESS:
       return pc.green('SUCCESS')
-    case RunStatus.FAILURE:
-      return pc.red('FAILURE')
+    case RunStatus.FAIL:
+      return pc.red('FAIL')
   }
   return `status=${status}`
 }
