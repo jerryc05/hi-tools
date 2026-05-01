@@ -24,7 +24,7 @@ async function mm(updBranch: boolean) {
     // env: { GIT_TRACE: '1' },
   })`git fetch ${await getUpstreamRemote()} master${updBranch ? ':master' : ''}`
 
-  s.start('Merging ...')
+  s.message('Merging ...')
   await execa({
     stdio: 'inherit',
     // env: { GIT_TRACE: '1' },
