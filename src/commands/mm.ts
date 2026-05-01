@@ -21,13 +21,13 @@ async function mm(updBranch: boolean) {
   const { execa } = await import('execa')
   await execa({
     stdio: 'inherit',
-    env: { GIT_TRACE: '1' },
+    // env: { GIT_TRACE: '1' },
   })`git fetch ${await getUpstreamRemote()} master${updBranch ? ':master' : ''}`
 
   s.start('Merging ...')
   await execa({
     stdio: 'inherit',
-    env: { GIT_TRACE: '1' },
+    // env: { GIT_TRACE: '1' },
   })`git merge ${await getUpstreamRemote()}/master --no-verify --no-edit`
 
   s.stop('Done')
