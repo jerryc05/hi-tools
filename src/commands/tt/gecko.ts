@@ -20,6 +20,40 @@ type GeckoInfoItem = {
   runSeq: string
 }
 
+/*
+
+todo ,,,
+
+tt-gecko -p <pipelineId> --latest-success
+
+# 多 region
+tt-gecko -r us,sg,va
+
+
+
+# 当用户输入 region 没有命中时，给出可选值：
+No Gecko info matched region: jp
+Available regions:
+- us
+- sg
+- va
+
+
+# JSON 输出，方便脚本消费
+tt-gecko -p <pipelineId> --output json
+
+
+# Watch 模式：等待流水线产出 Gecko 包
+用户刚触发流水线，不想一直刷新页面。
+tt-gecko watch -p <pipelineId> -r us
+
+
+### 发送二维码到 IM 或通知系统
+包构建成功后自动通知测试群。
+tt-gecko -p <pipelineId> -r us --send lark
+
+*/
+
 async function main({
   pipelineId,
   url,
@@ -36,6 +70,8 @@ async function main({
       throw new Error('pipelineId or url is required')
     if (pipelineId != null) return pipelineId
     return getPipelineIDFromURL(url ?? '')
+    // todo ,,, 加上数字校验
+    // 加上 Warning: both --pipelineId and --url are provided. \n Using --pipelineId=1139212901634 and ignoring pipelineId=9999999999999 from URL.
   })()
 
   const items = await getGeckoInfo(pplID, jwtStr, jwtObj, region)
@@ -300,7 +336,15 @@ async function getGeckoInfoByRunId(
 function getPipelineIDFromURL(url: string) {
   const regex = /\bpipelineId=(\d+)\b/
   const match = url.match(regex)
-  if (match?.[1]) return match[1]
+  const pplID = match?.[1]?.trim()
+  if (pplID) {
+    if (!/^\d+$/.test(pplID)) {
+      throw new Error(
+        `Invalid pipelineId query from URL. Expecting a pipelineId query value with all numbers`,
+      )
+    }
+    return pplID
+  }
   throw new Error(
     `Invalid URL. Expecting a url containing ${pc.bold(pc.yellow('pipelineId'))} query param. E.g. ` +
       pc.underline(
