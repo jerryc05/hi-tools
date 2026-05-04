@@ -1,10 +1,11 @@
 import { log, spinner } from '@clack/prompts'
-import type { HiCommand } from '../types'
+import type { HiCmd } from '@/types/cmd-module'
 
 export default [
   {
-    cmd: { name: 'tschk', desc: 'My ts-check rules' },
-    action: async () => {
+    command: 'tschk',
+    describe: 'My ts-check rules',
+    handler: async () => {
       const s = spinner()
       s.start('Running custom tsc type-check...')
 
@@ -52,4 +53,4 @@ export default [
       }
     },
   },
-] satisfies HiCommand[]
+] satisfies HiCmd[]

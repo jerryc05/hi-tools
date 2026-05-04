@@ -1,16 +1,14 @@
 import { hostname } from 'node:os'
-import type { HiCommand } from '../types'
+import type { HiCmd } from '@/types/cmd-module'
 
 export default [
   {
-    cmd: {
-      name: 'mdns',
-      desc: 'Show mdns hostname.local',
-    },
+    command: 'mdns',
+    describe: 'Show mdns [hostname].local',
 
-    action: () => {
+    handler() {
       const n = hostname()
       console.log(n.toLowerCase().endsWith('.local') ? n : `${n}.local`)
     },
   },
-] satisfies HiCommand[]
+] satisfies HiCmd[]

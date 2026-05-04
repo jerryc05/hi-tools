@@ -1,29 +1,25 @@
 import { networkInterfaces } from 'node:os'
-import type { HiCommand } from '../types'
+import type { Options } from 'yargs'
+import type { HiCmd } from '@/types/cmd-module'
+
+const builder = {
+  'only-ipv4': { alias: '4', desc: 'IPv4 only', boolean: true },
+  'only-ipv6': { alias: '6', desc: 'IPv6 only', boolean: true },
+} satisfies Record<string, Options>
 
 export default [
   {
-    cmd: {
-      name: 'ips',
-      desc: "Show current machine's IP addrs",
-    },
-    options: [
-      { name: '-4, --onlyIpv4', desc: 'IPv4 only' },
-      { name: '-6, --onlyIpv6', desc: 'IPv6 only' },
-    ],
-    action: ({
-      onlyIpv4,
-      onlyIpv6,
-    }: {
-      onlyIpv4: boolean
-      onlyIpv6: boolean
-    }) => {
+    command: 'ips',
+    describe: "Show current machine's IP addrs",
+
+    builder,
+    handler(args) {
       const ifs = networkInterfaces()
       const result: Record<string, string[]> = {}
       for (let [k, vs] of Object.entries(ifs)) {
         vs = vs?.filter(it => {
-          if (onlyIpv4) return it.family === 'IPv4'
-          if (onlyIpv6) return it.family === 'IPv6'
+          if (args['only-ipv4']) return it.family === 'IPv4'
+          if (args['only-ipv6']) return it.family === 'IPv6'
           return true
         })
         if (vs?.length) result[k] = vs.map(v => v.address)
@@ -31,4 +27,4 @@ export default [
       console.log(result)
     },
   },
-] satisfies HiCommand[]
+] satisfies HiCmd<unknown, Record<keyof typeof builder, string>>[]
