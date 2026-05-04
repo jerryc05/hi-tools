@@ -10,6 +10,7 @@ const result = await esbuild.build({
   minify: true,
   outfile: 'dist/index.js',
   metafile: true,
+  sourcemap: true,
   inject: ['src/polyfill.js'],
 })
 
