@@ -40,6 +40,7 @@ yargs()
     description: 'Run with verbose logging',
     global: true,
   })
+  .strict()
   .command(allCommands)
   .help()
   .parse(hideBin(process.argv))
