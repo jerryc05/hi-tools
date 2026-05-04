@@ -41,6 +41,7 @@ yargs()
     global: true,
   })
   .strict()
+  .recommendCommands()
   .command(allCommands)
   .help()
   .parse(hideBin(process.argv))
