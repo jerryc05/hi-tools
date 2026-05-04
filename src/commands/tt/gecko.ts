@@ -1,10 +1,10 @@
 import { cancel, isCancel, log, note, select } from '@clack/prompts'
 import pc from 'picocolors'
+import type { Options } from 'yargs'
 import { getRunDetailByRunID, getRunInfoByPipelineID } from '@/services/tt/bits'
-import type { HiCommand } from '@/types'
+import type { HiCmd } from '@/types/cmd-module'
 import type { GeckoPackageInfo } from '@/types/tt/gecko-package'
 import { type PipelineRun, RunStatus } from '@/types/tt/pipelines-runs'
-import { cli } from '@/utils/cli'
 import { formatDate } from '@/utils/format-date'
 import { getJwt, type JwtUserInfo } from '@/utils/jwt'
 
@@ -23,6 +23,9 @@ type GeckoInfoItem = {
 /*
 
 todo ,,,
+
+
+
 
 tt-gecko -p <pipelineId> --latest-success
 
@@ -58,10 +61,12 @@ async function main({
   pipelineId,
   url,
   region,
+  verbose,
 }: {
-  pipelineId: number | undefined
+  pipelineId: string | number | undefined
   url: string | undefined
   region: string | undefined
+  verbose?: boolean | undefined
 }) {
   const { jwtStr, jwtObj } = await getJwt()
 
@@ -101,6 +106,44 @@ async function main({
     }
   }
 }
+
+const builder = {
+  url: {
+    alias: 'u',
+    desc: 'Bits URL',
+    string: true,
+    conflicts: ['pipeline-id'],
+  },
+  'pipeline-id': {
+    alias: 'p',
+    desc: 'Pipeline ID (Overrides URL)',
+    string: true,
+    conflicts: ['url'],
+  },
+  region: {
+    alias: 'r',
+    desc: 'String-match based region filter',
+    string: true,
+  },
+} satisfies Record<string, Options>
+
+export default [
+  {
+    command: 'gecko',
+    describe: 'Show gecko info by bits URL',
+    builder: yargs =>
+      yargs
+        .options(builder)
+        .example(
+          "$0 tt-gecko -r us -u 'https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&pipelineId=1139212901634&stage=dev_gatekeeper_stage'",
+          'Example of URL mode, filtering us region',
+        ),
+    handler(args) {
+      const { url, pipelineId, region, verbose } = args
+      main({ url, pipelineId, region, verbose })
+    },
+  },
+] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]
 
 async function getGeckoInfo(
   pipelineId: string | number,
@@ -375,24 +418,3 @@ function formatRunTime(run: PipelineRun<boolean>) {
   if (run.createdAt) return `created @ ${formatDate(run.createdAt)}`
   return 'time=?'
 }
-
-export default [
-  {
-    cmd: {
-      name: 'tt-gecko',
-      desc: 'Show gecko info by bits URL',
-    },
-    options: [
-      {
-        name: '-p,--pipelineId <pipelineId>',
-        desc: 'Pipeline ID (Overrides URL)',
-      },
-      { name: '-u,--url <url>', desc: 'Bits URL' },
-      { name: '-r,--region <region>', desc: 'Region filter (match-based)' },
-    ],
-    examples: [
-      `${cli.name} tt-gecko -r us -u 'https://b??.net/devops/??/develop/detail/??/flow?devops_space_type=server_fe&pipelineId=1139212901634&stage=dev_gatekeeper_stage'`,
-    ],
-    action: main,
-  },
-] satisfies HiCommand[]

@@ -1,10 +1,11 @@
 import { access, constants } from 'node:fs/promises'
-import type { HiCommand } from '../../types'
+import type { HiCmd } from '@/types/cmd-module'
 
 export default [
   {
-    cmd: { name: 'tt-i18n', desc: 'I18n scan and sort' },
-    action: async () => {
+    command: 'i18n',
+    describe: 'I18n scan and sort',
+    handler: async () => {
       const fileStarlingCfg = 'starling.config.js'
       const fileCombineLang = 'combine-lang.js'
 
@@ -30,4 +31,4 @@ export default [
       )
     },
   },
-] satisfies HiCommand[]
+] satisfies HiCmd[]

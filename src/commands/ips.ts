@@ -27,4 +27,4 @@ export default [
       console.log(result)
     },
   },
-] satisfies HiCmd<unknown, Record<keyof typeof builder, string>>[]
+] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]

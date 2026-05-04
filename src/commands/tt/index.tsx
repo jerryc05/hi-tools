@@ -1,6 +1,18 @@
-import type { HiCommand } from '../../types'
+import type { HiCmd } from '@/types/cmd-module'
 import bam from './bam'
 import gecko from './gecko'
 import i18n from './i18n'
+import luban from './luban'
 
-export default [...bam, ...gecko, ...i18n] satisfies HiCommand[]
+export default [
+  {
+    command: 'tt',
+    describe: 'TT/BD internal toolset',
+
+    builder: yargs =>
+      yargs
+        .command([...bam, ...gecko, ...i18n, ...luban] as HiCmd[])
+        .demandCommand(1),
+    handler() {},
+  },
+] satisfies HiCmd[]

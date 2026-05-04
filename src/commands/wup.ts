@@ -1,3 +1,4 @@
+import { lstatSync } from 'node:fs'
 import { log, note, spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
 import { PKG } from '@/'
@@ -92,6 +93,7 @@ const builder = {
     alias: 't',
     desc: 'Target repository path',
     demandOption: true,
+    normalize: true,
   },
   'install-cmd-prefix': {
     alias: 'cmd',
@@ -99,10 +101,8 @@ const builder = {
     default: 'pnpm add',
   },
   timeout: {
-    alias: 't',
     desc: 'Timeout checking new pkg version in sec',
     default: 5 * 60,
-    number: true,
   },
 } satisfies Record<string, Options>
 
@@ -118,10 +118,21 @@ export default [
           '$0 wup -t "/tmp/..." -c "rush add --make-consistent -p"',
           'Install w/ @microsoft/rush',
         ) as never,
-    handler(argv) {
-      const { target, installCmdPrefix, verbose } = argv
-      const timeout = Number(argv.timeout)
-      main({ target, installCmdPrefix, timeout, verbose })
+    handler(args) {
+      const {
+        target,
+        installCmdPrefix = builder['install-cmd-prefix'].default,
+        verbose,
+      } = args
+      const timeout = Number(args.timeout)
+
+      const errMsg = `Path ${target} is not a directory.`
+      try {
+        if (!target || !lstatSync(target).isDirectory()) throw new Error(errMsg)
+        main({ target, installCmdPrefix, timeout, verbose })
+      } catch (e) {
+        throw new Error(errMsg, { cause: e })
+      }
     },
   },
-] satisfies HiCmd<unknown, Record<keyof typeof builder, string>>[]
+] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]

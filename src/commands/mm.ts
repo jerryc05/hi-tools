@@ -56,7 +56,7 @@ export default [
       "[M]erge [M]aster: Update local master to remote's, then merge into current branch",
     builder,
     handler(argv) {
-      const { branch, verbose } = argv
+      const { branch = builder.branch.default, verbose } = argv
       mm({ updBranch: true, branch, verbose })
     },
   },
@@ -66,8 +66,8 @@ export default [
       "[M]erge [M]aster (don't [M]odify local master): Merge remote's master into current branch, without updating local master",
     builder,
     handler(argv) {
-      const { branch, verbose } = argv
+      const { branch = builder.branch.default, verbose } = argv
       mm({ updBranch: false, branch, verbose })
     },
   },
-] satisfies HiCmd<unknown, Record<keyof typeof builder, string>>[]
+] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]
