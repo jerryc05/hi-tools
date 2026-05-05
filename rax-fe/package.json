@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kobalte/core": "^0.13.11",
     "@tailwindcss/vite": "^4.2.4",
+    "immer": "^11.1.6",
     "solid-js": "^1.9.12",
     "tailwindcss": "^4.2.4"
   },
