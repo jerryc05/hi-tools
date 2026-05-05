@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
-import solid from 'vite-plugin-solid'
-import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
+import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite'
+import { viteSingleFile } from 'vite-plugin-singlefile'
+import solid from 'vite-plugin-solid'
 
 export default defineConfig({
   resolve: {
@@ -9,5 +10,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  plugins: [solid(), tailwindcss()],
+  plugins: [
+    solid(),
+    tailwindcss(),
+    viteSingleFile({ removeViteModuleLoader: true }),
+  ],
 })

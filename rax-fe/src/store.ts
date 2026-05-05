@@ -30,4 +30,4 @@ export const deviceInfoResponseSig = createSignal<DeviceInfoResponse>({
       },
     },
   },
-})
+} as any)

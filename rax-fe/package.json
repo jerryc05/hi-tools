@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsgo -b && vite build && pnpm dlx html-minifier-next --preset comprehensive dist/index.html -o dist/index.html",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,9 +17,11 @@
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
+    "@typescript/native-preview": "7.0.0-dev.20260504.1",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.14",
     "vite": "^8.0.10",
+    "vite-plugin-singlefile": "^2.3.3",
     "vite-plugin-solid": "^2.11.12"
   }
 }
