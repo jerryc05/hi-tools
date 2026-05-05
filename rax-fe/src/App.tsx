@@ -1,3 +1,4 @@
+import { FloatingImagePanel } from '@/components/floating-image-panel/FloatingImagePanel'
 import { UserSwitcher } from '@/components/user-switcher/UserSwitcher'
 
 export default function App() {
@@ -8,6 +9,8 @@ export default function App() {
       </header>
 
       <main class='min-h-[calc(100vh-4rem)]'>{/* 其他区域暂时留白 */}</main>
+
+      <FloatingImagePanel />
     </div>
   )
 }
