@@ -1,33 +1,29 @@
-import { createSignal } from 'solid-js'
+import { useQuery } from '@tanstack/solid-query'
+import { API_PATH } from './types/api-paths'
 import type { DeviceInfoResponse } from './types/device-info-response'
 
-export const deviceInfoResponseSig = createSignal<DeviceInfoResponse>({
-  appInfo: {
-    appSettings: {
-      account: {
-        current: {
-          customID: '',
-          nickname: 'nick1',
-          userID: 'userID_1',
-        },
-        loginAccountList: [
-          {
-            customID: '',
-            nickname: 'nick2',
-            userID: 'userID_2',
-          },
-          {
-            customID: '',
-            nickname: 'nick3',
-            userID: 'userID_3',
-          },
-          {
-            customID: '',
-            nickname: 'nick4',
-            userID: 'userID_4',
-          },
-        ],
-      },
-    },
-  },
-} as any)
+async function queryFn() {
+  try {
+    const resp = await fetch(API_PATH.RAX_DEVICE_INFO)
+    const res: DeviceInfoResponse = await resp.json()
+    return res
+  } catch (err) {
+    alert((err as Error).stack || JSON.stringify(err))
+    throw err
+  }
+}
+
+export const useDeviceInfo = <T = DeviceInfoResponse>(
+  select?: ((data: DeviceInfoResponse) => T) | undefined,
+) =>
+  useQuery(() => ({
+    queryKey: [API_PATH.RAX_DEVICE_INFO],
+    queryFn,
+    refetchInterval: 5000,
+    select,
+  }))
+
+const selectAccountInfo = (data: DeviceInfoResponse) =>
+  data.appInfo.appSettings.account
+
+export const useAccountInfo = () => useDeviceInfo(selectAccountInfo)

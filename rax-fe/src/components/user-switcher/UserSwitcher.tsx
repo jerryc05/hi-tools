@@ -1,37 +1,20 @@
-import { createMemo, For } from 'solid-js'
 import { DropdownMenu } from '@kobalte/core/dropdown-menu'
-import { UserTrigger } from './UserTrigger'
+import { createMemo, For } from 'solid-js'
+import { useAccountInfo } from '@/store'
+import type { LoginAccount } from '@/types/device-info-response'
 import { UserInfoCard } from './UserInfoCard'
 import { UserMenuItem } from './UserMenuItem'
-import { deviceInfoResponseSig } from '@/store'
-import type { LoginAccount } from '@/types/device-info-response'
-import { produce } from 'immer'
+import { UserTrigger } from './UserTrigger'
 
 export function UserSwitcher() {
   // const [currentUser, setCurrentUser] = createSignal<LoginAccount>(users[0])
 
-  const [deviceInfoResp, setDeviceInfoResp] = deviceInfoResponseSig
+  const query = useAccountInfo()
 
-  const handleSelectUser = (selected: LoginAccount) => {
-    setDeviceInfoResp(state =>
-      produce(state, draft => {
-        const { account } = draft.appInfo.appSettings
-        const oldCurr = account.current
-        account.current = selected
-        account.loginAccountList?.push(oldCurr)
-        account.loginAccountList = account.loginAccountList?.filter(
-          x => x.userID != selected.userID,
-        )
-      }),
-    )
-  }
+  const handleSelectUser = (selected: LoginAccount) => {}
 
-  const currAccount = createMemo(
-    () => deviceInfoResp().appInfo.appSettings.account.current,
-  )
-  const otherAccounts = createMemo(
-    () => deviceInfoResp().appInfo.appSettings.account.loginAccountList,
-  )
+  const currAccount = createMemo(() => query.data?.current)
+  const otherAccounts = createMemo(() => query.data?.loginAccountList)
 
   return (
     <DropdownMenu placement='bottom-end'>
