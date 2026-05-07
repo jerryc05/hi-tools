@@ -37,9 +37,10 @@ TT/BD internal toolset
 
 Commands:
   hi tt bam             Update BAM code-gen
-  hi tt tt-gecko        Show gecko info by bits URL
+  hi tt gecko           Show gecko info by bits URL
   hi tt i18n            I18n scan and sort
   hi tt luban <repoId>  Publish current repo pkg to Luban
+  hi tt rax             Start rax helper (web)
 
 Options:
   --version  Show version number                                       [boolean]
