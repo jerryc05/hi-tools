@@ -32,6 +32,7 @@
     "express": "^5.2.1",
     "json-bigint": "^1.0.0",
     "qrcode": "^1.5.4",
+    "sharp": "^0.34.5",
     "tempy": "^3.2.0"
   },
   "devDependencies": {
@@ -60,6 +61,12 @@
       "execa": "$execa",
       "jsonwebtoken": "^9",
       "yargs": "$yargs"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "protobufjs",
+      "sharp",
+      "skills"
+    ]
   }
 }

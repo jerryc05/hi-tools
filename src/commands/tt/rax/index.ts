@@ -1,3 +1,4 @@
+import { unlink } from 'node:fs/promises'
 import { join } from 'node:path'
 import { log, note } from '@clack/prompts'
 import pc from 'picocolors'
@@ -65,11 +66,24 @@ async function handler(args: { port?: number }) {
 
   app.get(API_PATH.RAX_SCRSHOT, async (_req, res) => {
     const { execa } = await import('execa')
+    const { default: sharp } = await import('sharp')
     const { temporaryFile } = await import('tempy')
 
-    const filename = temporaryFile({ extension: 'png' })
-    await execa`${RAX_CLI_CMD} device screenshot --output ${filename}`
-    res.sendFile(filename)
+    const pngFile = temporaryFile({ extension: 'png' })
+    await execa`${RAX_CLI_CMD} device screenshot --output ${pngFile}`
+
+    const webpFile = temporaryFile({ extension: 'webp' })
+    await sharp(pngFile)
+      .webp({
+        quality: 70,
+        effort: 5,
+        smartSubsample: true,
+      })
+      .toFile(webpFile)
+
+    unlink(pngFile).catch()
+
+    res.sendFile(webpFile)
   })
 
   app.post(API_PATH.RAX_OPEN_SCHEMA, async (req, res) => {

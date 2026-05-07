@@ -1,9 +1,13 @@
 # Installation
+
 ```sh
-pnpm add -g @jerryc05/hi-tools
+alias hi='pnpm dlx @jerryc05/hi-tools'
+
+hi --help
 ```
 
 # Help
+
 ```
 hi [command]
 
