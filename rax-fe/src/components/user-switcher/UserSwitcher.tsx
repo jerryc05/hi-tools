@@ -61,18 +61,108 @@ export function UserSwitcher() {
 
 /*
 
-import { createResource, onCleanup } from "solid-js";
 
-const [data, { refetch }] = createResource(fetchInfo);
+import { createResource, createSignal, onCleanup, onMount } from "solid-js";
 
-// 手动实现轮询
-const timer = setInterval(refetch, 3000);
-onCleanup(() => clearInterval(timer));
+function PollingComponent() {
+  // 1. 定义一个自增的触发器
+  const [track, setTrack] = createSignal(0);
 
-return (
-  <Show when={!data.loading} fallback={<Loading />}>
-    <div>{data()?.did}</div>
-  </Show>
-);
+  // 2. 将触发器作为 Source 传入。只要 track() 变了，fetcher 就会执行
+  const [data] = createResource(track, async () => {
+    console.log("正在请求最新 DID...");
+    const res = await fetch("/api/info");
+    return res.json();
+  });
+
+  let timer;
+
+  const startPolling = () => {
+    if (timer) return;
+    timer = setInterval(() => {
+      // 只有在页面可见时才触发
+      if (document.visibilityState === "visible") {
+        setTrack(t => t + 1);
+      }
+    }, 3000);
+  };
+
+  const stopPolling = () => {
+    clearInterval(timer);
+    timer = null;
+  };
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "visible") {
+      // 用户切回来了：立即刷新一次，并确保轮询开启
+      setTrack(t => t + 1);
+      startPolling();
+    } else {
+      // 用户切走了：停止计时器，节省性能
+      stopPolling();
+    }
+  };
+
+  onMount(() => {
+    startPolling();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  });
+
+  onCleanup(() => {
+    stopPolling();
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+  });
+
+  return (
+    <div>
+      <Show when={!data.loading} fallback={<p>加载中...</p>}>
+        <p>当前设备: {data()?.did}</p>
+      </Show>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function createPollingResource(fetcher, options = { interval: 3000 }) {
+  const [track, setTrack] = createSignal(0);
+  const [data, actions] = createResource(track, fetcher);
+
+  onMount(() => {
+    const i = setInterval(() => {
+      if (document.visibilityState === "visible") setTrack(t => t + 1);
+    }, options.interval);
+
+    const viewHandler = () => {
+      if (document.visibilityState === "visible") setTrack(t => t + 1);
+    };
+
+    document.addEventListener("visibilitychange", viewHandler);
+    onCleanup(() => {
+      clearInterval(i);
+      document.removeEventListener("visibilitychange", viewHandler);
+    });
+  });
+
+  return [data, actions];
+}
 
 */
