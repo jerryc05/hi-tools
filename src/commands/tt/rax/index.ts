@@ -2,6 +2,7 @@ import { join } from 'node:path'
 import { log, note } from '@clack/prompts'
 import pc from 'picocolors'
 import type { Options } from 'yargs'
+import type { DeviceInfoResponse } from '@/../rax-fe/src/types/device-info-response'
 import { API_PATH } from '@/types/api-paths'
 import type { HiCmd } from '@/types/cmd-module'
 import { getIfacesInfo } from '../../ips'
@@ -37,7 +38,29 @@ async function handler(args: { port?: number }) {
       res.status(400).send(stdout)
       return
     }
-    res.type('json').send(stdout)
+
+    const jsonObj: DeviceInfoResponse = JSON.parse(stdout)
+    delete jsonObj.appInfo.appInfo.appIconBase64
+    delete jsonObj.appInfo.appSettings.language
+
+    const { account } = jsonObj.appInfo.appSettings
+    account.current = {
+      customID: account.current.customID,
+      nickname: account.current.nickname,
+      userID: account.current.userID,
+    }
+    for (let i = 0; i < (account.loginAccountList?.length ?? 0); i++) {
+      if (!account.loginAccountList) continue
+      const acc = account.loginAccountList[i]
+      if (!acc) continue
+      account.loginAccountList[i] = {
+        customID: acc.customID,
+        nickname: acc.nickname,
+        userID: acc.userID,
+      }
+    }
+
+    res.json(jsonObj)
   })
 
   const server = app.listen(args.port ?? 0, () => {

@@ -22,7 +22,7 @@ export interface AppInfo {
   detailInfo: DetailInfo
   appVersion: string
   appChannel: string
-  appIconBase64: string
+  appIconBase64?: string
 }
 
 export interface DetailInfo {
@@ -33,6 +33,7 @@ export interface DetailInfo {
 }
 
 export interface AppSettings {
+  language?: never
   rtl: boolean
   account: Account
   country: Country
