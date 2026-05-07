@@ -58,3 +58,21 @@ export function UserSwitcher() {
     </Show>
   )
 }
+
+/*
+
+import { createResource, onCleanup } from "solid-js";
+
+const [data, { refetch }] = createResource(fetchInfo);
+
+// 手动实现轮询
+const timer = setInterval(refetch, 3000);
+onCleanup(() => clearInterval(timer));
+
+return (
+  <Show when={!data.loading} fallback={<Loading />}>
+    <div>{data()?.did}</div>
+  </Show>
+);
+
+*/
