@@ -63,6 +63,23 @@ async function handler(args: { port?: number }) {
     res.json(jsonObj)
   })
 
+  app.get(API_PATH.RAX_SCRSHOT, async (_req, res) => {
+    const { execa } = await import('execa')
+    const { temporaryFile } = await import('tempy')
+
+    const filename = temporaryFile({ extension: 'png' })
+    await execa`${RAX_CLI_CMD} device screenshot --output ${filename}`
+    res.sendFile(filename)
+  })
+
+  app.post(API_PATH.RAX_OPEN_SCHEMA, async (req, res) => {
+    const { execa } = await import('execa')
+
+    const { schema } = req.body
+    const { stdout } = await execa`${RAX_CLI_CMD} device open-schema ${schema}`
+    res.send(stdout)
+  })
+
   const server = app.listen(args.port ?? 0, () => {
     const addr = server.address()
     const port = typeof addr !== 'string' ? addr?.port : undefined
