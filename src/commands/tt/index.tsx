@@ -3,6 +3,7 @@ import bam from './bam'
 import gecko from './gecko'
 import i18n from './i18n'
 import luban from './luban'
+import rax from './rax'
 
 export default [
   {
@@ -11,7 +12,7 @@ export default [
 
     builder: yargs =>
       yargs
-        .command([...bam, ...gecko, ...i18n, ...luban] as HiCmd[])
+        .command([...bam, ...gecko, ...i18n, ...luban, ...rax] as HiCmd[])
         .demandCommand(1),
     handler() {},
   },
