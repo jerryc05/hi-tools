@@ -57,7 +57,7 @@ async function handler(args: { port?: number }) {
         })
         .map(
           ip =>
-            `  ${ip.internal ? pc.green('[local]') : pc.yellow(' [lan] ')}  http://${ip.family === 'IPv6' ? `[${ip.address}]` : ip.address}:${port}\n`,
+            `  ${ip.internal ? pc.green('[LOCAL]') : pc.yellow('[ LAN ]')}  http://${ip.family === 'IPv6' ? `[${ip.address}]` : ip.address}:${port}\n`,
         )
         .join('')}`,
     )
