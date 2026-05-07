@@ -1,7 +1,7 @@
 # Installation
 
 ```sh
-alias hi='pnpm dlx @jerryc05/hi-tools'
+alias hi='pnpm dlx --allow-build=protobufjs --allow-build=sharp @jerryc05/hi-tools'
 
 hi --help
 ```
