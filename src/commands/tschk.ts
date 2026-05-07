@@ -14,7 +14,6 @@ export default [
       // 需要忽略的错误码列表
       const ignoredCodes = [
         '2322', // Type 'X' is not assignable to type 'Y'
-        '2339', // Property 'X' does not exist on type 'Y'
         '2551', // Property 'X' does not exist on type 'Y'. Did you mean 'Z'?
         '6133', // 'X' is declared but its value is never read (Unused var)
         '6192', // All imports in 'X' are unused
@@ -41,8 +40,7 @@ export default [
 
         if (lines.length > 0) {
           s.stop('Type-check failed')
-          lines.map(l => console.log(l))
-          log.error('Type-check failed')
+          lines.map(l => log.error(l))
           process.exit(1)
         } else {
           s.stop('Type-check passed')
