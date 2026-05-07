@@ -10,7 +10,7 @@ async function main(argv: {
   target: string
   installCmdPrefix: string
   timeout: number
-  verbose?: boolean | undefined
+  verbose?: boolean
 }) {
   const version = PKG.version
   const pkgName = `${PKG.name}@${version}`

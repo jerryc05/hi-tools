@@ -19,8 +19,8 @@ async function publish({
   branch,
 }: {
   repoId: number
-  hash?: string | undefined
-  branch?: string | undefined
+  hash?: string
+  branch?: string
 }) {
   const usernameKey = 'SCM_USERNAME'
   const passwordKey = 'SCM_PASSWORD'

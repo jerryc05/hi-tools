@@ -14,7 +14,7 @@ async function queryFn() {
 }
 
 export const useDeviceInfo = <T = DeviceInfoResponse>(
-  select?: ((data: DeviceInfoResponse) => T) | undefined,
+  select?: ((data: DeviceInfoResponse) => T),
 ) =>
   useQuery(() => ({
     queryKey: [API_PATH.RAX_DEVICE_INFO],

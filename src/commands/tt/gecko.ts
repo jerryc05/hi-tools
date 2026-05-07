@@ -66,7 +66,7 @@ async function main({
   pipelineId: string | number | undefined
   url: string | undefined
   region: string | undefined
-  verbose?: boolean | undefined
+  verbose?: boolean
 }) {
   const { jwtStr, jwtObj } = await getJwt()
 

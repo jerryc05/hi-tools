@@ -21,7 +21,7 @@ async function mm({
 }: {
   updBranch: boolean
   branch: string
-  verbose?: boolean | undefined
+  verbose?: boolean
 }) {
   const s = spinner()
 
