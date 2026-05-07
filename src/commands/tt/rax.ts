@@ -40,7 +40,9 @@ async function handler(args: { port?: number }) {
     note(
       `Server running at\n${Object.values(
         getIfaceIps() ?? { '': ['localhost'] },
-      ).map(x => `\thttp://${x}:${port}\n`)}`,
+      )
+        .flatMap(ips => ips.map(ip => `    http://${ip}:${port}\n`))
+        .join('')}`,
     )
   })
 }
