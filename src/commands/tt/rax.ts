@@ -1,8 +1,9 @@
 import { log, note } from '@clack/prompts'
+import pc from 'picocolors'
 import type { Options } from 'yargs'
 import { API_PATH } from '@/types/api-paths'
 import type { HiCmd } from '@/types/cmd-module'
-import { getIfaceIps } from '../ips'
+import { getIfacesInfo } from '../ips'
 
 const RAX_CLI_CMD = [
   'pnpm',
@@ -39,9 +40,20 @@ async function handler(args: { port?: number }) {
 
     note(
       `Server running at\n${Object.values(
-        getIfaceIps() ?? { '': ['localhost'] },
+        getIfacesInfo() ?? { '': ['localhost'] },
       )
-        .flatMap(ips => ips.sort().map(ip => `    http://${ip}:${port}\n`))
+        .flat()
+        .sort((a, b) => {
+          if (a.internal && !b.internal) return -1
+          if (!a.internal && b.internal) return 1
+          if (a.family === 'IPv4' && b.family === 'IPv6') return -1
+          if (a.family === 'IPv6' && b.family === 'IPv4') return 1
+          return a.address.localeCompare(b.address)
+        })
+        .map(
+          ip =>
+            `  ${ip.internal ? pc.green('[internal]') : pc.yellow('[external]')}  http://${ip.family === 'IPv6' ? `[${ip.address}]` : ip.address}:${port}\n`,
+        )
         .join('')}`,
     )
   })
