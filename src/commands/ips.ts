@@ -1,5 +1,4 @@
 import { type NetworkInterfaceInfo, networkInterfaces } from 'node:os'
-import { string } from 'fast-glob/out/utils'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
 

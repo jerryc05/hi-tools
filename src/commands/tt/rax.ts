@@ -1,3 +1,4 @@
+import { join } from 'node:path'
 import { log, note } from '@clack/prompts'
 import pc from 'picocolors'
 import type { Options } from 'yargs'
@@ -20,6 +21,10 @@ async function handler(args: { port?: number }) {
   const { default: express } = await import('express')
 
   const app = express()
+
+  app.get(API_PATH.RAX_WEBPAGE, (_req, res) => {
+    res.sendFile(join(import.meta.dirname, 'index.html'))
+  })
 
   app.get(API_PATH.RAX_DEVICE_INFO, async (_req, res) => {
     const { stdout } = await execa`${RAX_CLI_CMD} device info`
@@ -52,7 +57,7 @@ async function handler(args: { port?: number }) {
         })
         .map(
           ip =>
-            `  ${ip.internal ? pc.green('[internal]') : pc.yellow('[external]')}  http://${ip.family === 'IPv6' ? `[${ip.address}]` : ip.address}:${port}\n`,
+            `  ${ip.internal ? pc.green('[local]') : pc.yellow(' [lan] ')}  http://${ip.family === 'IPv6' ? `[${ip.address}]` : ip.address}:${port}\n`,
         )
         .join('')}`,
     )
