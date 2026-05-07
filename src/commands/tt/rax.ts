@@ -41,7 +41,7 @@ async function handler(args: { port?: number }) {
       `Server running at\n${Object.values(
         getIfaceIps() ?? { '': ['localhost'] },
       )
-        .flatMap(ips => ips.map(ip => `    http://${ip}:${port}\n`))
+        .flatMap(ips => ips.sort().map(ip => `    http://${ip}:${port}\n`))
         .join('')}`,
     )
   })
