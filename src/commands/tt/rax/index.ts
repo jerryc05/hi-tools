@@ -4,7 +4,7 @@ import pc from 'picocolors'
 import type { Options } from 'yargs'
 import { API_PATH } from '@/types/api-paths'
 import type { HiCmd } from '@/types/cmd-module'
-import { getIfacesInfo } from '../ips'
+import { getIfacesInfo } from '../../ips'
 
 const RAX_CLI_CMD = [
   'pnpm',
@@ -27,7 +27,12 @@ async function handler(args: { port?: number }) {
   })
 
   app.get(API_PATH.RAX_DEVICE_INFO, async (_req, res) => {
-    const { stdout } = await execa`${RAX_CLI_CMD} device info`
+    // mock response
+    const stdout = JSON.stringify(
+      (await import('./mock')).mockData[API_PATH.RAX_DEVICE_INFO],
+    )
+
+    // const { stdout } = await execa`${RAX_CLI_CMD} device info`
     if (stdout.trim().startsWith('Error:')) {
       res.status(400).send(stdout)
       return
