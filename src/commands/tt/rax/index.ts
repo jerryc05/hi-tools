@@ -12,8 +12,9 @@ const RAX_CLI_CMD = [
   'pnpm',
   'dlx',
   '--silent',
-  '--allow-build=better-sqlite3,sharp',
-  '@tiktok-fe/rax-cli',
+  '--allow-build=better-sqlite3',
+  '--allow-build=sharp',
+  '@tiktok-fe/rax-cli@>=0.3.28',
 ]
 
 async function handler(args: { port?: number }) {
@@ -81,8 +82,15 @@ async function handler(args: { port?: number }) {
     const { temporaryFile } = await import('tempy')
 
     const pngFile = temporaryFile({ extension: 'png' })
-    await execa`${RAX_CLI_CMD} device screenshot --output ${pngFile}`
-
+    const { stdout, stderr } =
+      await execa`${RAX_CLI_CMD} device screenshot --output ${pngFile}`
+    if (
+      stdout.trim().includes('Cannot screenshot') ||
+      stdout.trim().includes('no available device')
+    ) {
+      res.status(404).send(stdout)
+      return
+    }
     const webpFile = temporaryFile({ extension: 'webp' })
     await sharp(pngFile)
       .webp({

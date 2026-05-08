@@ -1,4 +1,5 @@
 import { DropdownMenu } from '@kobalte/core/dropdown-menu'
+import { FaSolidCircleNotch } from 'solid-icons/fa'
 import { createMemo, createSignal, For, Show } from 'solid-js'
 import { toast } from 'solid-sonner'
 import { useChangeAccount } from '@/services/change-account'
@@ -12,15 +13,15 @@ export function UserSwitcher() {
   const changeAccount = useChangeAccount()
 
   const handleSelectUser = async (selected: AccountInfo) => {
-    await changeAccount.mutate(selected, {
-      onSuccess(data) {
-        toast.success(JSON.stringify(data))
-      },
-      onError(error) {
-        console.error(error)
-        toast.error(JSON.stringify(error))
-      },
-    })
+    try {
+      const data = await changeAccount.mutateAsync(selected)
+      toast.success(JSON.stringify(data))
+    } catch (err) {
+      console.error(err)
+      toast.error(JSON.stringify(err))
+    } finally {
+      setDropDownOpen(false)
+    }
   }
 
   const currAccount = createMemo(() => accountInfo.data?.current!)
@@ -36,7 +37,7 @@ export function UserSwitcher() {
         onOpenChange={setDropDownOpen}
       >
         <DropdownMenu.Trigger class='cursor-pointer'>
-          <UserMiniBar user={currAccount()} />
+          <UserMiniBar account={currAccount()} />
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Portal>
@@ -46,16 +47,27 @@ export function UserSwitcher() {
                 All accounts
               </p>
 
-              <div class='space-y-2'>
-                <For each={otherAccounts() ?? []}>
-                  {user => (
-                    <UserMenuItem
-                      user={user}
-                      active={user.userID === currAccount().userID}
-                      onSelect={handleSelectUser}
-                    />
-                  )}
-                </For>
+              <div class='relative flex justify-center items-center'>
+                <Show when={changeAccount.isPending}>
+                  <FaSolidCircleNotch class='absolute size-12 animate-spin' />
+                </Show>
+                <div
+                  class={`space-y-2 ${changeAccount.isPending ? 'invisible' : ''}`}
+                >
+                  <For each={otherAccounts() ?? []}>
+                    {account => (
+                      <DropdownMenu.Item
+                        closeOnSelect={false}
+                        onSelect={() => handleSelectUser(account)}
+                      >
+                        <UserMenuItem
+                          account={account}
+                          isActive={account.userID === currAccount().userID}
+                        />
+                      </DropdownMenu.Item>
+                    )}
+                  </For>
+                </div>
               </div>
             </section>
           </DropdownMenu.Content>

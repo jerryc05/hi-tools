@@ -2,7 +2,7 @@ import { createEffect, createSignal, onCleanup, onMount } from 'solid-js'
 
 const PANEL_WIDTH = 320
 const PANEL_HEADER_HEIGHT = 72
-const VIEWPORT_GAP = 16
+const VIEWPORT_GAP = 8
 const MIN_PANEL_WIDTH = 220
 const MAX_PANEL_WIDTH = 560
 
@@ -19,9 +19,16 @@ type ResizeState = {
 const clampWidth = (width: number) =>
   Math.min(Math.max(width, MIN_PANEL_WIDTH), MAX_PANEL_WIDTH)
 
-const clampPosition = (position: Position, width: number, panelHeight: number) => {
+const clampPosition = (
+  position: Position,
+  width: number,
+  panelHeight: number,
+) => {
   const maxX = Math.max(VIEWPORT_GAP, window.innerWidth - width - VIEWPORT_GAP)
-  const maxY = Math.max(VIEWPORT_GAP, window.innerHeight - panelHeight - VIEWPORT_GAP)
+  const maxY = Math.max(
+    VIEWPORT_GAP,
+    window.innerHeight - panelHeight - VIEWPORT_GAP,
+  )
   return {
     x: Math.min(Math.max(position.x, VIEWPORT_GAP), maxX),
     y: Math.min(Math.max(position.y, VIEWPORT_GAP), maxY),
@@ -32,7 +39,10 @@ export function useFloatingImagePanel() {
   const [panelRef, setPanelRef] = createSignal<HTMLDivElement>()
   const [expanded, setExpanded] = createSignal(true)
   const [imageAspectRatio, setImageAspectRatio] = createSignal<string>()
-  const [position, setPosition] = createSignal<Position>({ x: VIEWPORT_GAP, y: 96 })
+  const [position, setPosition] = createSignal<Position>({
+    x: VIEWPORT_GAP,
+    y: 96,
+  })
   const [panelWidth, setPanelWidth] = createSignal(PANEL_WIDTH)
   const [dragState, setDragState] = createSignal<DragState | null>(null)
   const [resizeState, setResizeState] = createSignal<ResizeState | null>(null)
@@ -43,7 +53,10 @@ export function useFloatingImagePanel() {
     setPosition(clampPosition(next, panelWidth(), getPanelHeight()))
 
   const updatePanelWidth = (nextWidth: number) => {
-    const maxWidth = Math.max(MIN_PANEL_WIDTH, window.innerWidth - position().x - VIEWPORT_GAP)
+    const maxWidth = Math.max(
+      MIN_PANEL_WIDTH,
+      window.innerWidth - position().x - VIEWPORT_GAP,
+    )
     const width = Math.min(clampWidth(nextWidth), maxWidth)
     setPanelWidth(width)
     requestAnimationFrame(() =>
@@ -61,23 +74,39 @@ export function useFloatingImagePanel() {
   const handlePointerMove = (event: PointerEvent) => {
     const resize = resizeState()
     if (resize && resize.pointerId === event.pointerId) {
-      if (resize.edge === 'right') return updatePanelWidth(resize.startWidth + event.clientX - resize.startX)
+      if (resize.edge === 'right')
+        return updatePanelWidth(
+          resize.startWidth + event.clientX - resize.startX,
+        )
       const rightEdge = resize.startLeft + resize.startWidth
-      const nextLeft = Math.max(VIEWPORT_GAP, Math.min(event.clientX, rightEdge - MIN_PANEL_WIDTH))
+      const nextLeft = Math.max(
+        VIEWPORT_GAP,
+        Math.min(event.clientX, rightEdge - MIN_PANEL_WIDTH),
+      )
       const nextWidth = clampWidth(rightEdge - nextLeft)
-      const finalWidth = Math.min(nextWidth, Math.min(MAX_PANEL_WIDTH, rightEdge - VIEWPORT_GAP))
+      const finalWidth = Math.min(
+        nextWidth,
+        Math.min(MAX_PANEL_WIDTH, rightEdge - VIEWPORT_GAP),
+      )
       const finalLeft = rightEdge - finalWidth
       setPanelWidth(finalWidth)
       requestAnimationFrame(() =>
         setPosition(current =>
-          clampPosition({ x: finalLeft, y: current.y }, finalWidth, getPanelHeight()),
+          clampPosition(
+            { x: finalLeft, y: current.y },
+            finalWidth,
+            getPanelHeight(),
+          ),
         ),
       )
       return
     }
     const drag = dragState()
     if (!drag || drag.pointerId !== event.pointerId) return
-    updatePosition({ x: event.clientX - drag.offsetX, y: event.clientY - drag.offsetY })
+    updatePosition({
+      x: event.clientX - drag.offsetX,
+      y: event.clientY - drag.offsetY,
+    })
   }
 
   const handlePointerUp = (event: PointerEvent) => {
@@ -96,21 +125,28 @@ export function useFloatingImagePanel() {
     })
   }
 
-  const handleResizePointerDown = (edge: 'left' | 'right') => (event: PointerEvent) => {
-    if (event.button !== 0) return
-    event.stopPropagation()
-    setDragState(null)
-    setResizeState({
-      pointerId: event.pointerId,
-      edge,
-      startX: event.clientX,
-      startLeft: position().x,
-      startWidth: panelWidth(),
-    })
-  }
+  const handleResizePointerDown =
+    (edge: 'left' | 'right') => (event: PointerEvent) => {
+      if (event.button !== 0) return
+      event.stopPropagation()
+      setDragState(null)
+      setResizeState({
+        pointerId: event.pointerId,
+        edge,
+        startX: event.clientX,
+        startLeft: position().x,
+        startWidth: panelWidth(),
+      })
+    }
 
   onMount(() => {
-    setPosition(clampPosition({ x: window.innerWidth - PANEL_WIDTH - 24, y: 96 }, PANEL_WIDTH, PANEL_HEADER_HEIGHT))
+    setPosition(
+      clampPosition(
+        { x: window.innerWidth - PANEL_WIDTH - 24, y: 96 },
+        PANEL_WIDTH,
+        PANEL_HEADER_HEIGHT,
+      ),
+    )
     window.addEventListener('pointermove', handlePointerMove)
     window.addEventListener('pointerup', handlePointerUp)
     window.addEventListener('pointercancel', handlePointerUp)
@@ -129,7 +165,9 @@ export function useFloatingImagePanel() {
     panelWidth()
     imageAspectRatio()
     requestAnimationFrame(() =>
-      setPosition(current => clampPosition(current, panelWidth(), getPanelHeight())),
+      setPosition(current =>
+        clampPosition(current, panelWidth(), getPanelHeight()),
+      ),
     )
   })
 
@@ -141,7 +179,7 @@ export function useFloatingImagePanel() {
     setPanelRef,
     handleHeaderPointerDown,
     handlePreviewImageLoad,
-    handleRefresh: () => console.log('refresh callback placeholder'),
+    // handleRefresh: () => console.log('refresh callback placeholder'),
     handleResizePointerDown,
     toggleExpanded: () => setExpanded(value => !value),
   }

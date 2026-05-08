@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/solid-query'
+import { toast } from 'solid-sonner'
 import { API_PATH } from '@/types/api-paths'
 import type { AccountInfo } from '@/types/device-info-response'
 
@@ -16,6 +17,7 @@ async function fetchFn(account: AccountInfo) {
     // return res
   } catch (err) {
     console.error(err)
+    toast.error(JSON.stringify(err))
     throw err
   }
 }

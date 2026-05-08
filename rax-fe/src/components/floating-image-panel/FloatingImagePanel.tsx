@@ -1,14 +1,28 @@
+import { RiSystemRefreshLine } from 'solid-icons/ri'
+import { VsChevronDown } from 'solid-icons/vs'
 import { Show } from 'solid-js'
+import { toast } from 'solid-sonner'
+import { useScreenShot } from '@/services/screen-shot'
 import { FloatingImagePanelPreview } from './FloatingImagePanelPreview'
 import { useFloatingImagePanel } from './useFloatingImagePanel'
 
 export function FloatingImagePanel() {
   const panel = useFloatingImagePanel()
+  const screenShot = useScreenShot()
+
+  const handleRefresh = async () => {
+    try {
+      await screenShot.refetch()
+    } catch (err) {
+      console.error(err)
+      toast.error(JSON.stringify(err))
+    }
+  }
 
   return (
     <div
       ref={panel.setPanelRef}
-      class='fixed z-40 select-none rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/15'
+      class='z-40 fixed bg-white shadow-2xl shadow-slate-900/15 border border-slate-200 rounded-2xl select-none'
       style={{
         left: `${panel.position().x}px`,
         top: `${panel.position().y}px`,
@@ -16,42 +30,46 @@ export function FloatingImagePanel() {
       }}
     >
       <div
-        class='absolute inset-y-0 left-0 z-10 w-2 cursor-ew-resize'
+        class='left-0 z-10 absolute inset-y-0 w-2 cursor-ew-resize'
         onPointerDown={panel.handleResizePointerDown('left')}
       />
       <div
-        class='absolute inset-y-0 right-0 z-10 w-2 cursor-ew-resize'
+        class='right-0 z-10 absolute inset-y-0 w-2 cursor-ew-resize'
         onPointerDown={panel.handleResizePointerDown('right')}
       />
+
       <div
-        class='flex cursor-move items-center justify-between gap-3 rounded-2xl px-4 py-3'
+        class='flex justify-between items-center gap-3 px-4 pt-3 pb-2 rounded-2xl cursor-move'
         onPointerDown={panel.handleHeaderPointerDown}
       >
-        <div class='min-w-0'>
-          <p class='truncate text-sm font-semibold text-slate-900'>悬浮预览</p>
-          <p class='truncate text-xs text-slate-500'>
-            {panel.expanded() ? '拖拽移动，点击右上角折叠' : '点击右上角展开'}
+        <div class='flex items-center gap-x-2'>
+          <p class='flex items-center font-semibold text-slate-900 text-sm'>
+            Device Screenshot
           </p>
+          <button
+            type='button'
+            class={`cursor-pointer ${screenShot.isFetching ? 'animate-spin' : ''}`}
+            onClick={handleRefresh}
+          >
+            <RiSystemRefreshLine size={13} />
+          </button>
         </div>
+
         <button
           type='button'
-          class='inline-flex size-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900'
+          class='size-6 cursor-pointer'
           onClick={panel.toggleExpanded}
-          aria-label={panel.expanded() ? '折叠悬浮框' : '展开悬浮框'}
         >
-          <span
-            class={panel.expanded() ? 'text-lg leading-none' : 'rotate-180 text-lg leading-none'}
-            aria-hidden='true'
-          >
-            {panel.expanded() ? '▴' : '▾'}
-          </span>
+          <VsChevronDown />
         </button>
       </div>
+
       <Show when={panel.expanded()}>
         <FloatingImagePanelPreview
           imageAspectRatio={panel.imageAspectRatio()}
           onImageLoad={panel.handlePreviewImageLoad}
-          onRefresh={panel.handleRefresh}
+          blob={screenShot.data}
+          refreshing={screenShot.isLoading}
         />
       </Show>
     </div>

@@ -10,20 +10,18 @@
   },
   "dependencies": {
     "@kobalte/core": "^0.13.11",
-    "@tailwindcss/vite": "^4.2.4",
+    "@tailwindcss/vite": "^4.3.0",
     "@tanstack/solid-query": "^5.100.9",
-    "immer": "^11.1.6",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.9.12",
     "solid-sonner": "^0.3.1",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
     "@typescript/native-preview": "7.0.0-dev.20260504.1",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.14",
-    "vite": "^8.0.10",
+    "vite": "^8.0.11",
     "vite-plugin-singlefile": "^2.3.3",
     "vite-plugin-solid": "^2.11.12"
   }
