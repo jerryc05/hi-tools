@@ -3,8 +3,8 @@ import { UserSwitcher } from '@/components/user-switcher/UserSwitcher'
 
 export default function App() {
   return (
-    <div class='min-h-screen bg-slate-50 text-slate-900'>
-      <header class='flex h-16 items-center justify-end px-8'>
+    <div class='bg-slate-50 min-h-screen text-slate-900'>
+      <header class='flex justify-end items-center px-4 h-16'>
         <UserSwitcher />
       </header>
 

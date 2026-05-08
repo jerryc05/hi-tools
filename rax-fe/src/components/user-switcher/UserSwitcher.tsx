@@ -1,43 +1,49 @@
 import { DropdownMenu } from '@kobalte/core/dropdown-menu'
-import { createMemo, For, Show } from 'solid-js'
-import { useAccountInfo } from '@/store'
-import type { LoginAccount } from '@/types/device-info-response'
-import { UserInfoCard } from './UserInfoCard'
+import { createMemo, createSignal, For, Show } from 'solid-js'
+import { toast } from 'solid-sonner'
+import { useChangeAccount } from '@/services/change-account'
+import { useAccountInfo } from '@/services/device-info'
+import type { AccountInfo } from '@/types/device-info-response'
 import { UserMenuItem } from './UserMenuItem'
-import { UserTrigger } from './UserTrigger'
+import { UserMiniBar } from './UserMiniBar'
 
 export function UserSwitcher() {
-  // const [currentUser, setCurrentUser] = createSignal<LoginAccount>(users[0])
+  const accountInfo = useAccountInfo()
+  const changeAccount = useChangeAccount()
 
-  const query = useAccountInfo()
+  const handleSelectUser = async (selected: AccountInfo) => {
+    await changeAccount.mutate(selected, {
+      onSuccess(data) {
+        toast.success(JSON.stringify(data))
+      },
+      onError(error) {
+        console.error(error)
+        toast.error(JSON.stringify(error))
+      },
+    })
+  }
 
-  const handleSelectUser = (_selected: LoginAccount) => {}
+  const currAccount = createMemo(() => accountInfo.data?.current!)
+  const otherAccounts = createMemo(() => accountInfo.data?.loginAccountList)
 
-  const currAccount = createMemo(() => query.data?.current!)
-  const otherAccounts = createMemo(() => query.data?.loginAccountList)
+  const [dropDownOpen, setDropDownOpen] = createSignal(false)
 
   return (
-    <Show when={!!query.data} fallback='loading...'>
-      <DropdownMenu placement='bottom-end'>
-        <DropdownMenu.Trigger class='outline-none'>
-          <UserTrigger user={currAccount()} />
+    <Show when={!!accountInfo.data} fallback='loading...'>
+      <DropdownMenu
+        placement='bottom-end'
+        open={dropDownOpen()}
+        onOpenChange={setDropDownOpen}
+      >
+        <DropdownMenu.Trigger class='cursor-pointer'>
+          <UserMiniBar user={currAccount()} />
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Portal>
-          <DropdownMenu.Content class='z-50 mt-3 w-80 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl outline-none'>
-            <section class='border-b border-slate-100 px-5 py-4'>
-              <p class='text-xs font-medium uppercase tracking-wide text-slate-400'>
-                当前用户
-              </p>
-
-              <div class='mt-3'>
-                <UserInfoCard user={currAccount()} />
-              </div>
-            </section>
-
+          <DropdownMenu.Content class='z-50 bg-white shadow-xl mt-2 border border-slate-200 rounded-2xl'>
             <section class='px-5 py-4'>
-              <p class='mb-3 text-xs font-medium uppercase tracking-wide text-slate-400'>
-                切换用户
+              <p class='mb-3 font-medium text-slate-400 text-xs uppercase tracking-wide'>
+                All accounts
               </p>
 
               <div class='space-y-2'>

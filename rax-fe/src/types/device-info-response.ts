@@ -41,11 +41,11 @@ export interface AppSettings {
 }
 
 export interface Account {
-  current: LoginAccount
-  loginAccountList?: LoginAccount[]
+  current: AccountInfo
+  loginAccountList?: AccountInfo[]
 }
 
-export interface LoginAccount {
+export interface AccountInfo {
   customID: string
   nickname: string
   userID: string

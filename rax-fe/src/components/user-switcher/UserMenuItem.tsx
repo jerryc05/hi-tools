@@ -1,16 +1,17 @@
-import { Show } from 'solid-js'
 import { DropdownMenu } from '@kobalte/core/dropdown-menu'
-import type { LoginAccount } from '@/types/device-info-response'
+import { Show } from 'solid-js'
+import type { AccountInfo } from '@/types/device-info-response'
 
 type UserMenuItemProps = {
-  user: LoginAccount
+  user: AccountInfo
   active: boolean
-  onSelect: (user: LoginAccount) => void
+  onSelect: (user: AccountInfo) => void
 }
 
 export function UserMenuItem(props: UserMenuItemProps) {
   return (
     <DropdownMenu.Item
+      closeOnSelect={false}
       class={`flex cursor-pointer items-center justify-between rounded-xl px-3 py-3 outline-none transition ${
         props.active ?
           'bg-slate-900 text-white'
@@ -18,21 +19,20 @@ export function UserMenuItem(props: UserMenuItemProps) {
       }`}
       onSelect={() => props.onSelect(props.user)}
     >
-      <div class='min-w-0'>
-        <p class='truncate text-sm font-medium'>{props.user.nickname}</p>
-
+      <div  >
+        <p class='font-medium text-sm truncate'>{props.user.nickname}</p>
         <p
-          class={`text-xs ${
+          class={`mt-1 text-xs ${
             props.active ? 'text-slate-300' : 'text-slate-400'
           }`}
         >
-          UID: {props.user.userID} · {`>${props.user.userID}<`}
+          <span class='select-none'>UID:</span> {props.user.userID}
         </p>
       </div>
 
       <Show when={props.active}>
-        <span class='ml-3 shrink-0 rounded-full bg-white/15 px-2 py-0.5 text-xs'>
-          当前
+        <span class='bg-white/15 ml-3 px-2 py-0.5 rounded-full text-xs shrink-0'>
+          Current
         </span>
       </Show>
     </DropdownMenu.Item>

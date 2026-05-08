@@ -23,18 +23,14 @@ async function handler(args: { port?: number }) {
   const { default: express } = await import('express')
 
   const app = express()
+  app.use(express.json())
 
   app.get(API_PATH.RAX_WEBPAGE, (_req, res) => {
     res.sendFile(join(import.meta.dirname, 'index.html'))
   })
 
   app.get(API_PATH.RAX_DEVICE_INFO, async (_req, res) => {
-    // mock response
-    const stdout = JSON.stringify(
-      (await import('./mock')).mockData[API_PATH.RAX_DEVICE_INFO],
-    )
-
-    // const { stdout } = await execa`${RAX_CLI_CMD} device info`
+    const { stdout } = await execa`${RAX_CLI_CMD} device info`
     if (stdout.trim().startsWith('Error:')) {
       res.status(400).send(stdout)
       return
@@ -62,6 +58,21 @@ async function handler(args: { port?: number }) {
     }
 
     res.json(jsonObj)
+  })
+
+  app.post(API_PATH.RAX_CHANGE_ACCOUNT, async (req, res) => {
+    const { userID } = req.body
+    if (!userID) {
+      res.sendStatus(400)
+      return
+    }
+
+    const { stdout } =
+      await execa`${RAX_CLI_CMD} app account change ${userID} --json`
+
+    const text: string | undefined = JSON.parse(stdout).content?.[0]?.text
+
+    res.type('json').send(text)
   })
 
   app.get(API_PATH.RAX_SCRSHOT, async (_req, res) => {
