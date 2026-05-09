@@ -1,6 +1,5 @@
 import { RiSystemRefreshLine } from 'solid-icons/ri'
 import { VsChevronDown } from 'solid-icons/vs'
-import { Show } from 'solid-js'
 import { toast } from 'solid-sonner'
 import { useScreenShot } from '@/services/screen-shot'
 import { FloatingImagePanelPreview } from './FloatingImagePanelPreview'

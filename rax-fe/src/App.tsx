@@ -1,5 +1,5 @@
-import { FloatingImagePanel } from '@/components/floating-image-panel/FloatingImagePanel'
-import { UserSwitcher } from '@/components/user-switcher/UserSwitcher'
+import { FloatingImagePanel } from '@/components/floating-image-panel'
+import { UserSwitcher } from '@/components/user-switcher'
 
 export default function App() {
   return (
