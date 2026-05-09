@@ -4,6 +4,8 @@ import { API_PATH } from '@/types/api-paths'
 
 async function fetchFn() {
   try {
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
     const mockImg = await import('./mock-scrshot.webp?url')
     const resp = await fetch(mockImg.default)
 

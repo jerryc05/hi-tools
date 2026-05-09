@@ -27,7 +27,7 @@ const clampPosition = (
   const maxX = Math.max(VIEWPORT_GAP, window.innerWidth - width - VIEWPORT_GAP)
   const maxY = Math.max(
     VIEWPORT_GAP,
-    window.innerHeight - panelHeight - VIEWPORT_GAP,
+    window.innerHeight - panelHeight / 2 - VIEWPORT_GAP,
   )
   return {
     x: Math.min(Math.max(position.x, VIEWPORT_GAP), maxX),

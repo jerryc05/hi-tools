@@ -22,7 +22,7 @@ export function FloatingImagePanel() {
   return (
     <div
       ref={panel.setPanelRef}
-      class='z-40 fixed bg-white shadow-2xl shadow-slate-900/15 border border-slate-200 rounded-2xl select-none'
+      class='z-40 fixed bg-white shadow-2xl shadow-slate-900/15 border border-slate-200 rounded-2xl overflow-hidden select-none'
       style={{
         left: `${panel.position().x}px`,
         top: `${panel.position().y}px`,
@@ -69,7 +69,7 @@ export function FloatingImagePanel() {
           imageAspectRatio={panel.imageAspectRatio()}
           onImageLoad={panel.handlePreviewImageLoad}
           blob={screenShot.data}
-          refreshing={screenShot.isLoading}
+          refreshing={screenShot.isFetching}
         />
       </Show>
     </div>
