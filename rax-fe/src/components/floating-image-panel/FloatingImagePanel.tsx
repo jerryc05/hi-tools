@@ -39,7 +39,7 @@ export function FloatingImagePanel() {
       />
 
       <div
-        class='flex justify-between items-center gap-3 px-4 pt-3 pb-2 rounded-2xl cursor-move'
+        class='flex justify-between items-center gap-3 px-4 py-3 rounded-2xl cursor-move'
         onPointerDown={panel.handleHeaderPointerDown}
       >
         <div class='flex items-center gap-x-2'>
@@ -57,21 +57,18 @@ export function FloatingImagePanel() {
 
         <button
           type='button'
-          class='size-6 cursor-pointer'
+          class='flex justify-center items-center size-6 cursor-pointer'
           onClick={panel.toggleExpanded}
         >
           <VsChevronDown />
         </button>
       </div>
 
-      <Show when={panel.expanded()}>
-        <FloatingImagePanelPreview
-          imageAspectRatio={panel.imageAspectRatio()}
-          onImageLoad={panel.handlePreviewImageLoad}
-          blob={screenShot.data}
-          refreshing={screenShot.isFetching}
-        />
-      </Show>
+      <FloatingImagePanelPreview
+        class={panel.expanded() ? '' : 'hidden'}
+        imageAspectRatio={panel.imageAspectRatio()}
+        onImageLoad={panel.handlePreviewImageLoad}
+      />
     </div>
   )
 }

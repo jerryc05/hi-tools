@@ -3,7 +3,7 @@ import { createEffect, createSignal, onCleanup, onMount } from 'solid-js'
 const PANEL_WIDTH = 320
 const PANEL_HEADER_HEIGHT = 72
 const VIEWPORT_GAP = 8
-const MIN_PANEL_WIDTH = 220
+const MIN_PANEL_WIDTH = 210
 const MAX_PANEL_WIDTH = 560
 
 type Position = { x: number; y: number }
@@ -27,7 +27,7 @@ const clampPosition = (
   const maxX = Math.max(VIEWPORT_GAP, window.innerWidth - width - VIEWPORT_GAP)
   const maxY = Math.max(
     VIEWPORT_GAP,
-    window.innerHeight - panelHeight / 2 - VIEWPORT_GAP,
+    window.innerHeight - Math.max(64, window.innerHeight * 0.05),
   )
   return {
     x: Math.min(Math.max(position.x, VIEWPORT_GAP), maxX),
