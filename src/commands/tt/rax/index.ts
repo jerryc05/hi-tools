@@ -30,6 +30,24 @@ async function handler(args: { port?: number }) {
     res.sendFile(join(import.meta.dirname, 'index.html'))
   })
 
+  app.post<
+    Record<string, never>,
+    unknown,
+    { keepAlive?: boolean } & (
+      | { type: 'usb' }
+      | { type: 'ws'; ips: string[]; ports: number[] }
+    )
+  >(API_PATH.RAX_CONNECT, async (req, res) => {
+    throw new Error('unimplemented')
+
+    // res.send('Connect')
+    const { type, keepAlive } = req.body
+
+    if (keepAlive) {
+      const { stdout } = await execa`${RAX_CLI_CMD} device keep-alive`
+    }
+  })
+
   app.get(API_PATH.RAX_DEVICE_INFO, async (_req, res) => {
     const { stdout } = await execa`${RAX_CLI_CMD} device info`
     if (stdout.trim().startsWith('Error:')) {
@@ -61,20 +79,23 @@ async function handler(args: { port?: number }) {
     res.json(jsonObj)
   })
 
-  app.post(API_PATH.RAX_CHANGE_ACCOUNT, async (req, res) => {
-    const { userID } = req.body
-    if (!userID) {
-      res.sendStatus(400)
-      return
-    }
+  app.post<Record<string, never>, unknown, { userID: string }>(
+    API_PATH.RAX_CHANGE_ACCOUNT,
+    async (req, res) => {
+      const { userID } = req.body
+      if (!userID) {
+        res.sendStatus(400)
+        return
+      }
 
-    const { stdout } =
-      await execa`${RAX_CLI_CMD} app account change ${userID} --json`
+      const { stdout } =
+        await execa`${RAX_CLI_CMD} app account change ${userID} --json`
 
-    const text: string | undefined = JSON.parse(stdout).content?.[0]?.text
+      const text: string | undefined = JSON.parse(stdout).content?.[0]?.text
 
-    res.type('json').send(text)
-  })
+      res.type('json').send(text)
+    },
+  )
 
   app.get(API_PATH.RAX_SCRSHOT, async (_req, res) => {
     const { execa } = await import('execa')
@@ -105,13 +126,17 @@ async function handler(args: { port?: number }) {
     res.sendFile(webpFile)
   })
 
-  app.post(API_PATH.RAX_OPEN_SCHEMA, async (req, res) => {
-    const { execa } = await import('execa')
+  app.post<Record<string, never>, unknown, { schema: string }>(
+    API_PATH.RAX_OPEN_SCHEMA,
+    async (req, res) => {
+      const { execa } = await import('execa')
 
-    const { schema } = req.body
-    const { stdout } = await execa`${RAX_CLI_CMD} device open-schema ${schema}`
-    res.send(stdout)
-  })
+      const { schema } = req.body
+      const { stdout } =
+        await execa`${RAX_CLI_CMD} device open-schema ${schema}`
+      res.send(stdout)
+    },
+  )
 
   const server = app.listen(args.port ?? 0, () => {
     const addr = server.address()
