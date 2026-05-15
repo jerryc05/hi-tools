@@ -18,13 +18,13 @@ export default [
           ;({ stdout } = await execa({
             reject: false, // 报错时不直接抛出异常
             stderr: 'ignore',
-          })`npx tsgo --build --noEmit`)
+          })`pnpm --quiet exec tsgo --build --noEmit`)
         } catch (error) {
           if ((error as any).code !== 'ENOENT') throw error
           ;({ stdout } = await execa({
             reject: false, // 报错时不直接抛出异常
             stderr: 'ignore',
-          })`npx tsc --build --noEmit`)
+          })`pnpm --quiet exec tsc --build --noEmit`)
         }
 
         // 需要忽略的错误码列表
@@ -35,6 +35,7 @@ export default [
           '6192', // All imports in 'X' are unused
           '18048', // 'X' is possibly 'null' or 'undefined'
         ]
+        const ignoredCodeRegex = /5\d\d\d/
 
         const lines = stdout.split('\n').filter(line => {
           if (line.includes('/node_modules/')) return false
@@ -42,7 +43,11 @@ export default [
           const matchInfo = line.match(/error TS(\d+):/)
           if (!matchInfo?.[1]) return false
 
-          if (ignoredCodes.includes(matchInfo[1])) return false
+          if (
+            ignoredCodes.includes(matchInfo[1]) ||
+            ignoredCodeRegex.test(matchInfo[1])
+          )
+            return false
           return true
         })
 
