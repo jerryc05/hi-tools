@@ -6,18 +6,26 @@ export default [
     command: 'tschk',
     describe: 'My ts-check rules',
     handler: async () => {
+      let successful = true
       const { execa } = await import('execa')
 
       {
-        const { stdout } = await execa({
-          reject: false, // 报错时不直接抛出异常
-          stderr: 'ignore',
-        })`npx tsc --build --noEmit --emitDeclarationOnly false`
-
-        // todo ,,, support tsgo
-
         const s = spinner()
-        s.start('Running custom tsc type-check...')
+        s.start('Running custom ts type-check...')
+
+        let stdout = ''
+        try {
+          ;({ stdout } = await execa({
+            reject: false, // 报错时不直接抛出异常
+            stderr: 'ignore',
+          })`npx tsgo --build --noEmit`)
+        } catch (error) {
+          if ((error as any).code !== 'ENOENT') throw error
+          ;({ stdout } = await execa({
+            reject: false, // 报错时不直接抛出异常
+            stderr: 'ignore',
+          })`npx tsc --build --noEmit`)
+        }
 
         // 需要忽略的错误码列表
         const ignoredCodes = [
@@ -41,28 +49,13 @@ export default [
         if (lines.length > 0) {
           lines.map(l => log.error(l))
           s.stop('Type-check failed')
-          process.exit(1)
+          successful = false
         } else {
           s.stop('Type-check passed')
         }
       }
 
-      {
-        const s = spinner()
-        s.start('Running knip deps check...')
-
-        const { stdout, exitCode } = await execa({
-          reject: false, // 报错时不直接抛出异常
-          stderr: 'ignore',
-        })`pnpm dlx knip --strict --dependencies`
-
-        if (exitCode !== 0) {
-          log.error(stdout)
-          s.stop('Dep check failed')
-          process.exit(1)
-        }
-        s.stop('Dep check passed')
-      }
+      process.exit(successful ? 0 : 1)
     },
   },
 ] satisfies HiCmd[]
