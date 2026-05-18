@@ -1,22 +1,29 @@
 import { access, constants } from 'node:fs/promises'
 import type { HiCmd } from '@/types/cmd-module'
 
+async function resolveReadableFile(basename: string) {
+  const candidates = ['.js', '.cjs', '.mjs'].map(ext => `${basename}${ext}`)
+
+  for (const filename of candidates) {
+    try {
+      await access(filename, constants.R_OK)
+      return filename
+    } catch {}
+  }
+
+  console.error(`tt i18n: Failed to read one of ${candidates.join(', ')}`)
+  process.exit(1)
+}
+
 export default [
   {
     command: 'i18n',
     describe: 'I18n scan and sort',
     handler: async () => {
-      const fileStarlingCfg = 'starling.config.js'
-      const fileCombineLang = 'combine-lang.js'
-
-      for (const filename of [fileStarlingCfg, fileCombineLang]) {
-        try {
-          await access(filename, constants.R_OK)
-        } catch (e) {
-          console.error(`tt i18n: Failed to read ${filename}\n`, e)
-          process.exit(1)
-        }
-      }
+      const [fileStarlingCfg] = await Promise.all([
+        resolveReadableFile('starling.config'),
+        resolveReadableFile('combine-lang'),
+      ])
 
       const { execa, execaNode } = await import('execa')
 
