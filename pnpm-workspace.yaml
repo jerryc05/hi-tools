@@ -1,3 +1,9 @@
+overrides:
+  '@clack/prompts': '$@clack/prompts'
+  execa: '$execa'
+  jsonwebtoken: '^9'
+  yargs: '$yargs'
+
 allowBuilds:
   esbuild: true
   protobufjs: true

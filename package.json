@@ -54,19 +54,5 @@
     "execa": "$execa",
     "jsonwebtoken": "^9",
     "yargs": "$yargs"
-  },
-  "pnpm": {
-    "overrides": {
-      "@clack/prompts": "$@clack/prompts",
-      "execa": "$execa",
-      "jsonwebtoken": "^9",
-      "yargs": "$yargs"
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "protobufjs",
-      "sharp",
-      "skills"
-    ]
   }
 }
