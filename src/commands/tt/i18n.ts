@@ -20,7 +20,7 @@ export default [
     command: 'i18n',
     describe: 'I18n scan and sort',
     handler: async () => {
-      const [fileStarlingCfg] = await Promise.all([
+      const [fileStarlingCfg, fileCombineLang] = await Promise.all([
         resolveReadableFile('starling.config'),
         resolveReadableFile('combine-lang'),
       ])
@@ -30,7 +30,7 @@ export default [
       await execa({
         stdio: 'inherit',
       })`pnpm dlx @ies/starling-cli scan -c ${fileStarlingCfg} --fallback --disable-browser`
-      await execaNode({ stdio: 'inherit' })`${fileStarlingCfg}`
+      await execaNode({ stdio: 'inherit' })`${fileCombineLang}`
       await execa({
         stdio: 'inherit',
       })`pnpm --package=json-sort-cli dlx sortjson ./src/lang`.catch(e =>
