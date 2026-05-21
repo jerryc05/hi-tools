@@ -1,8 +1,11 @@
 import { lstatSync } from 'node:fs'
 import { log, note, spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
-import { PKG } from '@/'
 import type { HiCmd } from '@/types/cmd-module'
+import type PkgJsonObj from '../../package.json'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+import process from 'node:process'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -12,6 +15,10 @@ async function main(argv: {
   timeout: number
   verbose?: boolean
 }) {
+  const PKG: typeof PkgJsonObj = JSON.parse(
+    await readFile(join(process.cwd(), './package.json'), 'utf8'),
+  )
+
   const version = PKG.version
   const pkgName = `${PKG.name}@${version}`
 
@@ -50,14 +57,12 @@ async function main(argv: {
 
         try {
           // Update
-          s = spinner()
-          s.start(`Installing ${pkgName} via ${installCmdArr}`)
+          log.info(`Installing ${pkgName} via ${String(installCmdArr)}`)
           await execa({ cwd: argv.target, stdio: 'inherit' })`${installCmdArr}`
-          s.stop(`${pkgName} installed! ✅`)
+          log.success(`${pkgName} installed! ✅`)
           break
         } catch {
-          s.stop(`${pkgName} not installed`)
-          log.error('Registry updated but failed to install')
+          log.error(`${pkgName} not installed but found in registry`)
         }
       }
 
