@@ -32,7 +32,7 @@ async function main(argv: {
     await execa({
       cwd: argv.target,
       stdio: 'inherit',
-      env: { GIT_TRACE: '1' },
+      // env: { GIT_TRACE: '1' },
     })`git pull`
     s.stop('Latest commit pulled')
 
@@ -73,12 +73,15 @@ async function main(argv: {
     // Push
     s = spinner()
     s.start('Committing changes...')
-    await execa({ stdio: 'inherit' })`git commit -am 'chore: upd ${pkgName}`
+    await execa({
+      cwd: argv.target,
+      stdio: 'inherit',
+    })`git commit -am ${`chore: upd ${pkgName}`}`
     s.stop('Committed ✅')
 
     s = spinner()
     s.start('Pushing to remote...')
-    await execa({ stdio: 'inherit' })`git push`
+    await execa({ cwd: argv.target, stdio: 'inherit' })`git push`
     s.stop('Pushed ✅')
 
     log.success('🎉 DONE!')
