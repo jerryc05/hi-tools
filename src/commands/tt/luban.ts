@@ -7,14 +7,12 @@ type NpmVersionPayload = {
   repos: number
   create_user: string
   desc: string
+  has_version_stage: false
+  version?: string
 } & (
-  | { has_version_stage: false; publish_version?: never }
-  | { has_version_stage: true; publish_version: string }
-) &
-  (
-    | { pub_base: 'commit_base'; base_commit_hash: string }
-    | { pub_base: 'branch_base'; branch_name: string }
-  )
+  | { pub_base: 'commit_base'; base_commit_hash: string }
+  | { pub_base: 'branch_base'; branch_name: string }
+)
 
 async function publish({
   repoId,
@@ -62,8 +60,8 @@ async function publish({
       repos: repoId,
       create_user: username,
       desc: `[${PKG?.version}] ${(await commitMsgP).stdout.trim()}`,
-      has_version_stage: true,
-      publish_version: PKG?.version,
+      has_version_stage: false,
+      version: PKG?.version,
       ...(commitHash ?
         { pub_base: 'commit_base', base_commit_hash: commitHash }
       : { pub_base: 'branch_base', branch_name: commitBranch! }),
