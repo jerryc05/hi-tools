@@ -1,17 +1,20 @@
 import { log, note } from '@clack/prompts'
 import type { Options } from 'yargs'
-import { PKG } from '@/'
 import type { HiCmd } from '@/types/cmd-module'
+import { getCwdPackageJson } from '@/utils/get-cwd-package'
 
 type NpmVersionPayload = {
   repos: number
   create_user: string
   desc: string
-  has_version_stage: boolean
 } & (
-  | { pub_base: 'commit_base'; base_commit_hash: string }
-  | { pub_base: 'branch_base'; branch_name: string }
-)
+  | { has_version_stage: false; publish_version?: never }
+  | { has_version_stage: true; publish_version: string }
+) &
+  (
+    | { pub_base: 'commit_base'; base_commit_hash: string }
+    | { pub_base: 'branch_base'; branch_name: string }
+  )
 
 async function publish({
   repoId,
@@ -22,6 +25,12 @@ async function publish({
   hash?: string
   branch?: string
 }) {
+  const PKG = await getCwdPackageJson()
+  if (!PKG) {
+    log.error(`Failed to get package.json at ${process.cwd()}`)
+    process.exit(1)
+  }
+
   const usernameKey = 'SCM_USERNAME'
   const passwordKey = 'SCM_PASSWORD'
   const username = process.env[usernameKey]
@@ -40,7 +49,7 @@ async function publish({
     const commitMsgP = execa`git log -1 --pretty=%s`
 
     let commitHash: string | undefined, commitBranch: string | undefined
-    if (hash || (!hash && !branch)) {
+    if (branch == null) {
       if (!hash) commitHash = (await execa`git rev-parse HEAD`).stdout.trim()
       else commitHash = hash
     } else {
@@ -52,17 +61,17 @@ async function publish({
     const payload: NpmVersionPayload = {
       repos: repoId,
       create_user: username,
-      pub_base: commitHash ? 'commit_base' : 'branch_base',
-      base_commit_hash: commitHash ?? '',
-      branch_name: commitBranch ?? '',
       desc: `[${PKG?.version}] ${(await commitMsgP).stdout.trim()}`,
-      has_version_stage: false,
+      has_version_stage: true,
+      publish_version: PKG?.version,
+      ...(commitHash ?
+        { pub_base: 'commit_base', base_commit_hash: commitHash }
+      : { pub_base: 'branch_base', branch_name: commitBranch! }),
     }
 
     note(
-      `ℹ️ ${payload.create_user} is publishing ${PKG?.name}@${PKG?.version} to repoId=${payload.repos}\n` +
-        `\t ${commitHash ? `hash=${commitHash}` : `brch=${commitBranch}`}\n` +
-        `\t desc=${payload.desc}`,
+      `${payload.create_user} is publishing ${PKG?.name}@${PKG?.version} to repoId=${payload.repos}` +
+        `\n${commitHash ? `hash: ${commitHash}` : `brch: ${commitBranch}`}`,
     )
 
     const response = await fetch('https://scm.byted.org/api/v2/npm_versions/', {
@@ -81,8 +90,8 @@ async function publish({
       process.exit(1)
     }
 
-    const data = await response.json()
-    log.success('🎉 Successfully published:', data)
+    const data = await response.text()
+    log.success(`🎉 Successfully published: ${data}`)
   } catch (err) {
     log.error('Execution Failed:')
     console.error(err)

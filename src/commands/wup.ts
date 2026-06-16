@@ -2,10 +2,8 @@ import { lstatSync } from 'node:fs'
 import { log, note, spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
-import type PkgJsonObj from '../../package.json'
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
 import process from 'node:process'
+import { getCwdPackageJson } from '@/utils/get-cwd-package'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -15,9 +13,11 @@ async function main(argv: {
   timeout: number
   verbose?: boolean
 }) {
-  const PKG: typeof PkgJsonObj = JSON.parse(
-    await readFile(join(process.cwd(), './package.json'), 'utf8'),
-  )
+  const PKG = await getCwdPackageJson()
+  if (!PKG) {
+    log.error(`Failed to get package.json at ${process.cwd()}`)
+    process.exit(1)
+  }
 
   const version = PKG.version
   const pkgName = `${PKG.name}@${version}`
