@@ -59,7 +59,7 @@ async function publish({
     const payload: NpmVersionPayload = {
       repos: repoId,
       create_user: username,
-      desc: `[${PKG?.version}] ${(await commitMsgP).stdout.trim()}`,
+      desc: `v${PKG?.version}: ${(await commitMsgP).stdout.trim()}`,
       has_version_stage: false,
       version: PKG?.version,
       ...(commitHash ?
