@@ -36,7 +36,7 @@ async function publish({
   if (!username || !password) {
     log.error(
       `Missing ${!username ? usernameKey : passwordKey} in env var.\n` +
-        'Go to https://luban.bytedance.net/npm/publish and get your personal SCM username+password.',
+        'Go to https://luban.bytedance.net/npm/publish and get your personal SCM username & password.',
     )
     process.exit(1)
   }
@@ -116,7 +116,18 @@ export default [
   {
     command: 'luban <repoId>',
     describe: 'Publish current repo pkg to Luban',
-    builder,
+    builder: yargs =>
+      yargs
+        .options(builder)
+        .example('$0 tt luban 1234', 'Example of hash mode (current commit)')
+        .example(
+          '$0 tt luban 1234 --by-hash 123321',
+          'Example of hash mode (commit hash: 123321)',
+        )
+        .example(
+          '$0 tt luban 1234 --by-branch master',
+          'Example of branch mode (master branch)',
+        ),
     handler(args) {
       const { byHash, byBranch } = args
       const repoId = Number(args.repoId)

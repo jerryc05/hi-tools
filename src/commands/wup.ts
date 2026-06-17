@@ -1,16 +1,19 @@
 import { lstatSync } from 'node:fs'
 import { log, note, spinner } from '@clack/prompts'
+import strToArgv from 'string-argv'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
 import process from 'node:process'
 import { getCwdPackageJson } from '@/utils/get-cwd-package'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+const SLEEP_INTERVAL = 10000 // 10s
 
 async function main(argv: {
   target: string
   installCmdPrefix: string
   timeout: number
+  noCommit?: boolean
   verbose?: boolean
 }) {
   const PKG = await getCwdPackageJson()
@@ -22,8 +25,7 @@ async function main(argv: {
   const version = PKG.version
   const pkgName = `${PKG.name}@${version}`
 
-  const SLEEP_INTERVAL = 10000 // 10s
-  const installCmdArr = [...argv.installCmdPrefix.split(' '), pkgName]
+  const installCmdArr = [...strToArgv(argv.installCmdPrefix), pkgName]
 
   note(
     `🚀 Monitoring ${pkgName}...\n` +
@@ -57,12 +59,15 @@ async function main(argv: {
 
         try {
           // Update
-          log.info(`Installing ${pkgName} via ${String(installCmdArr)}`)
+          log.info(`Installing ${pkgName} via ${installCmdArr}`)
           await execa({ cwd: argv.target, stdio: 'inherit' })`${installCmdArr}`
           log.success(`${pkgName} installed! ✅`)
           break
-        } catch {
-          log.error(`${pkgName} not installed but found in registry`)
+        } catch (error) {
+          log.error(
+            `${pkgName} was found in registry, but install command failed. Err: ${error}`,
+          )
+          process.exit(1)
         }
       }
 
@@ -75,19 +80,34 @@ async function main(argv: {
       await sleep(SLEEP_INTERVAL)
     }
 
-    // Push
-    s = spinner()
-    s.start('Committing changes...')
-    await execa({
-      cwd: argv.target,
-      stdio: 'inherit',
-    })`git commit -am ${`chore: upd ${pkgName}`}`
-    s.stop('Committed ✅')
+    if (!argv.noCommit) {
+      // Check untracked files
+      const { stdout: untrackedFiles } = await execa({
+        cwd: argv.target,
+      })`git ls-files --others --exclude-standard`
+      if (untrackedFiles.trim()) {
+        log.error(
+          `Target repo has untracked files. Please commit or remove them manually before running wup:\n${untrackedFiles}`,
+        )
+        process.exit(1)
+      }
 
-    s = spinner()
-    s.start('Pushing to remote...')
-    await execa({ cwd: argv.target, stdio: 'inherit' })`git push`
-    s.stop('Pushed ✅')
+      // Push
+      s = spinner()
+      s.start('Committing changes...')
+      await execa({
+        cwd: argv.target,
+        stdio: 'inherit',
+      })`git commit -am ${`chore: upd ${pkgName}`}`
+      s.stop('Committed ✅')
+
+      s = spinner()
+      s.start('Pushing to remote...')
+      await execa({ cwd: argv.target, stdio: 'inherit' })`git push`
+      s.stop('Pushed ✅')
+    } else {
+      log.info('Git-commit skipped')
+    }
 
     log.success('🎉 DONE!')
   } catch (error) {
@@ -105,12 +125,18 @@ const builder = {
   },
   'install-cmd-prefix': {
     alias: 'cmd',
-    desc: 'Pkg install command prefix',
+    desc: 'Pkg install command prefix. Default: pnpm add',
     default: 'pnpm add',
   },
   timeout: {
     desc: 'Timeout checking new pkg version in sec',
     default: 5 * 60,
+    type: 'number',
+  },
+  'no-commit': {
+    desc: 'Do not commit changes',
+    default: false,
+    type: 'boolean',
   },
 } satisfies Record<string, Options>
 
@@ -121,26 +147,41 @@ export default [
     builder: yargs =>
       yargs
         .options(builder)
-        .example('$0 wup -t "/tmp/..." -c "emo add"', 'Install w/ eden-mono')
+        .example('$0 wup -t "/tmp/..." --cmd "emo add"', 'Install w/ eden-mono')
         .example(
-          '$0 wup -t "/tmp/..." -c "rush add --make-consistent -p"',
+          '$0 wup -t "/tmp/..." --cmd "rush add --make-consistent -p"',
           'Install w/ @microsoft/rush',
         ) as never,
-    handler(args) {
+    async handler(args) {
       const {
         target,
         installCmdPrefix = builder['install-cmd-prefix'].default,
+        'no-commit': noCommit = builder['no-commit'].default,
         verbose,
       } = args
       const timeout = Number(args.timeout)
+      if (!Number.isFinite(timeout) || timeout <= 0) {
+        log.error(
+          `Timeout must be a positive number, received: ${args.timeout}`,
+        )
+        process.exit(1)
+      }
 
       const errMsg = `Path ${target} is not a directory.`
       try {
         if (!target || !lstatSync(target).isDirectory()) throw new Error(errMsg)
-        main({ target, installCmdPrefix, timeout, verbose })
-      } catch (e) {
-        throw new Error(errMsg, { cause: e })
+      } catch (err) {
+        log.error(`${errMsg}. Err: ${err}`)
+        process.exit(1)
       }
+
+      await main({
+        target,
+        installCmdPrefix,
+        timeout,
+        noCommit: !!noCommit,
+        verbose,
+      })
     },
   },
 ] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]
