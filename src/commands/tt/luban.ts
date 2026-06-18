@@ -128,10 +128,10 @@ export default [
           '$0 tt luban 1234 --by-branch master',
           'Example of branch mode (master branch)',
         ),
-    handler(args) {
+    async handler(args) {
       const { byHash, byBranch } = args
       const repoId = Number(args.repoId)
-      publish({ repoId, hash: byHash, branch: byBranch })
+      await publish({ repoId, hash: byHash, branch: byBranch })
     },
   },
 ] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]

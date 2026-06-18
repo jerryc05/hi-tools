@@ -65,9 +65,9 @@ export default [
     describe:
       "[M]erge [M]aster (don't [M]odify local master): Merge remote's master into current branch, without updating local master",
     builder,
-    handler(argv) {
+    async handler(argv) {
       const { branch = builder.branch.default, verbose } = argv
-      mm({ updBranch: false, branch, verbose })
+      await mm({ updBranch: false, branch, verbose })
     },
   },
 ] satisfies HiCmd<unknown, Record<keyof typeof builder, string | undefined>>[]

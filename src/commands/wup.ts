@@ -13,7 +13,7 @@ async function main(argv: {
   target: string
   installCmdPrefix: string
   timeout: number
-  noCommit?: boolean
+  skipCommit?: boolean
   verbose?: boolean
 }) {
   const PKG = await getCwdPackageJson()
@@ -40,7 +40,7 @@ async function main(argv: {
     s.start('Pulling latest changes in target repo...')
     await execa({
       cwd: argv.target,
-      stdio: 'inherit',
+      stdio: 'ignore',
       // env: { GIT_TRACE: '1' },
     })`git pull`
     s.stop('Latest commit pulled')
@@ -52,7 +52,7 @@ async function main(argv: {
       s.start(`Waiting for ${pkgName}, attempt ${tryNo}`)
       const { exitCode } = await execa({
         reject: false,
-        stdio: 'inherit',
+        stdio: 'ignore',
       })`npm view ${pkgName} version`
       if (exitCode === 0) {
         s.stop(`${pkgName} is live! Found it ✅`)
@@ -63,9 +63,9 @@ async function main(argv: {
           await execa({ cwd: argv.target, stdio: 'inherit' })`${installCmdArr}`
           log.success(`${pkgName} installed! ✅`)
           break
-        } catch (error) {
+        } catch (err) {
           log.error(
-            `${pkgName} was found in registry, but install command failed. Err: ${error}`,
+            `${pkgName} was found in registry, but install command failed. Err: ${err}`,
           )
           process.exit(1)
         }
@@ -80,7 +80,7 @@ async function main(argv: {
       await sleep(SLEEP_INTERVAL)
     }
 
-    if (!argv.noCommit) {
+    if (!argv.skipCommit) {
       // Check untracked files
       const { stdout: untrackedFiles } = await execa({
         cwd: argv.target,
@@ -133,7 +133,7 @@ const builder = {
     default: 5 * 60,
     type: 'number',
   },
-  'no-commit': {
+  'skip-commit': {
     desc: 'Do not commit changes',
     default: false,
     type: 'boolean',
@@ -149,14 +149,14 @@ export default [
         .options(builder)
         .example('$0 wup -t "/tmp/..." --cmd "emo add"', 'Install w/ eden-mono')
         .example(
-          '$0 wup -t "/tmp/..." --cmd "rush add --make-consistent -p"',
+          '$0 wup -t "/tmp/..." --cmd "rush add --make-consistent -p" --skip-commit',
           'Install w/ @microsoft/rush',
         ) as never,
     async handler(args) {
       const {
         target,
         installCmdPrefix = builder['install-cmd-prefix'].default,
-        'no-commit': noCommit = builder['no-commit'].default,
+        'skip-commit': skipCommit = builder['skip-commit'].default,
         verbose,
       } = args
       const timeout = Number(args.timeout)
@@ -179,7 +179,7 @@ export default [
         target,
         installCmdPrefix,
         timeout,
-        noCommit: !!noCommit,
+        skipCommit: !!skipCommit,
         verbose,
       })
     },
