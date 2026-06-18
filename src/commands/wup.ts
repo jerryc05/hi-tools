@@ -46,16 +46,17 @@ async function main(argv: {
     s.stop('Latest commit pulled')
 
     s = spinner()
+    s.start()
     const startTime = Date.now()
     for (let tryNo = 1; ; tryNo++) {
       // Wait
-      s.start(`Waiting for ${pkgName}, attempt ${tryNo}`)
+      s.message(`Waiting for ${pkgName}, attempt ${tryNo}`)
       const { exitCode } = await execa({
         reject: false,
         stdio: 'ignore',
       })`npm view ${pkgName} version`
       if (exitCode === 0) {
-        s.stop(`${pkgName} is live! Found it ✅`)
+        s.stop(`#${tryNo}: ${pkgName} is live! Found it ✅`)
 
         try {
           // Update
