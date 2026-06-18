@@ -36,16 +36,15 @@ async function main(argv: {
   const { execa } = await import('execa')
 
   try {
-    let s = spinner()
-    s.start('Pulling latest changes in target repo...')
+    log.info('Pulling latest changes in target repo...')
     await execa({
       cwd: argv.target,
       stdio: 'ignore',
       // env: { GIT_TRACE: '1' },
     })`git pull`
-    s.stop('Latest commit pulled')
+    log.success('Latest commit pulled')
 
-    s = spinner()
+    let s = spinner()
     s.start()
     const startTime = Date.now()
     for (let tryNo = 1; ; tryNo++) {
@@ -94,18 +93,16 @@ async function main(argv: {
       }
 
       // Push
-      s = spinner()
-      s.start('Committing changes...')
+      log.info('Committing changes...')
       await execa({
         cwd: argv.target,
         stdio: 'inherit',
       })`git commit -am ${`chore: upd ${pkgName}`}`
-      s.stop('Committed ✅')
+      log.success('Committed ✅')
 
-      s = spinner()
-      s.start('Pushing to remote...')
+      log.info('Pushing to remote...')
       await execa({ cwd: argv.target, stdio: 'inherit' })`git push`
-      s.stop('Pushed ✅')
+      log.success('Pushed ✅')
     } else {
       log.info('Git-commit skipped')
     }
