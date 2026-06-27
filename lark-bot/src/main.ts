@@ -18,6 +18,9 @@ wsClient.start({
       ;(async () => {
         const {
           message: { chat_id, content, message_type, chat_type, message_id },
+          sender: {
+            sender_id: { union_id },
+          },
         } = data
 
         // 先回个表情
@@ -30,7 +33,7 @@ wsClient.start({
         let responseText = ''
         try {
           if (message_type === 'text') {
-            responseText = JSON.parse(content).text.replace(/@_user_\d+\s+/,'')
+            responseText = JSON.parse(content).text.replace(/@_user_\d+\s+/, '')
           } else {
             responseText =
               '解析消息失败，请发送文本消息 \nparse message failed, please send text message'
@@ -62,7 +65,7 @@ wsClient.start({
           path: { message_id },
           data: {
             content: JSON.stringify({
-              text: `收到消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
+              text: `<at user_id="${union_id}"></at>收到消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
             }),
             msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
           },
