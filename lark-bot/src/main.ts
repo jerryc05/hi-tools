@@ -83,6 +83,7 @@ wsClient.start({
         ])
       })()
     },
+    'im.chat.member.bot.deleted_v1' /* 机器人被移出群 */: async data => {},
     'im.chat.access_event.bot_p2p_chat_entered_v1' /* 用户进入与机器人的会话 */:
       async data => {},
     p2p_chat_create /* 用户和机器人的会话首次被创建 */: async data => {},

@@ -5,7 +5,7 @@ export default [
   {
     command: 'tschk',
     describe: 'My ts-check rules',
-    handler: async () => {
+    async handler() {
       let successful = true
       const { execa } = await import('execa')
 
@@ -24,7 +24,7 @@ export default [
           ;({ stdout } = await execa({
             reject: false, // 报错时不直接抛出异常
             stderr: 'ignore',
-          })`pnpm --quiet exec tsc --build --noEmit`)
+          })`pnpm --quiet exec tsc --noEmit`)
         }
 
         // 需要忽略的错误码列表
