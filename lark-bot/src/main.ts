@@ -34,12 +34,12 @@ wsClient.start({
             responseText = JSON.parse(content).text.replace(/@_user_\d+\s+/, '')
           } else {
             responseText =
-              '解析消息失败，请发送文本消息 \nparse message failed, please send text message'
+              `解析消息失败，请发送文本消息，不支持${message_type}\n` +
+              `parse message failed, please send text message. ${message_type} is not supported`
           }
-        } catch (error) {
+        } catch (err) {
           // 解析消息失败，返回错误信息。 Parse message failed, return error message.
-          responseText =
-            '解析消息失败，请发送文本消息 \nparse message failed, please send text message'
+          responseText = `解析消息失败\nparse message failed\n\n${String(err)}`
         }
 
         // // 单聊
