@@ -50,7 +50,7 @@ wsClient.start({
             data: {
               receive_id: chat_id, // 消息接收者的 ID 为消息发送的会话ID。 ID of the message receiver is the chat ID of the message sending.
               content: JSON.stringify({
-                text: `收到你发送的消息:${responseText}\n${getCurrentDateTimeString().join('\n')}`,
+                text: `收到你发送的消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
               }),
               msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
             },
@@ -62,7 +62,7 @@ wsClient.start({
             path: { message_id },
             data: {
               content: JSON.stringify({
-                text: `收到你发送的消息:${responseText}\n${getCurrentDateTimeString().join('\n')}`,
+                text: `收到你发送的消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
               }),
               msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
             },
