@@ -41,33 +41,33 @@ wsClient.start({
             '解析消息失败，请发送文本消息 \nparse message failed, please send text message'
         }
 
-        // 单聊
-        if (chat_type === 'p2p') {
-          await client.im.v1.message.create({
-            params: {
-              receive_id_type: 'chat_id', // 消息接收者的 ID 类型，设置为会话ID。 ID type of the message receiver, set to chat ID.
-            },
-            data: {
-              receive_id: chat_id, // 消息接收者的 ID 为消息发送的会话ID。 ID of the message receiver is the chat ID of the message sending.
-              content: JSON.stringify({
-                text: `收到你发送的消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
-              }),
-              msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
-            },
-          })
-        }
-        // 群聊
-        else {
-          await client.im.v1.message.reply({
-            path: { message_id },
-            data: {
-              content: JSON.stringify({
-                text: `收到你发送的消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
-              }),
-              msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
-            },
-          })
-        }
+        // // 单聊
+        // if (chat_type === 'p2p') {
+        //   await client.im.v1.message.create({
+        //     params: {
+        //       receive_id_type: 'chat_id', // 消息接收者的 ID 类型，设置为会话ID。 ID type of the message receiver, set to chat ID.
+        //     },
+        //     data: {
+        //       receive_id: chat_id, // 消息接收者的 ID 为消息发送的会话ID。 ID of the message receiver is the chat ID of the message sending.
+        //       content: JSON.stringify({
+        //         text: `收到你发送的消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
+        //       }),
+        //       msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
+        //     },
+        //   })
+        // }
+        // // 群聊
+        // else {
+        await client.im.v1.message.reply({
+          path: { message_id },
+          data: {
+            content: JSON.stringify({
+              text: `收到消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
+            }),
+            msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
+          },
+        })
+        // }
 
         const { reaction_id } = (await createReactionP).data ?? {}
         await Promise.all([
@@ -86,7 +86,24 @@ wsClient.start({
     'im.chat.member.bot.deleted_v1' /* 机器人被移出群 */: async data => {},
     'im.chat.access_event.bot_p2p_chat_entered_v1' /* 用户进入与机器人的会话 */:
       async data => {},
-    p2p_chat_create /* 用户和机器人的会话首次被创建 */: async data => {},
+    p2p_chat_create /* 用户和机器人的会话首次被创建 */: data => {
+      ;(async () => {
+        const { chat_id } = data
+
+        await client.im.v1.message.create({
+          params: { receive_id_type: 'chat_id' },
+          data: {
+            receive_id: chat_id,
+            content: JSON.stringify({
+              text:
+                `Oh hi👋! Fancy meeting you here for the first time!\n` +
+                `This is a WIP. Only God and I know what it does. Now, only God knows.🤷‍♂️`,
+            }),
+            msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
+          },
+        })
+      })()
+    },
     'im.message.reaction.created_v1' /* 新增消息表情回复 */: async data => {},
     'im.message.reaction.deleted_v1' /* 删除消息表情回复 */: async data => {},
   }),
