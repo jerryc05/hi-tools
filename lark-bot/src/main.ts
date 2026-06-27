@@ -30,7 +30,7 @@ wsClient.start({
         let responseText = ''
         try {
           if (message_type === 'text') {
-            responseText = JSON.parse(content).text
+            responseText = JSON.parse(content).text.replace(/@_user_\d+\s+/,'')
           } else {
             responseText =
               '解析消息失败，请发送文本消息 \nparse message failed, please send text message'
