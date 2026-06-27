@@ -50,7 +50,7 @@ wsClient.start({
             data: {
               receive_id: chat_id, // 消息接收者的 ID 为消息发送的会话ID。 ID of the message receiver is the chat ID of the message sending.
               content: JSON.stringify({
-                text: `收到你发送的消息:${responseText}\n${getCurrentDateTimeString()}`,
+                text: `收到你发送的消息:${responseText}\n${getCurrentDateTimeString().join('\n')}`,
               }),
               msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
             },
@@ -62,7 +62,7 @@ wsClient.start({
             path: { message_id },
             data: {
               content: JSON.stringify({
-                text: `收到你发送的消息:${responseText}\n${getCurrentDateTimeString()}`,
+                text: `收到你发送的消息:${responseText}\n${getCurrentDateTimeString().join('\n')}`,
               }),
               msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
             },
@@ -92,7 +92,8 @@ wsClient.start({
 })
 
 function getCurrentDateTimeString() {
-  return new Intl.DateTimeFormat('zh-CN', {
+  const date = new Date()
+  const options = {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -100,7 +101,17 @@ function getCurrentDateTimeString() {
     minute: '2-digit',
     second: '2-digit',
     fractionalSecondDigits: 3,
-    timeZoneName: 'shortOffset',
+    timeZoneName: 'long',
     hour12: false,
-  }).format(new Date())
+  } as const
+  return [
+    new Intl.DateTimeFormat('zh-CN', {
+      timeZone: 'Asia/Shanghai',
+      ...options,
+    }).format(date),
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Los_Angeles',
+      ...options,
+    }).format(date),
+  ]
 }
