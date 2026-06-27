@@ -18,9 +18,7 @@ wsClient.start({
       ;(async () => {
         const {
           message: { chat_id, content, message_type, chat_type, message_id },
-          sender: {
-            sender_id: { union_id },
-          },
+          sender: { sender_id: { union_id } = {} },
         } = data
 
         // 先回个表情
@@ -65,7 +63,9 @@ wsClient.start({
           path: { message_id },
           data: {
             content: JSON.stringify({
-              text: `<at user_id="${union_id}"></at>收到消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
+              text:
+                (union_id ? `<at user_id="${union_id}"></at>` : '') +
+                `收到消息:${responseText}\n\n${getCurrentDateTimeString().join('\n')}`,
             }),
             msg_type: 'text', // 设置消息类型为文本消息。 Set message type to text message.
           },
