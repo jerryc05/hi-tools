@@ -44,6 +44,16 @@ async function publish({
   const { execa } = await import('execa')
 
   try {
+    const pkgName = `${PKG.name}@${PKG.version}`
+    const { exitCode } = await execa({
+      reject: false,
+      stdio: 'ignore',
+    })`pnpm view ${pkgName} version`
+    if (exitCode === 0) {
+      log.error(`${pkgName} is already published! Did you update your package version?`)
+      process.exit(1)
+    }
+
     const commitMsgP = execa`git log -1 --pretty=%s`
 
     let commitHash: string | undefined, commitBranch: string | undefined
