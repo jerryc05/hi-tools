@@ -1,4 +1,4 @@
-import { log, note } from '@clack/prompts'
+import { log, note, spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
 import { getCwdPackageJson } from '@/utils/get-cwd-package'
@@ -45,13 +45,22 @@ async function publish({
 
   try {
     const pkgName = `${PKG.name}@${PKG.version}`
+
+    let s = spinner()
+    s.start(`Checking if ${pkgName} is already published`)
+
     const { exitCode } = await execa({
       reject: false,
       stdio: 'ignore',
     })`pnpm view ${pkgName} version`
     if (exitCode === 0) {
-      log.error(`${pkgName} is already published! Did you update your package version?`)
+      s.stop(`${pkgName} found in registry!`)
+      log.error(
+        `${pkgName} is already published! Did you update your package version?`,
+      )
       process.exit(1)
+    } else {
+      s.stop(`${pkgName} is not published. Proceeding...`)
     }
 
     const commitMsgP = execa`git log -1 --pretty=%s`
@@ -78,7 +87,7 @@ async function publish({
     }
 
     note(
-      `${payload.create_user} is publishing ${PKG?.name}@${PKG?.version} to repoId=${payload.repos}` +
+      `${payload.create_user} is publishing ${pkgName} to repoId=${payload.repos}` +
         `\n${commitHash ? `hash: ${commitHash}` : `brch: ${commitBranch}`}`,
     )
 
