@@ -46,7 +46,7 @@ async function publish({
   try {
     const pkgName = `${PKG.name}@${PKG.version}`
 
-    let s = spinner()
+    const s = spinner()
     s.start(`Checking if ${pkgName} is already published`)
 
     const { exitCode } = await execa({
@@ -54,13 +54,13 @@ async function publish({
       stdio: 'ignore',
     })`pnpm view ${pkgName} version`
     if (exitCode === 0) {
-      s.stop(`${pkgName} found in registry!`)
+      s.stop('Same version found in registry!')
       log.error(
         `${pkgName} is already published! Did you update your package version?`,
       )
       process.exit(1)
     } else {
-      s.stop(`${pkgName} is not published. Proceeding...`)
+      s.stop('Version not published. Proceeding...')
     }
 
     const commitMsgP = execa`git log -1 --pretty=%s`
@@ -91,6 +91,7 @@ async function publish({
         `\n${commitHash ? `hash: ${commitHash}` : `brch: ${commitBranch}`}`,
     )
 
+    s.start(`Publishing ${pkgName} to Luban`)
     const response = await fetch('https://scm.byted.org/api/v2/npm_versions/', {
       method: 'POST',
       headers: {
@@ -102,11 +103,13 @@ async function publish({
     })
 
     if (!response.ok) {
+      s.stop('Publish error!')
       const errorText = await response.text()
       log.error(`HTTP ${response.status} Error: ${errorText}`)
       process.exit(1)
     }
 
+    s.stop(`${pkgName} is published!`)
     const data = await response.text()
     log.success(`🎉 Successfully published: ${data}`)
   } catch (err) {
