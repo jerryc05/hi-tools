@@ -29,7 +29,7 @@ export default [
 
       await execa({
         stdio: 'inherit',
-      })`pnpm dlx @ies/starling-cli scan -c ${fileStarlingCfg} --fallback --disable-browser`
+      })`pnpm dlx @ies/starling-cli@3.6.27 scan -c ${fileStarlingCfg} --fallback --disable-browser`
       await execaNode({ stdio: 'inherit' })`${fileCombineLang}`
       await execa({
         stdio: 'inherit',

@@ -1,9 +1,9 @@
 import { lstatSync } from 'node:fs'
+import process from 'node:process'
 import { log, note, spinner } from '@clack/prompts'
 import strToArgv from 'string-argv'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
-import process from 'node:process'
 import { getCwdPackageJson } from '@/utils/get-cwd-package'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
@@ -39,12 +39,14 @@ async function main(argv: {
     log.info('Pulling latest changes in target repo...')
     await execa({
       cwd: argv.target,
-      stdio: 'ignore',
+      stdin: 'ignore',
+      stdout: 'ignore',
+      stderr: 'inherit',
       // env: { GIT_TRACE: '1' },
     })`git pull`
     log.success('Latest commit pulled')
 
-    let s = spinner()
+    const s = spinner()
     s.start()
     const startTime = Date.now()
     for (let tryNo = 1; ; tryNo++) {
