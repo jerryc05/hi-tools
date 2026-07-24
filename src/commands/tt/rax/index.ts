@@ -8,14 +8,7 @@ import { API_PATH } from '@/types/api-paths'
 import type { HiCmd } from '@/types/cmd-module'
 import { getIfacesInfo } from '../../ips'
 
-const RAX_CLI_CMD = [
-  'pnpm',
-  'dlx',
-  '--silent',
-  '--allow-build=better-sqlite3',
-  '--allow-build=sharp',
-  '@tiktok-fe/rax-cli@>=0.3.28',
-]
+const RAX_CLI_CMD = ['bunx', '@tiktok-fe/rax-cli@>=0.3.28']
 
 async function handler(args: { port?: number }) {
   // todo ,,,  检测输入的 IP 是否可达 / 是否和本机同属一个 LAN

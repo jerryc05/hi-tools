@@ -52,7 +52,7 @@ async function publish({
     const { exitCode } = await execa({
       reject: false,
       stdio: 'ignore',
-    })`pnpm view ${pkgName} version`
+    })`bun info ${pkgName} version`
     if (exitCode === 0) {
       s.stop('Same version found in registry!')
       log.error(

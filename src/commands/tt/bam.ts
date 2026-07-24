@@ -8,7 +8,7 @@ export default [
       const { execa } = await import('execa')
       await execa({
         stdio: 'inherit',
-      })`pnpm dlx @byted-arch-fe/bam-code-generator update`
+      })`bunx @byted-arch-fe/bam-code-generator@latest update`
     },
   },
 ] satisfies HiCmd[]

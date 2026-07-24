@@ -13,19 +13,10 @@ export default [
         const s = spinner()
         s.start('Running custom ts type-check...')
 
-        let stdout = ''
-        try {
-          ;({ stdout } = await execa({
-            reject: false, // 报错时不直接抛出异常
-            stderr: 'ignore',
-          })`pnpm --quiet exec tsgo --build --noEmit`)
-        } catch (error) {
-          if ((error as any).code !== 'ENOENT') throw error
-          ;({ stdout } = await execa({
-            reject: false, // 报错时不直接抛出异常
-            stderr: 'ignore',
-          })`pnpm --quiet exec tsc --noEmit`)
-        }
+        const { stdout } = await execa({
+          reject: false, // 报错时不直接抛出异常
+          stderr: 'ignore',
+        })`bunx typescript@>=7 --noEmit`
 
         // 需要忽略的错误码列表
         const ignoredCodes = [

@@ -29,11 +29,11 @@ export default [
 
       await execa({
         stdio: 'inherit',
-      })`pnpm dlx @ies/starling-cli@3.6.27 scan -c ${fileStarlingCfg} --fallback --disable-browser`
+      })`bunx @ies/starling-cli@3.6.27 scan -c ${fileStarlingCfg} --fallback --disable-browser`
       await execaNode({ stdio: 'inherit' })`${fileCombineLang}`
       await execa({
         stdio: 'inherit',
-      })`pnpm --package=json-sort-cli dlx sortjson ./src/lang`.catch(e =>
+      })`bunx --package=json-sort-cli sortjson ./src/lang`.catch(e =>
         console.error('tt i18n sortjson error:', e),
       )
     },
