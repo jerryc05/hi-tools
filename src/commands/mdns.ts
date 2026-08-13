@@ -21,9 +21,9 @@ export default [
       if (!mdnsHostName) mdnsHostName = os.hostname()
 
       console.log(
-        mdnsHostName.toLowerCase().endsWith('.local') ?
-          mdnsHostName
-        : `${mdnsHostName}.local`,
+        `${mdnsHostName}${
+          mdnsHostName.toLowerCase().endsWith('.local') ? '' : '.local'
+        }`,
       )
     },
   },
