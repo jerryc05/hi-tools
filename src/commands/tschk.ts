@@ -1,11 +1,24 @@
 import { log, spinner } from '@clack/prompts'
+import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
+
+const builder = {
+  tsgo: {
+    alias: '7',
+    desc: 'Enable tsgo (v7+)',
+    default: false,
+    boolean: true,
+  },
+} satisfies Record<string, Options>
 
 export default [
   {
     command: 'tschk',
     describe: 'My ts-check rules',
-    async handler() {
+    builder,
+    async handler(argv) {
+      const { tsgo: useTsgo } = argv
+
       let successful = true
       const { execa } = await import('execa')
 
@@ -16,7 +29,7 @@ export default [
         const { stdout } = await execa({
           reject: false, // 报错时不直接抛出异常
           stderr: 'ignore',
-        })`bunx typescript@>=7 --noEmit`
+        })`bunx ${[`typescript${useTsgo ? '@>=7' : ''}`]} --noEmit`
 
         // 需要忽略的错误码列表
         const ignoredCodes = [
