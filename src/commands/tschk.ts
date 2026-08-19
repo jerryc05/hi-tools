@@ -29,7 +29,7 @@ export default [
         const { stdout } = await execa({
           reject: false, // 报错时不直接抛出异常
           stderr: 'ignore',
-        })`bunx ${[`typescript${useTsgo ? '@>=7' : ''}`]} --noEmit`
+        })`bunx ${[`typescript${useTsgo ? '@>=7' : ''}`]} --noEmit --pretty false`
 
         // 需要忽略的错误码列表
         const ignoredCodes = [
