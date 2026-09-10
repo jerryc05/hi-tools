@@ -1,18 +1,8 @@
 import { spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
-
-async function getUpstreamRemote() {
-  const { execa } = await import('execa')
-  try {
-    // 获取当前分支追踪的远程分支名，例如 "origin/master"
-    const { stdout } =
-      await execa`git rev-parse --abbrev-ref --symbolic-full-name @{u}`
-    return stdout.split('/')[0] || 'origin'
-  } catch {
-    return 'origin'
-  }
-}
+import { getCurrBranchName } from '@/utils/get-curr-branch-name'
+import { getRemoteNameByBranch } from '@/utils/get-remote-name-by-branch'
 
 async function mm({
   updBranch,
@@ -27,16 +17,22 @@ async function mm({
 
   s.start(`${updBranch ? 'Updating' : 'Fetching'} ${branch}...`)
   const { execa } = await import('execa')
+
+  const CURR_BRANCH_NAME = await getCurrBranchName()
+  const CURR_BRANCH_REMOTE_NAME = await getRemoteNameByBranch({
+    branchName: CURR_BRANCH_NAME,
+  })
+
   await execa({
     stdio: 'inherit',
     env: verbose ? { GIT_TRACE: '1' } : {},
-  })`git fetch ${await getUpstreamRemote()} ${branch}${updBranch ? `:${branch}` : ''}`
+  })`git fetch ${CURR_BRANCH_REMOTE_NAME} ${branch}${updBranch ? `:${branch}` : ''}`
 
   s.message('Merging ...')
   await execa({
     stdio: 'inherit',
     env: verbose ? { GIT_TRACE: '1' } : {},
-  })`git merge ${await getUpstreamRemote()}/${branch} --no-verify --no-edit ${verbose ? '' : '-q'}`
+  })`git merge ${CURR_BRANCH_REMOTE_NAME}/${branch} --no-verify --no-edit ${verbose ? '' : '-q'}`
 
   s.stop('Done')
 }

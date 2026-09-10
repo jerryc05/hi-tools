@@ -5,6 +5,8 @@ import strToArgv from 'string-argv'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
 import { getCwdPackageJson } from '@/utils/get-cwd-package'
+import { getCurrBranchName } from '@/utils/get-curr-branch-name'
+import { getRemoteNameByBranch } from '@/utils/get-remote-name-by-branch'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 const SLEEP_INTERVAL = 10000 // 10s
@@ -37,13 +39,20 @@ async function main(argv: {
 
   try {
     log.info('Pulling latest changes in target repo...')
+
+    const CURR_BRANCH_NAME = await getCurrBranchName(argv.target)
+    const CURR_BRANCH_REMOTE_NAME = await getRemoteNameByBranch({
+      cwd: argv.target,
+      branchName: CURR_BRANCH_NAME,
+    })
+
     await execa({
       cwd: argv.target,
       stdin: 'ignore',
       stdout: 'ignore',
       stderr: 'inherit',
       // env: { GIT_TRACE: '1' },
-    })`git pull`
+    })`git pull ${CURR_BRANCH_REMOTE_NAME} ${CURR_BRANCH_NAME}`
     log.success('Latest commit pulled')
 
     const s = spinner()
