@@ -31,8 +31,7 @@ export interface JwtUserInfo {
 let auth: AIPaaSAuth | undefined
 
 export async function getJwt() {
-  const s = spinner()
-  s.start('Logging in...')
+  log.info('Logging in...')
 
   if (!auth) {
     const { AIPaaSAuth } = await import('@byted/aipaas-auth')
@@ -42,7 +41,7 @@ export async function getJwt() {
   const jwtStr = await auth.getJwt()
   const jwtObj = (await auth.getUserInfo()) as JwtUserInfo
 
-  s.stop(
+  log.info(
     `Hi ${pc.magenta(jwtObj.username)} from ${pc.blue(`${jwtObj.scope} ${jwtObj.work_country.key} ${jwtObj.work_city.en_name}`)}`,
   )
   // log.info(`Login will expire on ${formatDate(jwtObj.exp * 1000)}`)
