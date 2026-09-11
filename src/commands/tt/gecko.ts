@@ -325,7 +325,7 @@ async function selectRunIdFromRecentRuns(
   }
 
   note(
-    'The latest pipeline run may be ongoing/failed. Try a previous run to inspect.',
+    'The latest pipeline run may be ongoing/failed. Try to inspect a previous run.',
     'Select a previous run',
   )
 

@@ -3,7 +3,7 @@
 Prefer `pnpm>=11.0.5`
 
 ```sh
-alias hi='npm_config_registry=http://bnpm.byted.org bunx --bun @jerryc05/hi-tools'
+alias hi='bunx --bun --registry=http://bnpm.byted.org @jerryc05/hi-tools'
 
 hi --help
 ```
