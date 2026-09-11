@@ -340,6 +340,8 @@ async function selectRunIdFromRecentRuns(
     }
   })
 
+  if (options.length == 1) return options[0]!.value
+
   const selectedRunId = await select({
     message: 'Select the run ID to inspect',
     options,

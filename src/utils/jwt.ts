@@ -4,9 +4,6 @@ import pc from 'picocolors'
 import { formatDate } from './format-date'
 
 export interface JwtUserInfo {
-  iss: string
-  exp: number
-  iat: number
   username: string
   type: string
   region: string
@@ -18,7 +15,13 @@ export interface JwtUserInfo {
   scope: string
   sequence: string
   organization: string
-  work_country: string
+  work_country: {
+    id: string
+    key: string
+    name: string
+    enName: string
+  }
+  work_city: { id: string; name: string; en_name: string }
   avatar_url: string
   email: string
   employee_id: number
@@ -40,9 +43,9 @@ export async function getJwt() {
   const jwtObj = (await auth.getUserInfo()) as JwtUserInfo
 
   s.stop(
-    `Hi ${pc.magenta(jwtObj.username)} from ${pc.blue(`${jwtObj.scope} ${jwtObj.work_country}`)}`,
+    `Hi ${pc.magenta(jwtObj.username)} from ${pc.blue(`${jwtObj.scope} ${jwtObj.work_country.key} ${jwtObj.work_city.en_name}`)}`,
   )
-  log.info(`Login will expire on ${formatDate(jwtObj.exp * 1000)}`)
+  // log.info(`Login will expire on ${formatDate(jwtObj.exp * 1000)}`)
 
   return { jwtStr, jwtObj }
 }
