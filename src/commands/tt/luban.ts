@@ -2,6 +2,7 @@ import { log, note, spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
 import { getCwdPackageJson } from '@/utils/get-cwd-package'
+import { getCurrBranchName } from '@/utils/get-curr-branch-name'
 
 type NpmVersionPayload = {
   repos: number
@@ -35,8 +36,8 @@ async function publish({
   const password = process.env[passwordKey]
   if (!username || !password) {
     log.error(
-      `Missing ${!username ? usernameKey : passwordKey} in env var.\n` +
-        'Go to https://luban.bytedance.net/npm/publish and get your personal SCM username & password.',
+      `Missing ${!username ? usernameKey : passwordKey} in env var.\n`
+        + 'Go to https://luban.bytedance.net/npm/publish and get your personal SCM username & password.',
     )
     process.exit(1)
   }
@@ -75,10 +76,11 @@ async function publish({
       else commitBranch = branch
     }
 
+    const CURR_BRANCH_NAME = await getCurrBranchName()
     const payload: NpmVersionPayload = {
       repos: repoId,
       create_user: username,
-      desc: `v${PKG?.version}: ${(await commitMsgP).stdout.trim()}`,
+      desc: `${CURR_BRANCH_NAME ? `[${CURR_BRANCH_NAME}] ` : ''}v${PKG?.version}: ${(await commitMsgP).stdout.trim()}`,
       has_version_stage: false,
       version: PKG?.version,
       ...(commitHash ?
@@ -87,8 +89,8 @@ async function publish({
     }
 
     note(
-      `${payload.create_user} is publishing ${pkgName} to repoId=${payload.repos}` +
-        `\n${commitHash ? `hash: ${commitHash}` : `brch: ${commitBranch}`}`,
+      `${payload.create_user} is publishing ${pkgName} to repoId=${payload.repos}`
+        + `\n${commitHash ? `hash: ${commitHash}` : `brch: ${commitBranch}`}`,
     )
 
     s.start(`Publishing ${pkgName} to Luban`)

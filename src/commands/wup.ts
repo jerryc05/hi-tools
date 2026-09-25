@@ -30,9 +30,9 @@ async function main(argv: {
   const installCmdArr = [...strToArgv(argv.installCmdPrefix), pkgName]
 
   note(
-    `🚀 Monitoring ${pkgName}...\n` +
-      `📂 Target: ${argv.target}\n` +
-      `🛠  Install cmd: ${installCmdArr.join(' ')}`,
+    `🚀 Monitoring ${pkgName}...\n`
+      + `📂 Target: ${argv.target}\n`
+      + `🛠  Install cmd: ${installCmdArr.join(' ')}`,
   )
 
   const { execa } = await import('execa')
@@ -41,6 +41,11 @@ async function main(argv: {
     log.info('Pulling latest changes in target repo...')
 
     const CURR_BRANCH_NAME = await getCurrBranchName(argv.target)
+    if (!CURR_BRANCH_NAME) {
+      log.error('Failed to get current branch name')
+      process.exit(1)
+    }
+
     const CURR_BRANCH_REMOTE_NAME = await getRemoteNameByBranch({
       cwd: argv.target,
       branchName: CURR_BRANCH_NAME,

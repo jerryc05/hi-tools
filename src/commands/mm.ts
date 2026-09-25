@@ -1,4 +1,4 @@
-import { spinner } from '@clack/prompts'
+import { log, spinner } from '@clack/prompts'
 import type { Options } from 'yargs'
 import type { HiCmd } from '@/types/cmd-module'
 import { getCurrBranchName } from '@/utils/get-curr-branch-name'
@@ -19,6 +19,12 @@ async function mm({
   const { execa } = await import('execa')
 
   const CURR_BRANCH_NAME = await getCurrBranchName()
+  if (!CURR_BRANCH_NAME) {
+    s.stop('Error!')
+    log.error('Failed to get current branch name')
+    process.exit(1)
+  }
+
   const CURR_BRANCH_REMOTE_NAME = await getRemoteNameByBranch({
     branchName: CURR_BRANCH_NAME,
   })
