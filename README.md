@@ -1,9 +1,7 @@
 # Installation
 
-Prefer `pnpm>=11.0.5`
-
 ```sh
-alias hi='bunx --bun --registry=http://bnpm.byted.org @jerryc05/hi-tools'
+alias hi='bunx --bun --registry=https://registry.npmjs.org/ @jerryc05/hi-tools' # or any other pkg mgr
 
 hi --help
 ```
